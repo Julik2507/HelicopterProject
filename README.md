@@ -13,5 +13,6 @@
 
 Стэк:
 1. Frontend: Svelte,
-2. Backend: Express, typescript
-3. Design: Figma
+2. Backend: Express, typescript,
+3. Design: Figma,
+4. Database: Postgres
