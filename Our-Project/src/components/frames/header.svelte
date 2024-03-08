@@ -5,20 +5,23 @@
 </script>
 
 <div class="header">
-    <img src="src/img/Logo.png" alt="Logo"/>
-    <p class="header__text">Доставка еды на вертолете</p>
-    <LittleIcon source="src/img/Icon1.png"/>
-    <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
-    <LittleIcon source="src/img/Icon2.png"/>
-    <p class="header__text">8(982)190-81-58</p>
-    <PrimeBtn text="Позвоните мне"/>
-    <SocialLink img="src/img/LinkVK.png"/>
-    <SocialLink img="src/img/LinkTG.png"/>
-    <span class="header__span"></span>
-    <LittleIcon source="src/img/Icon3.png"/>
-    <LittleIcon source="src/img/Icon4.png"/>
-    <PrimeBtn text="Войти"/>
-    <PrimeBtn text="Зарегистрироваться"/>
+    <div class="header__left">
+        <img src="src/img/Logo.png" alt="Logo"/>
+        <p class="header__text">Доставка еды на вертолете</p>
+        <LittleIcon source="src/img/Icon1.png"/>
+        <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
+        <LittleIcon source="src/img/Icon2.png"/>
+        <p class="header__text">8(982)190-81-58</p>
+        <PrimeBtn text="Позвоните мне"/>
+        <SocialLink img="src/img/LinkVK.png"/>
+        <SocialLink img="src/img/LinkTG.png"/>
+    </div>
+    <div class="header__right">
+        <LittleIcon source="src/img/Icon3.png"/>
+        <LittleIcon source="src/img/Icon4.png"/>
+        <PrimeBtn text="Войти"/>
+        <PrimeBtn text="Зарегистрироваться"/>
+    </div>
 </div>
 
 <style>
@@ -30,6 +33,7 @@
         flex-direction: row;
         gap: 25px;
         align-items: center;
+        justify-content: space-between;
     }
     .header__text {
         font-family: Epilogue, sans-serif;
@@ -39,5 +43,17 @@
         letter-spacing: -0.27000001072883606px;
         text-align: left;
         color: #1C0F0D;
+    }
+    .header__right {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        justify-content: end;
+    }
+    .header__left {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        justify-content: start;
     }
 </style>
