@@ -2,6 +2,10 @@
     let input_name = "";
     let input_email = "";
     let input_password = "";
+
+    async function register() {
+        
+    }
 </script>
 
 <div class="register_panel">
@@ -9,7 +13,7 @@
     <input class="input_text" type="text" name="name" bind:value={input_name}/>
     <input class="input_text" type="text" name="email" bind:value={input_email}/>
     <input class="input_text" type="password" name="password" bind:value={input_password}/>
-    <button class="input_btn">Log in</button>
+    <button class="input_btn" on:click={register}>Log in</button>
 </div>
 
 <style>
