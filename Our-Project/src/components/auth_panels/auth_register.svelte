@@ -1,10 +1,19 @@
 <script>
+    import { registerUser } from "$lib";
+
     let input_name = "";
     let input_email = "";
     let input_password = "";
 
     async function register() {
-
+        await registerUser({
+            name: input_name,
+            password: input_password,
+            email: input_email
+        });
+        input_name = "";
+        input_email = "";
+        input_password = "";
     }
 </script>
 
