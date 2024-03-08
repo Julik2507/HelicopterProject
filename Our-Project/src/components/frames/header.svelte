@@ -22,6 +22,7 @@
 </div>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     .header {
         width: 1920px;
         height: 137px;
@@ -31,7 +32,7 @@
         align-items: center;
     }
     .header__text {
-        font-family: Epilogue;
+        font-family: Epilogue, sans-serif;
         font-size: 18px;
         font-weight: 700;
         line-height: 23px;

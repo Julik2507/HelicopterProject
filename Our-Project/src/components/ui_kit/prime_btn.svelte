@@ -5,6 +5,7 @@
 <button class="prime_btn"><p class="btn_text">{text}</p></button>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     .prime_btn {
         background-color: #F23B0D;
         border-color: #F23B0D;
@@ -13,7 +14,7 @@
         padding: 0px 16px;
     }
     .btn_text {
-        font-family: Epilogue;
+        font-family: Epilogue, sans-serif;
         font-size: 14px;
         font-weight: 700;
         line-height: 21px;
