@@ -6,7 +6,7 @@
 <div class="login_panel">
     <h2>Login</h2>
     <input class="input_text" type="text" name="email" bind:value={input_email}/>
-    <input class="input_text" type="password" name="password" bind:value={input_password}/>
+    <input class="input_text" type="text" name="password" bind:value={input_password}/>
     <button class="input_btn">Log in</button>
 </div>
 
