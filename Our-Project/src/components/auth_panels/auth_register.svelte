@@ -13,7 +13,7 @@
     <input class="input_text" type="text" name="name" placeholder="Имя" bind:value={input_name}/>
     <input class="input_text" type="text" name="email" placeholder="Почта" bind:value={input_email}/>
     <input class="input_text" type="password" name="password" placeholder="Пароль" bind:value={input_password}/>
-    <button class="input_btn" on:click={register}>Log in</button>
+    <button class="input_btn" on:click={register}>Register</button>
 </div>
 
 <style>
