@@ -1,0 +1,141 @@
+openapi: 3.0.0
+info:
+  title: Helicopter Delivery
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/
+    description: Dev server
+paths:
+  /auth/register:
+    post:
+      summary: register user
+      tags:
+        - Auth
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createUser"
+      responses:
+        "201":
+          description: Successful, you signed up!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resCreateUser"
+  /auth/login:
+    post:
+      summary: login user with his data
+      tags:
+        - Auth
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginUser"
+      responses:
+        "200":
+          description: User was sign in!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resCreateUser"
+  /user/change:
+    patch:
+      summary: change user data(partial)
+      tags:
+        - User
+      operationId: changeUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/changeUserSchema"
+      responses:
+        "200":
+          description: User was changed!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changeUserSchema"
+  /user/delete:
+    delete:
+      tags:
+        - User
+      operationId: deleteUser
+      responses:
+        "200":
+          description: User was deleted!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteUserSchema"
+
+components:
+  schemas:
+    createUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Julianezo
+        email:
+          type: string
+          example: yizman@listiki.ru
+        password:
+          type: string
+          example: yulian20
+    resCreateUser:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - password
+        - role
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+    loginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: tralala@mail.ru
+        password:
+          type: string
+          example: exampleqwerty123
+    changeUserSchema:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          example: qwerty
+        email:
+          type: string
+          example: qwerty@mail.ru
+    deleteUserSchema:
+      type: boolean

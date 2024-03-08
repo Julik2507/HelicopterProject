@@ -1,0 +1,14 @@
+version: "3"
+services:
+  postgresql:
+    image: postgres
+    container_name: ts-express
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+    command: postgres
+    restart: always
