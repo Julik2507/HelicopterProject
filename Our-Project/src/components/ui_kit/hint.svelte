@@ -19,6 +19,12 @@
         width: 270px;
     }
     .hint__text {
-        padding: 0;
+        margin: 0;
+        font-family: Epilogue, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0px;
+        text-align: center;
     }
 </style>
