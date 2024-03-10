@@ -1,5 +1,8 @@
 import authController from "./modules/auth/auth.controller.js";
 import usersController from "./modules/users/users.controller.js";
+import typesController from "./modules/types/types.controller.js";
+import brandsController from "./modules/brands/brands.controller.js";
+import goodsController from "./modules/device/device.controller.js";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yaml";
@@ -15,6 +18,9 @@ app.use(express.json());
 
 app.use("/auth", authController);
 app.use("/user", usersController);
+app.use("/api", typesController);
+app.use("/api", brandsController);
+app.use("/api", goodsController);
 
 const file = fs.readFileSync("./src/swagger/swaggerDocument.yml", "utf8");
 const swaggerDocument = YAML.parse(file);
