@@ -1,5 +1,5 @@
 import express from "express";
-import { createGoods } from "./device.service.js";
+import { createGoods } from "./goods.service.js";
 
 const router = express.Router();
 

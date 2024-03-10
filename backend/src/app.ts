@@ -2,7 +2,7 @@ import authController from "./modules/auth/auth.controller.js";
 import usersController from "./modules/users/users.controller.js";
 import typesController from "./modules/types/types.controller.js";
 import brandsController from "./modules/brands/brands.controller.js";
-import goodsController from "./modules/device/device.controller.js";
+import goodsController from "./modules/device/goods.controller.js";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yaml";
