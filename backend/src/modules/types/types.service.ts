@@ -1,7 +1,8 @@
 import { db } from "../../db/migrate.js";
 import { types } from "../../db/schema.js";
+import { TypeDTO } from "./dto/index.js";
 
-export async function createType(dto: any) {
+export async function createType(dto: TypeDTO) {
   const result = await db.insert(types).values(dto);
   return result;
 }
