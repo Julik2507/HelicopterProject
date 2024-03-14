@@ -5,9 +5,9 @@
 <div class="footer">
     <div class="footer__link">
         <TextBtn text="О нас" link="/"/>
-        <TextBtn text="О нас" link="/"/>
-        <TextBtn text="О нас" link="/"/>
-        <TextBtn text="О нас" link="/"/>
+        <TextBtn text="Контакты" link="/"/>
+        <TextBtn text="Условия использования" link="/"/>
+        <TextBtn text="Политика конфиденциальности" link="/"/>
     </div>
     <p class="footer__text">TODO: Вставить иконки</p>
     <p class="footer__text">© 2024 Вертолет</p>
