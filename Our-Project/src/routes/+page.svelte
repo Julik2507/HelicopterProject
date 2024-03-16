@@ -10,7 +10,6 @@
     function openModal() {
         isModalOpen = true;
     }
-
     function closeModal() {
         isModalOpen = false;
     }
