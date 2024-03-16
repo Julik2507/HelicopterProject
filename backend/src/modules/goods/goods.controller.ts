@@ -1,33 +1,24 @@
 import express from "express";
-import { createGoods } from "./goods.service.js";
-import * as uuid from "uuid";
-import path from "path";
-
-import { fileURLToPath } from "url";
+import { createGoods, getGoods, getOneGoods } from "./goods.service.js";
 
 const router = express.Router();
 
 router.post("/goods", async (req, res) => {
-  try {
-    const { img }: any = req.files;
-    let fileName = uuid.v4() + ".jpg";
+  const { img }: any = req.files;
+  console.log(img);
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+  const result = await createGoods(req.body, img);
+  res.send(result);
+});
 
-    console.log(__dirname);
-    console.log(img);
+router.get("/goods", async (req, res) => {
+  const result = await getGoods(req.query);
+  res.send(result);
+});
 
-    console.log("file is moving...");
-    img.mv(path.resolve(__dirname, "../..", "static", fileName));
-    console.log("file moved!");
-
-    const result = await createGoods(req.body, fileName);
-    res.send(result);
-  } catch (error: any) {
-    console.log(error);
-    res.json({ message: error.message });
-  }
+router.get("/one-goods", async (req, res) => {
+  const result = await getOneGoods(req.query);
+  res.send(result);
 });
 
 export default router;
