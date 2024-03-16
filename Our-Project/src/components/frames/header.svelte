@@ -2,7 +2,19 @@
     import LittleIcon from "$comp/ui_kit/little_icon.svelte";
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
     import SocialLink from "$comp/ui_kit/social_link.svelte";
+    import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
+
+    let isModalOpen = false;
+
+    function openModal() {
+        isModalOpen = true;
+    }
+    function closeModal() {
+        isModalOpen = false;
+    }
 </script>
+
+<RegisterWindow isModalOpen={isModalOpen} on:closeModal={closeModal}/>
 
 <div class="header">
     <div class="header__left">
@@ -20,7 +32,7 @@
         <LittleIcon source="src/img/Icon3.png"/>
         <LittleIcon source="src/img/Icon4.png"/>
         <PrimeBtn text="Войти"/>
-        <PrimeBtn text="Зарегистрироваться"/>
+        <PrimeBtn text="Зарегистрироваться" event={openModal}/>
     </div>
 </div>
 

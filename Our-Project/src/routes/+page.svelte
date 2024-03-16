@@ -15,9 +15,6 @@
     }
 </script>
 
-<button id="testBtn" on:click={openModal}>Shiny button</button>
-<RegisterWindow isModalOpen={isModalOpen} on:closeModal={closeModal}/>
-
 <Header/>
 <Attract/>
 <How/>
