@@ -3,19 +3,22 @@
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
     import SocialLink from "$comp/ui_kit/social_link.svelte";
     import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
+    import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
+    import Page from "../../routes/+page.svelte";
 
-    let isModalOpen = false;
+    let isLoginOpen = false;
+    let isRegisterOpen = false;
 
-    function openModal() {
-        isModalOpen = true;
+    function LoginUpdate() {
+        isLoginOpen = !isLoginOpen;
     }
-    function closeModal() {
-        isModalOpen = false;
+    function RegisterUpdate() {
+        isRegisterOpen = !isRegisterOpen;
     }
 </script>
 
-<RegisterWindow isModalOpen={isModalOpen} on:closeModal={closeModal}/>
-
+<RegisterWindow isModalOpen={isRegisterOpen} on:closeModal={RegisterUpdate}/>
+<LoginWindow isModalOpen={isLoginOpen} on:closeModal={LoginUpdate}/>
 <div class="header">
     <div class="header__left">
         <img src="src/img/Logo.png" alt="Logo"/>
@@ -31,8 +34,8 @@
     <div class="header__right">
         <LittleIcon source="src/img/Icon3.png"/>
         <LittleIcon source="src/img/Icon4.png"/>
-        <PrimeBtn text="Войти"/>
-        <PrimeBtn text="Зарегистрироваться" event={openModal}/>
+        <PrimeBtn text="Войти" event={LoginUpdate}/>
+        <PrimeBtn text="Зарегистрироваться" event={RegisterUpdate}/>
     </div>
 </div>
 
