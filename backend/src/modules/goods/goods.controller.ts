@@ -14,8 +14,8 @@ router.get("/goods", async (req, res) => {
   res.send(result);
 });
 
-router.get("/one-goods", async (req, res) => {
-  const result = await getOneGoods(req.query);
+router.get("/one-goods/:id", async (req, res) => {
+  const result = await getOneGoods(req.params.id);
   res.send(result);
 });
 
