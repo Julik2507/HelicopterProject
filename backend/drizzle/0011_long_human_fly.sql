@@ -1,0 +1,1 @@
+ALTER TABLE "goods" ADD COLUMN "img_id" integer;

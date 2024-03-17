@@ -1,4 +1,5 @@
 import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { number, string } from "valibot";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey().notNull(),
@@ -31,6 +32,7 @@ export const goods = pgTable("goods", {
   img: varchar("img"),
   brand_id: integer("brand_id").references(() => brands.id),
   type_id: integer("type_id").references(() => types.id),
+  img_id: integer("img_id"),
 });
 
 export const infoGoods = pgTable("infoGoods", {
@@ -57,4 +59,9 @@ export const typeBrand = pgTable("TypeBrand", {
   id: serial("id").primaryKey(),
   type_id: integer("type_id").references(() => types.id),
   brand_id: integer("brand_id").references(() => brands.id),
+});
+
+export const images = pgTable("images", {
+  id: serial("id").primaryKey(),
+  img: varchar("img"),
 });
