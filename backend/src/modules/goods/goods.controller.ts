@@ -1,13 +1,11 @@
 import express from "express";
-import { createGoods, getGoods, getOneGoods } from "./goods.service.js";
+import { createGoods, getGoods, getOneGoods, uploadImg } from "./goods.service.js";
 
 const router = express.Router();
 
 router.post("/goods", async (req, res) => {
-  const { img }: any = req.files;
-  console.log(img);
-
-  const result = await createGoods(req.body, img);
+  const img_id = await uploadImg(req.files);
+  const result = await createGoods(req.body, img_id);
   res.send(result);
 });
 
