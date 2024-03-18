@@ -31,13 +31,14 @@
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
 <div id="modal" class="modal_body" style="--display: {isModalOpen ? 'flex' : 'none'};">
     <button class="modal_close" on:click={closeModal}><img src="src/img/Cancel.svg" alt="Close" style="width: 50px"></button>
-    <p class="modal_title">Создать аккаунт</p>
+    <p class="modal_title">Регистрация</p>
     <p class="modal_subtitle">Имя пользователя</p>
     <input class="modal_input" type="text" name="name" placeholder="Введите имя пользователя" bind:value={input_name}/>
     <p class="modal_subtitle">Электронная почта</p>
     <input class="modal_input" type="text" name="email" placeholder="Введите электронную почту" bind:value={input_email}/>
     <p class="modal_subtitle">Пароль</p>
     <input class="modal_input" type="password" name="password" placeholder="Введите пароль" bind:value={input_password}/>
+    <p class="modal_agreement">Создавая аккаунт, вы соглашаетесь с условиями использования и политикой конфиденциальности Вертолет.</p>
     <PrimeBtn text="Зарегистрироваться" event={register} --width=630px/>
 </div>
 
@@ -110,5 +111,15 @@
         float: right;
         margin-left: 580px;
         background: #fff;
+    }
+    .modal_agreement {
+        font-family: Epilogue, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin: 0;
+        color: #967878;
     }
 </style>
