@@ -18,7 +18,7 @@
     }
     .btn_text {
         font-family: Epilogue, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 700;
         line-height: 21px;
         letter-spacing: 0.20999999344348907px;
