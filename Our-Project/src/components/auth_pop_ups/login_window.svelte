@@ -1,7 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import { loginUser } from "$lib";
-
+    import PrimeBtn from '$comp/ui_kit/prime_btn.svelte';
+    
     export let isModalOpen = false;
 
     const dispatch = createEventDispatcher();

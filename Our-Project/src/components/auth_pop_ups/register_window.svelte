@@ -30,6 +30,7 @@
 
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
 <div id="modal" class="modal_body" style="--display: {isModalOpen ? 'flex' : 'none'};">
+    <button class="modal_close" on:click={closeModal}><img src="src/img/Cancel.svg" alt="Close" style="width: 50px"></button>
     <p class="modal_title">Создать аккаунт</p>
     <p class="modal_subtitle">Имя пользователя</p>
     <input class="modal_input" type="text" name="name" placeholder="Введите имя пользователя" bind:value={input_name}/>
@@ -38,7 +39,6 @@
     <p class="modal_subtitle">Пароль</p>
     <input class="modal_input" type="password" name="password" placeholder="Введите пароль" bind:value={input_password}/>
     <PrimeBtn text="Зарегистрироваться" event={register} --width=630px/>
-    <button class="modal_close" on:click={closeModal}><img src="src/img/Cancel.svg" alt="Close" style="width: 50px"></button>
 </div>
 
 <style>
@@ -79,6 +79,7 @@
         letter-spacing: 0em;
         text-align: center;
         padding: 0;
+        margin: 10px;
     }
     .modal_input {
         width: 610px;
@@ -106,7 +107,8 @@
         width: 50px;
         border: none;
         padding: 0;
-        display: flex;
-        align-self: right;
+        float: right;
+        margin-left: 580px;
+        background: #fff;
     }
 </style>
