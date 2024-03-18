@@ -13,16 +13,16 @@
         background-color: #F23B0D;
         border-color: #F23B0D;
         border-radius: 10px;
-        width: fit-content;
+        width: var(--width, fit-content);
         padding: 0px 16px;
     }
     .btn_text {
         font-family: Epilogue, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 700;
         line-height: 21px;
         letter-spacing: 0.20999999344348907px;
-        text-align: left;
+        text-align: center;
         color: #FFFFFF;
     }
 </style>
