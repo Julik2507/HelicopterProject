@@ -16,13 +16,22 @@
     let input_password = "";
 
     async function login() {
-        await loginUser({
-            password: input_password,
-            email: input_email
-        });
+        try {
+            await loginUser({
+                password: input_password,
+                email: input_email
+            });
+        } catch (err) {
+            alert(err)
+        }
         input_email = "";
         input_password = "";
         closeModal();
+    }
+
+    let passVisible = false;
+    function changePasswordVisibility() {
+        passVisible = !passVisible;
     }
 </script>
 
@@ -33,7 +42,12 @@
     <p class="modal_subtitle">Электронная почта</p>
     <input class="modal_input" type="text" name="email" placeholder="Введите электронную почту" bind:value={input_email}/>
     <p class="modal_subtitle">Пароль</p>
+    {#if passVisible}
+    <input class="modal_input" type="text" name="password" placeholder="Введите пароль" bind:value={input_password}/>
+    {:else}
     <input class="modal_input" type="password" name="password" placeholder="Введите пароль" bind:value={input_password}/>
+    {/if}
+    <div class="modal_pass_visibility"><input class="modal_checkbox" type="checkbox" on:change={changePasswordVisibility}/><p class="modal_agreement">Показать пароль</p></div>
     <p class="modal_agreement">Входя в аккаунт, вы соглашаетесь с условиями использования и политикой конфиденциальности Вертолет.</p>
     <PrimeBtn text="Войти" event={login} --width=630px/>
 </div>
@@ -117,5 +131,13 @@
         text-align: left;
         margin: 0;
         color: #967878;
+    }
+    .modal_pass_visibility {
+        display: flex;
+        align-items: center;
+    }
+    .modal_checkbox {
+        width: 20px;
+        height: 20px;
     }
 </style>
