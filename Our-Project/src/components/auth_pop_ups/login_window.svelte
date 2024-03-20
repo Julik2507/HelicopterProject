@@ -34,7 +34,7 @@
     <p class="modal_subtitle">Пароль</p>
     <input class="modal_input" type="password" name="password" placeholder="Введите пароль" bind:value={input_password}/>
     <p class="modal_agreement">Входя в аккаунт, вы соглашаетесь с условиями использования и политикой конфиденциальности Вертолет.</p>
-    <PrimeBtn text="Зарегистрироваться" event={login} --width=630px/>
+    <PrimeBtn text="Войти" event={login} --width=630px/>
 </div>
 
 <style>
