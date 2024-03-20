@@ -21,12 +21,12 @@
                 password: input_password,
                 email: input_email
             });
+            input_email = "";
+            input_password = "";
+            closeModal();
         } catch (err) {
             alert(err)
         }
-        input_email = "";
-        input_password = "";
-        closeModal();
     }
 
     let passVisible = false;
