@@ -29,6 +29,7 @@
         input_name = "";
         input_email = "";
         input_password = "";
+        closeModal();
     }
 </script>
 
