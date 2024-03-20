@@ -17,11 +17,15 @@
     let input_password = "";
 
     async function register() {
-        await registerUser({
-            name: input_name,
-            password: input_password,
-            email: input_email
-        });
+        try {
+            await registerUser({
+                name: input_name,
+                password: input_password,
+                email: input_email
+            });
+        } catch (err) {
+            alert(err);
+        }
         input_name = "";
         input_email = "";
         input_password = "";
