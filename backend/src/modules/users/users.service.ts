@@ -4,8 +4,12 @@ import { users } from "../../db/schema.js";
 import { ChangeUserDTO } from "./dto/index.js";
 
 export async function updateUserData(id: number, dto: ChangeUserDTO): Promise<ChangeUserDTO> {
-  const result = await db.update(users).set(dto).where(eq(users.id, id));
-  return dto;
+  try {
+    const result = await db.update(users).set(dto).where(eq(users.id, id));
+    return dto;
+  } catch (error: any) {
+    throw error;
+  }
 }
 
 export async function deleteUserData(id: number): Promise<boolean> {

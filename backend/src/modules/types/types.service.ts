@@ -3,10 +3,17 @@ import { types } from "../../db/schema.js";
 import { TypeDTO } from "./dto/index.js";
 
 export async function createType(dto: TypeDTO) {
-  const result = await db.insert(types).values(dto);
-  return result;
+  try {
+    return await db.insert(types).values(dto);
+  } catch (error: any) {
+    throw error;
+  }
 }
 
 export async function getAllTypes() {
-  return await db.select().from(types);
+  try {
+    return await db.select().from(types);
+  } catch (error: any) {
+    throw error;
+  }
 }
