@@ -1,7 +1,7 @@
 import path from "path";
 import * as uuid from "uuid";
 import { db } from "../../db/migrate.js";
-import { goods, images } from "../../db/schema.js";
+import { goods, images, infoGoods } from "../../db/schema.js";
 import { and, eq } from "drizzle-orm";
 import { fileURLToPath } from "url";
 import { GetAnyGoods } from "./dto/index.js";
@@ -17,8 +17,22 @@ export async function createGoods(dto: any, img_id: number) {
     img_id: img_id,
   };
 
-  return await db.insert(goods).values(oneGoods);
-  //реализовать логику добавления описания!
+  const result = await db.insert(goods).values(oneGoods);
+  const goodsInfo = await db.query.goods.findFirst({ where: eq(goods.name, oneGoods.name) });
+  if (goodsInfo == undefined) throw new Error("goodsInfo is undefined");
+
+  if (dto.info) {
+    dto.info = JSON.parse(dto.info);
+    dto.info.forEach((item: any) => {
+      db.insert(infoGoods).values({
+        title: item.title,
+        description: item.description,
+        goods_id: goodsInfo.id,
+      });
+    });
+  }
+  return result;
+  //check goods' description!!!!!
 }
 
 export async function getGoods(dto: GetAnyGoods) {
@@ -41,10 +55,15 @@ export async function getGoods(dto: GetAnyGoods) {
 }
 
 export async function getOneGoods(dto: any) {
-  const result = await db.select().from(goods).where(eq(goods.id, dto.goods_id));
+  console.log(dto);
+
+  const result = await db.select().from(goods).where(eq(goods.id, dto));
   console.log(result);
 
-  return result;
+  // const goodsInfo = db.select().from(infoGoods).where(eq(infoGoods.goods_id, dto));
+  const goodsInfo = await db.query.infoGoods.findMany({ where: eq(infoGoods.goods_id, dto) });
+
+  return { result, goodsInfo };
 }
 
 export async function uploadImg(dto: any): Promise<any> {
@@ -57,7 +76,9 @@ export async function uploadImg(dto: any): Promise<any> {
     img: uniqueName,
   };
   await db.insert(images).values(img);
-  const result = await db.select({ id: images.id }).from(images).where(eq(images.img, uniqueName));
-  console.log(result);
-  return result;
+  // const result = await db.select({ id: images.id }).from(images).where(eq(images.img, uniqueName));
+  const result = await db.query.images.findFirst({ where: eq(images.img, uniqueName) });
+  if (result == undefined) throw new Error("Result is undefined");
+  console.log(result.id);
+  return result.id;
 }
