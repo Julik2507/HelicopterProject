@@ -45,7 +45,7 @@ export const infoGoods = pgTable("infoGoods", {
 export const basketGoods = pgTable("basketGoods", {
   id: serial("id").primaryKey(),
   basket_id: integer("basket_id").references(() => basket.id),
-  goods_Id: integer("goods_id").references(() => goods.id),
+  goods_id: integer("goods_id").references(() => goods.id),
 });
 
 export const rating = pgTable("rating", {

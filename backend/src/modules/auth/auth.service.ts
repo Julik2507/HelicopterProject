@@ -1,12 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
-import { users } from "../../db/schema.js";
+import { basket, users } from "../../db/schema.js";
 import { InsertUserDTO, LoginUserDTO, changeNameDTO } from "./dto/index.js";
 import { responseLoginDTO, responseRegisterDTO } from "./response/index.js";
 import { tokenJwt } from "./token/index.js";
 import bcrypt from "bcrypt";
 
-export async function registerUser(dto: InsertUserDTO): Promise<responseRegisterDTO | undefined> {
+export async function registerUser(dto: InsertUserDTO): Promise<any> {
   try {
     const existUser = await existUserByEmail(dto.email);
     if (existUser) throw new Error("Person with this email exist");
@@ -19,7 +19,10 @@ export async function registerUser(dto: InsertUserDTO): Promise<responseRegister
     };
     await db.insert(users).values(user);
     const result = await publicUser(user.email);
-    return result;
+    if (result == undefined) throw new Error("undefined");
+    const token = tokenJwt(result);
+    const userBasket = await db.insert(basket).values({ user_id: result.id });
+    return token;
   } catch (error) {
     throw error;
   }
@@ -41,10 +44,6 @@ export async function loginUser(dto: LoginUserDTO): Promise<responseLoginDTO | u
   } catch (error) {
     throw error;
   }
-}
-
-export async function getAllUsers() {
-  return db.select().from(users);
 }
 
 export async function existUserByEmail(email: string) {
