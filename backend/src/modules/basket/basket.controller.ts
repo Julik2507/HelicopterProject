@@ -1,9 +1,9 @@
 import express from "express";
-import { getBasketGoods, takeGoods } from "./basket.service.js";
+import { getBasketGoods, sendGoods } from "./basket.service.js";
 const router = express.Router();
 
 router.post("/chose-goods", async (req, res) => {
-  const result = await takeGoods(req.body);
+  const result = await sendGoods(req.body);
   res.send(result);
 });
 
