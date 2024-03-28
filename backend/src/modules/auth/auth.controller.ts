@@ -1,6 +1,6 @@
 import express from "express";
 import * as v from "valibot";
-import { registerUser, loginUser, getAllUsers } from "./auth.service.js";
+import { registerUser, loginUser } from "./auth.service.js";
 import { changeNameSchema, loginSchema, registerSchema } from "./dto/index.js";
 import { authMiddlewareAdmin } from "./middleware/admin.js";
 import { authMiddlewareUser } from "./middleware/user.js";
@@ -27,11 +27,6 @@ router.post("/login", async (req, res) => {
     console.log(error);
     res.status(400).send({ message: error.message });
   }
-});
-
-router.get("/users", authMiddlewareUser, async (req, res) => {
-  const result = await getAllUsers();
-  res.send(result);
 });
 
 export default router;
