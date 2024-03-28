@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { loginDTO, registerDTO } from "./dto";
-import type { ResLoginDTO, ResRegisterDTO } from "./response";
+import type { loginDTO, registerDTO } from "../DTO/auth/authDTO";
+import type { ResLoginDTO, ResRegisterDTO } from "../DTO/auth/authResponse";
 
 export async function registerUser(
   dto: registerDTO
