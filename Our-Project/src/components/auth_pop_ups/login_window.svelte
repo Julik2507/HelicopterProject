@@ -30,7 +30,6 @@
             displayError = false;
             closeModal();
         } catch (err) {
-            alert(err);
             message = err;
             displayError = true;
         }
