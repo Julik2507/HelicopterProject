@@ -39,10 +39,10 @@ export const goods = pgTable("goods", {
   img_id: integer("img_id"),
 });
 
-export const goodsRelations = relations(goods, ({ one, many }) => ({
-  brands: many(brands, { fields: [goods.brand_id], references: [brands.id] }),
-  types: many(types, { fields: [goods.type_id], references: [types.id] }),
-}));
+// export const goodsRelations = relations(goods, ({ one, many }) => ({
+//   brands: many(brands, { fields: [goods.brand_id], references: [brands.id] }),
+//   types: many(types, { fields: [goods.type_id], references: [types.id] }),
+// }));
 
 export const infoGoods = pgTable("infoGoods", {
   id: serial("id").primaryKey(),
