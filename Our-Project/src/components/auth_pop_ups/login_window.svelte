@@ -5,9 +5,13 @@
 
     export let isModalOpen = false;
 
+    let displayError = false;
+    let message = "None";
+
     const dispatch = createEventDispatcher();
 
     function closeModal() {
+        displayError = false;
         isModalOpen = false;
         dispatch('closeModal', { isModalOpen });
     }
@@ -23,9 +27,12 @@
             });
             input_email = "";
             input_password = "";
+            displayError = false;
             closeModal();
         } catch (err) {
-            alert(err)
+            alert(err);
+            message = err;
+            displayError = true;
         }
     }
 
@@ -48,6 +55,9 @@
     <input class="modal_input" type="password" name="password" placeholder="Введите пароль" bind:value={input_password}/>
     {/if}
     <div class="modal_pass_visibility"><input class="modal_checkbox" type="checkbox" on:change={changePasswordVisibility}/><p class="modal_agreement">Показать пароль</p></div>
+    {#if displayError}
+    <p class="modal_error">{message}</p>
+    {/if}
     <p class="modal_agreement">Входя в аккаунт, вы соглашаетесь с условиями использования и политикой конфиденциальности Вертолет.</p>
     <PrimeBtn text="Войти" event={login} --width=630px/>
 </div>
@@ -76,7 +86,7 @@
     }
     .modal_body {
         width: 630px;
-        height: 760px;
+        height: fit-content;
         border-radius: 50px;
         padding: 50px;
         padding-top: 20px;
@@ -139,5 +149,15 @@
     .modal_checkbox {
         width: 20px;
         height: 20px;
+    }
+    .modal_error {
+        font-family: Epilogue, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin: 0;
+        color: #E35959;
     }
 </style>
