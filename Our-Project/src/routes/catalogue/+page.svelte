@@ -9,6 +9,7 @@
     <div class="catalogue__categories"></div>
     <div class="catalogue__items">
         <Product/>
+        <Product type="new"/>
     </div>
 </div>
 <Footer/>
@@ -27,6 +28,7 @@
         border-radius: 50px;
     }
     .catalogue__items {
+        display: flex;
         background-color: white;
         width: 1400px;
         height: 650px;

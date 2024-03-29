@@ -9,7 +9,12 @@
 <div class="item">
     <img src={img} alt={name}/>
     <p class="item__name">{name}</p>
-    <p class="item__amount">{amount}</p>
+    <div class="item__msg">
+        <p class="item__amount">{amount}</p>
+        {#if type === "new"}
+        <p class="item__new">Новинка</p>
+        {/if}
+    </div>
     <button class="item__button">{price} ₽ +</button>
 </div>
 
@@ -53,5 +58,19 @@
         letter-spacing: 0.21px;
         text-align: left;
         color: #FF335F;
+    }
+    .item__msg {
+        display: flex;
+        gap: 10px;
+    }
+    .item__new {
+        font-family: Epilogue, sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 21px;
+        letter-spacing: 0.21px;
+        text-align: left;
+        color: #3AB600;
+        margin: 0;
     }
 </style>
