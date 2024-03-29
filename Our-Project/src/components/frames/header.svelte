@@ -23,7 +23,7 @@
 <div class="header">
     <div class="header__left">
         <img src="src/img/Logo.png" alt="Logo"/>
-        {#if type == "main"}
+        {#if type === "main"}
         <p class="header__text">Доставка еды на вертолете</p>
         <LittleIcon source="src/img/Icon1.png"/>
         <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
@@ -32,6 +32,10 @@
         <PrimeBtn text="Позвоните мне"/>
         <SocialLink img="src/img/LinkVK.png"/>
         <SocialLink img="src/img/LinkTG.png"/>
+        {/if}
+        {#if type === "catalogue"}
+        <p class="header__text">Каталог</p>
+        <input class="header__searchbar" type="text" name="email" placeholder="Искать в каталоге"/>
         {/if}
     </div>
     <div class="header__right">
@@ -55,8 +59,8 @@
     }
     .header__text {
         font-family: Epilogue, sans-serif;
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 22px;
+        font-weight: 750;
         line-height: 23px;
         letter-spacing: -0.27000001072883606px;
         text-align: left;
@@ -73,5 +77,18 @@
         gap: 25px;
         align-items: center;
         justify-content: start;
+    }
+    .header__searchbar {
+        width: 1100px;
+        height: 63px;
+        top: 202px;
+        left: 36px;
+        border-radius: 21px;
+        border: 0;
+        padding-left: 20px;
+        background-color: #F5E8E8;
+        color: #967878;
+        font-size: 20px;
+        font-weight: bold;
     }
 </style>
