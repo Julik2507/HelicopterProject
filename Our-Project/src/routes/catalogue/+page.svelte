@@ -10,6 +10,7 @@
     <div class="catalogue__items">
         <Product/>
         <Product type="new"/>
+        <Product type="missing"/>
     </div>
 </div>
 <Footer/>

@@ -15,7 +15,12 @@
         <p class="item__new">Новинка</p>
         {/if}
     </div>
+    {#if type === "default" || type === "new" }
     <button class="item__button">{price} ₽ +</button>
+    {/if}
+    {#if type === "missing"}
+    <button class="item__button" disabled>Нет в наличии</button>
+    {/if}
 </div>
 
 <style>
