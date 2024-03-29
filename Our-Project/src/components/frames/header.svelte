@@ -4,7 +4,8 @@
     import SocialLink from "$comp/ui_kit/social_link.svelte";
     import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
     import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
-    import Page from "../../routes/+page.svelte";
+
+    export let type = "main";
 
     let isLoginOpen = false;
     let isRegisterOpen = false;
@@ -22,6 +23,7 @@
 <div class="header">
     <div class="header__left">
         <img src="src/img/Logo.png" alt="Logo"/>
+        {#if type == "main"}
         <p class="header__text">Доставка еды на вертолете</p>
         <LittleIcon source="src/img/Icon1.png"/>
         <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
@@ -30,6 +32,7 @@
         <PrimeBtn text="Позвоните мне"/>
         <SocialLink img="src/img/LinkVK.png"/>
         <SocialLink img="src/img/LinkTG.png"/>
+        {/if}
     </div>
     <div class="header__right">
         <LittleIcon source="src/img/Icon3.png"/>
