@@ -11,6 +11,7 @@
         <Product/>
         <Product type="new"/>
         <Product type="missing"/>
+        <Product type="sale"/>
     </div>
 </div>
 <Footer/>

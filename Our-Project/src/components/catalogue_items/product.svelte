@@ -4,6 +4,7 @@
     export let name = "Багет";
     export let amount = "180 г";
     export let price = 85;
+    export let sale_price = 70;
 </script>
 
 <div class="item">
@@ -20,6 +21,9 @@
     {/if}
     {#if type === "missing"}
     <button class="item__button" disabled>Нет в наличии</button>
+    {/if}
+    {#if type === "sale"}
+    <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
     {/if}
 </div>
 
@@ -50,6 +54,7 @@
         letter-spacing: 0.21px;
         text-align: left;
         margin: 0;
+        color: #A6A6A6;
     }
     .item__button {
         width: fit-content;
@@ -63,6 +68,8 @@
         letter-spacing: 0.21px;
         text-align: left;
         color: #FF335F;
+        display: flex;
+        gap: 10px;
     }
     .item__msg {
         display: flex;
@@ -77,5 +84,16 @@
         text-align: left;
         color: #3AB600;
         margin: 0;
+    }
+    .item__old__price {
+        margin: 0;
+        font-family: Epilogue;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 21px;
+        letter-spacing: 0.21px;
+        text-align: left;
+        color: #A6A6A6;
+        text-decoration: line-through;
     }
 </style>
