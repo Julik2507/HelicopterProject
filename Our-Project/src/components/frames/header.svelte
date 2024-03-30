@@ -6,6 +6,7 @@
     import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
 
     export let type = "main";
+    export let money = 0;
 
     let isLoginOpen = false;
     let isRegisterOpen = false;
@@ -40,6 +41,7 @@
     </div>
     <div class="header__right">
         <LittleIcon source="src/img/Icon3.png"/>
+        <p class="header__money">{money} ₽</p>
         <LittleIcon source="src/img/Icon4.png"/>
         <PrimeBtn text="Войти" event={LoginUpdate}/>
         <PrimeBtn text="Зарегистрироваться" event={RegisterUpdate}/>
@@ -59,7 +61,7 @@
     }
     .header__text {
         font-family: Epilogue, sans-serif;
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 750;
         line-height: 23px;
         letter-spacing: -0.27000001072883606px;
@@ -90,5 +92,14 @@
         color: #967878;
         font-size: 20px;
         font-weight: bold;
+    }
+    .header__money {
+        font-family: Epilogue, sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 21px;
+        letter-spacing: 0.21px;
+        text-align: left;
+        width: fit-content
     }
 </style>
