@@ -1,11 +1,15 @@
 <script>
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+
+    function cataloguelink() {
+        window.location.href = "/catalogue";
+    }
 </script>
 
 <div class="attract">
     <div class="attract__content">
         <p class="attract__text">Ваш любимый вертолет, быстрая доставка</p>
-        <PrimeBtn text="Посмотреть каталог"/>
+        <PrimeBtn text="Посмотреть каталог" event={cataloguelink}/>
     </div>
 </div>
 
