@@ -3,6 +3,7 @@
     import Footer from "$comp/frames/footer.svelte";
     import Product from "$comp/catalogue_items/product.svelte";
     import Category from "$comp/catalogue_items/category.svelte";
+    import TabBtn from "$comp/ui_kit/tab_btn.svelte";
 </script>
 
 <Header type="catalogue"/>
@@ -13,10 +14,17 @@
         <Category/>
     </div>
     <div class="catalogue__items">
-        <Product/>
-        <Product type="new"/>
-        <Product type="missing"/>
-        <Product type="sale"/>
+        <div class="items__tabs">
+            <TabBtn/>
+            <TabBtn/>
+            <TabBtn/>
+        </div>
+        <div class="items__products">
+            <Product/>
+            <Product type="new"/>
+            <Product type="missing"/>
+            <Product type="sale"/>
+        </div>
     </div>
 </div>
 <Footer/>
@@ -38,10 +46,14 @@
     }
     .catalogue__items {
         display: flex;
+        flex-direction: column;
         background-color: white;
         width: 1400px;
         height: 650px;
         border-radius: 50px;
         padding: 25px;
+    }
+    .items__products {
+        display: flex;
     }
 </style>
