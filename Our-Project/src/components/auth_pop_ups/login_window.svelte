@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { loginUser } from '$lib';
+    import { loginUser } from '$lib/Axios/authAxios'
     import PrimeBtn from '$comp/ui_kit/prime_btn.svelte';
 
     export let isModalOpen = false;
@@ -30,8 +30,7 @@
             displayError = false;
             closeModal();
         } catch (err) {
-            alert(err);
-            message = err;
+            message = err.message;
             displayError = true;
         }
     }

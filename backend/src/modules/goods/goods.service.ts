@@ -1,5 +1,3 @@
-import path from "path";
-import * as uuid from "uuid";
 import { db } from "../../db/migrate.js";
 import { goods, images, infoGoods } from "../../db/schema.js";
 import { and, eq } from "drizzle-orm";
@@ -58,21 +56,6 @@ export async function getOneGoods(dto: any) {
   const result = await db.select().from(goods).where(eq(goods.id, dto));
   const goodsInfo = await db.query.infoGoods.findMany({ where: eq(infoGoods.goods_id, dto) });
 
+  const good = await db.select().from(goods).innerJoin(images, eq(images.id, goods.img_id));
   return { result, goodsInfo };
-}
-
-export async function uploadImg(dto: any): Promise<any> {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-
-  const uniqueName = uuid.v4() + ".jpg";
-  dto.img.mv(path.resolve(__dirname, "../..", "static", uniqueName));
-  const img = {
-    img: uniqueName,
-  };
-  await db.insert(images).values(img);
-  const result = await db.query.images.findFirst({ where: eq(images.img, uniqueName) });
-  if (result == undefined) throw new Error("Result is undefined");
-  console.log(result.id);
-  return result.id;
 }

@@ -1,7 +1,6 @@
 import { db } from "../../db/migrate.js";
 import { eq } from "drizzle-orm";
 import { basket, basketGoods, goods, infoGoods, users } from "../../db/schema.js";
-import { log } from "console";
 
 export async function sendGoods(dto: any) {
   const myBasket = await db.query.basket.findFirst({ where: eq(basket.user_id, dto.user_id) });

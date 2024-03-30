@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { registerUser } from '$lib';
+    import { registerUser } from '$lib/Axios/authAxios';
     import PrimeBtn from '$comp/ui_kit/prime_btn.svelte';
 
     export let isModalOpen = false;
