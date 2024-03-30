@@ -77,4 +77,8 @@
         letter-spacing: 0.21px;
         text-align: left;
     }
+    .items__tabs {
+        display: flex;
+        gap: 25px;
+    }
 </style>
