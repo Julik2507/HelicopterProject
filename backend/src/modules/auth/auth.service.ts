@@ -28,7 +28,7 @@ export async function registerUser(dto: InsertUserDTO): Promise<any> {
   }
 }
 
-export async function loginUser(dto: LoginUserDTO): Promise<responseLoginDTO | undefined> {
+export async function loginUser(dto: LoginUserDTO): Promise<any> {
   //issue
   try {
     const existEmail = await existUserByEmail(dto.email);
@@ -36,11 +36,11 @@ export async function loginUser(dto: LoginUserDTO): Promise<responseLoginDTO | u
     const correctPassword = await comparePassword(dto.password, existEmail.password);
     if (!correctPassword) throw new Error("User with this login or password doesnt exist");
     const token = await tokenJwt(existEmail);
-    const result = await publicUser(dto.email);
-    if (result === undefined) {
-      throw new Error("error");
-    }
-    return { result, token };
+    // const result = await publicUser(dto.email);
+    // if (result === undefined) {
+    //   throw new Error("error");
+    // }
+    return token;
   } catch (error) {
     throw error;
   }

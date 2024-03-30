@@ -1,5 +1,6 @@
 import express from "express";
-import { createGoods, getGoods, getOneGoods, uploadImg } from "./goods.service.js";
+import { createGoods, getGoods, getOneGoods } from "./goods.service.js";
+import { uploadImg } from "../images/images.service.js";
 
 const router = express.Router();
 
