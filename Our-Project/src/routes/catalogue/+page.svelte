@@ -2,11 +2,16 @@
     import Header from "$comp/frames/header.svelte";
     import Footer from "$comp/frames/footer.svelte";
     import Product from "$comp/catalogue_items/product.svelte";
+    import Category from "$comp/catalogue_items/category.svelte";
 </script>
 
 <Header type="catalogue"/>
 <div class="catalogue__container">
-    <div class="catalogue__categories"></div>
+    <div class="catalogue__categories">
+        <Category/>
+        <Category/>
+        <Category/>
+    </div>
     <div class="catalogue__items">
         <Product/>
         <Product type="new"/>
@@ -26,8 +31,10 @@
     .catalogue__categories {
         background-color: white;
         width: 490px;
-        height: 700px;
+        height: 675px;
         border-radius: 50px;
+        padding-top: 25px;
+        gap: 15px;
     }
     .catalogue__items {
         display: flex;
