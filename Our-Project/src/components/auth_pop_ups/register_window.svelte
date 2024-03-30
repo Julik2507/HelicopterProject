@@ -33,7 +33,7 @@
             displayError = false;
             closeModal();
         } catch (err) {
-            message = err;
+            message = err.message;
             displayError = true;
         }
     }
