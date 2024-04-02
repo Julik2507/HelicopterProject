@@ -1,44 +1,32 @@
 import { db } from "../../db/migrate.js";
-import { goods, images, infoGoods } from "../../db/schema.js";
+import { attribute_values, attributes, goods, images, infoGoods } from "../../db/schema.js";
 import { and, eq } from "drizzle-orm";
-import { fileURLToPath } from "url";
 import { GetAnyGoods } from "./dto/index.js";
-import { dirname } from "path";
+import { value } from "valibot";
 
-export async function createGoods(dto: any, img_id: number) {
-  const oneGoods = {
-    name: dto.name,
-    price: dto.price,
-    rating: 0,
-    brand_id: dto.brand_id,
-    type_id: dto.type_id,
-    img_id: img_id,
-  };
+export async function createGoods(dto: any, imgID: number) {
+  console.log(imgID);
 
-  const result = await db.insert(goods).values(oneGoods);
-  const newGoods = await db.query.goods.findFirst({ where: eq(goods.name, oneGoods.name) });
-  if (newGoods == undefined) throw new Error("goodsInfo is undefined");
+  try {
+    const oneGoods = {
+      name: dto.name,
+      price: dto.price,
+      rating: 0,
+      brand_id: dto.brand_id,
+      type_id: dto.type_id,
+      img_id: imgID,
+    };
 
-  if (dto.info) {
-    dto.info = JSON.parse(dto.info);
-    dto.info.forEach((item: any) => {
-      db.insert(infoGoods).values({
-        title: item.title,
-        description: item.description,
-        goods_id: newGoods.id,
-      });
-    });
+    return await db.insert(goods).values(oneGoods);
+  } catch (error: any) {
+    throw error;
   }
-  return result;
-  //check goods' description!!!!!
 }
 
 export async function getGoods(dto: GetAnyGoods) {
   let page = 1 || dto.page;
   let limit = 1;
   let offset = page * limit - limit;
-  console.log(page);
-  console.log(limit);
 
   if (!dto.brand_id && !dto.type_id) return await db.select().from(goods).offset(offset).limit(limit);
   if (dto.brand_id && !dto.type_id) return await db.select().from(goods).where(eq(goods.brand_id, dto.brand_id)).offset(offset).limit(limit);
@@ -52,10 +40,15 @@ export async function getGoods(dto: GetAnyGoods) {
       .limit(limit);
 }
 
-export async function getOneGoods(dto: any) {
-  const result = await db.select().from(goods).where(eq(goods.id, dto));
-  const goodsInfo = await db.query.infoGoods.findMany({ where: eq(infoGoods.goods_id, dto) });
-
-  const good = await db.select().from(goods).innerJoin(images, eq(images.id, goods.img_id));
-  return { result, goodsInfo };
+export async function getOneGoods(dto: any): Promise<any> {
+  const good = await db.select().from(goods).innerJoin(images, eq(images.id, goods.img_id)).where(eq(goods.id, dto));
+  const description = await db
+    .select({
+      value: attribute_values.value,
+      attribute: attributes.attribute,
+    })
+    .from(attribute_values)
+    .innerJoin(attributes, eq(attribute_values.attribute_id, attributes.id))
+    .where(eq(attribute_values.goods_id, dto));
+  return { good, description };
 }

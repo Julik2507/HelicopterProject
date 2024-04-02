@@ -5,8 +5,8 @@ import { uploadImg } from "../images/images.service.js";
 const router = express.Router();
 
 router.post("/create-goods", async (req, res) => {
-  const img_id = await uploadImg(req.files);
-  const result = await createGoods(req.body, img_id);
+  const imgID = await uploadImg(req.files);
+  const result = await createGoods(req.body, imgID);
   res.send(result);
 });
 

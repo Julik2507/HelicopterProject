@@ -9,17 +9,18 @@ import { dirname } from "path";
 export async function uploadImg(dto: any): Promise<any> {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
+  console.log(dto.image);
 
   const uniqueName = uuid.v4() + ".jpg";
-  console.log(dto);
 
-  dto.img.mv(path.resolve(__dirname, "../..", "static", uniqueName));
+  dto.image.mv(path.resolve(__dirname, "../..", "static", uniqueName));
+
   const img = {
     img: uniqueName,
   };
   await db.insert(images).values(img);
-  const result = await db.query.images.findFirst({ where: eq(images.img, uniqueName) });
-  if (result == undefined) throw new Error("Result is undefined");
-  console.log(result.id);
-  return result.id;
+
+  const image = await db.query.images.findFirst({ where: eq(images.img, uniqueName) });
+  if (image == undefined) throw new Error("Image is undefined");
+  return image.id;
 }
