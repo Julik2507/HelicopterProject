@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -13,10 +12,6 @@ export const basket = pgTable("basket", {
   id: serial("id").primaryKey(),
   user_id: integer("user_id").references(() => users.id),
 });
-
-export const basketRelations = relations(basket, ({ one, many }) => ({
-  users: one(users, { fields: [basket.user_id], references: [users.id] }),
-}));
 
 export const types = pgTable("types", {
   id: serial("id").primaryKey(),
@@ -33,16 +28,10 @@ export const goods = pgTable("goods", {
   name: varchar("name").unique(),
   price: integer("price"),
   rating: integer("rating"),
-  img: varchar("img"),
   brand_id: integer("brand_id").references(() => brands.id),
   type_id: integer("type_id").references(() => types.id),
   img_id: integer("img_id"),
 });
-
-// export const goodsRelations = relations(goods, ({ one, many }) => ({
-//   brands: many(brands, { fields: [goods.brand_id], references: [brands.id] }),
-//   types: many(types, { fields: [goods.type_id], references: [types.id] }),
-// }));
 
 export const infoGoods = pgTable("infoGoods", {
   id: serial("id").primaryKey(),
@@ -56,11 +45,6 @@ export const basketGoods = pgTable("basketGoods", {
   basket_id: integer("basket_id").references(() => basket.id),
   goods_id: integer("goods_id").references(() => goods.id),
 });
-
-export const basketGoodsRelations = relations(basketGoods, ({ one, many }) => ({
-  basket: many(basket),
-  goods: one(goods, { fields: [basketGoods.goods_id], references: [goods.id] }),
-}));
 
 export const rating = pgTable("rating", {
   id: serial("id").primaryKey(),
@@ -78,4 +62,16 @@ export const typeBrand = pgTable("TypeBrand", {
 export const images = pgTable("images", {
   id: serial("id").primaryKey(),
   img: varchar("img"),
+});
+
+export const attributes = pgTable("attributes", {
+  id: serial("id").primaryKey(),
+  attribute: varchar("attribute"),
+});
+
+export const attribute_values = pgTable("attribute_values", {
+  id: serial("id").primaryKey(),
+  goods_id: integer("goods_id").references(() => goods.id),
+  attribute_id: integer("attribute_id").references(() => attributes.id),
+  value: varchar("value"),
 });
