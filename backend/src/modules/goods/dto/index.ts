@@ -1,11 +1,10 @@
 import { Input, number, object, partial, string } from "valibot";
-import { getGoods } from "../goods.service.js";
 
 export const getGoodsSchema = partial(
   object({
-    page: string(),
-    type_id: number(),
-    brand_id: number(),
+    page: number("Страница не найдена"),
+    type_id: number("Тип не найден"),
+    brand_id: number("Бренд не найден"),
   })
 );
 
