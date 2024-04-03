@@ -6,17 +6,22 @@ export async function getGoods(dto: GetGoodsDTO) {
     const result = await axios.get("http://localhost:3000/api/get-goods", {
       params: dto,
     });
-    return result;
+    return result.data;
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }
 }
 
 export async function getOneGoods(id: number) {
-  const result = await axios.get(
-    `http://localhost:3000/api/get-one-goods/${id}`
-  );
-  return result.data;
+  try {
+    const result = await axios.get(
+      `http://localhost:3000/api/get-one-goods/${id}`
+    );
+
+    return result.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
 }
 
 export async function createGoods(dto: CreateGoodsDTO) {
@@ -24,5 +29,5 @@ export async function createGoods(dto: CreateGoodsDTO) {
     "http://localhost:3000/api/create-goods/",
     dto
   );
-  return result;
+  return result.data;
 }

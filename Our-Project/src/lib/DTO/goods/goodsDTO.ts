@@ -15,8 +15,7 @@ const createGoodsSchema = object({
   price: number(),
   type_id: number(),
   brand_id: number(),
-  img: any(),
-  info: any(),
+  image: any(),
 });
 
 export type CreateGoodsDTO = Input<typeof createGoodsSchema>;

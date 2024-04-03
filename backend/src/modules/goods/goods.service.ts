@@ -1,12 +1,9 @@
 import { db } from "../../db/migrate.js";
 import { attribute_values, attributes, goods, images, infoGoods } from "../../db/schema.js";
 import { and, eq } from "drizzle-orm";
-import { GetAnyGoods } from "./dto/index.js";
-import { value } from "valibot";
+import { CreateGoodsDTO, GetAnyGoods } from "./dto/index.js";
 
-export async function createGoods(dto: any, imgID: number) {
-  console.log(imgID);
-
+export async function createGoods(dto: CreateGoodsDTO, imgID: number): Promise<any> {
   try {
     const oneGoods = {
       name: dto.name,
@@ -16,28 +13,48 @@ export async function createGoods(dto: any, imgID: number) {
       type_id: dto.type_id,
       img_id: imgID,
     };
-
     return await db.insert(goods).values(oneGoods);
+    // реализовать добавление описания через фронт(аттрибут, значение)
   } catch (error: any) {
     throw error;
   }
 }
 
-export async function getGoods(dto: GetAnyGoods) {
-  let page = 1 || dto.page;
-  let limit = 1;
-  let offset = page * limit - limit;
+export async function getGoods(dto: GetAnyGoods): Promise<any> {
+  try {
+    let page = 1 || dto.page;
+    let limit = 5;
+    let offset = page * limit - limit;
 
-  if (!dto.brand_id && !dto.type_id) return await db.select().from(goods).offset(offset).limit(limit);
-  if (dto.brand_id && !dto.type_id) return await db.select().from(goods).where(eq(goods.brand_id, dto.brand_id)).offset(offset).limit(limit);
-  if (!dto.brand_id && dto.type_id) return await db.select().from(goods).where(eq(goods.type_id, dto.type_id)).offset(offset).limit(limit);
-  if (dto.brand_id && dto.type_id)
-    return await db
-      .select()
-      .from(goods)
-      .where(and(eq(goods.brand_id, dto.brand_id), eq(goods.type_id, dto.type_id)))
-      .offset(offset)
-      .limit(limit);
+    if (!dto.brand_id && !dto.type_id)
+      return await db.select().from(goods).innerJoin(images, eq(goods.img_id, images.id)).offset(offset).limit(limit);
+    else if (dto.brand_id && !dto.type_id)
+      return await db
+        .select()
+        .from(goods)
+        .innerJoin(images, eq(goods.img_id, images.id))
+        .where(eq(goods.brand_id, dto.brand_id))
+        .offset(offset)
+        .limit(limit);
+    else if (!dto.brand_id && dto.type_id)
+      return await db
+        .select()
+        .from(goods)
+        .innerJoin(images, eq(goods.img_id, images.id))
+        .where(eq(goods.type_id, dto.type_id))
+        .offset(offset)
+        .limit(limit);
+    else if (dto.brand_id && dto.type_id)
+      return await db
+        .select()
+        .from(goods)
+        .innerJoin(images, eq(goods.img_id, images.id))
+        .where(and(eq(goods.brand_id, dto.brand_id), eq(goods.type_id, dto.type_id)))
+        .offset(offset)
+        .limit(limit);
+  } catch (error: any) {
+    throw error;
+  }
 }
 
 export async function getOneGoods(dto: any): Promise<any> {
