@@ -71,6 +71,48 @@
       "when": 1709827655296,
       "tag": "0009_massive_amphibian",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1710607279693,
+      "tag": "0010_last_hex",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1710607343837,
+      "tag": "0011_long_human_fly",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1711891751949,
+      "tag": "0012_pretty_kang",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1711891945214,
+      "tag": "0013_optimal_the_executioner",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1712244975594,
+      "tag": "0014_pretty_living_lightning",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "5",
+      "when": 1712245495535,
+      "tag": "0015_gorgeous_phantom_reporter",
+      "breakpoints": true
     }
   ]
 }

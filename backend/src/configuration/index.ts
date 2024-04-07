@@ -8,6 +8,8 @@ export const config: any = {
   db_user: process.env.DB_USER,
   db_database: process.env.DB_DATABASE,
   db_password: process.env.DB_PASSWORD,
-  secret: process.env.SECRET,
-  expire: process.env.EXPIRE_JWT,
+  secret_access: process.env.SECRET_ACCESS,
+  secret_refresh: process.env.SECRET_REFRESH,
+  expireAccess: process.env.EXPIRE_JWT_ACCESS,
+  expireRefresh: process.env.EXPIRE_JWT_REFRESH,
 };

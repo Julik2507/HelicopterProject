@@ -1,2 +1,11 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import Header from "$comp/frames/header.svelte";
+    import Attract from "$comp/frames/attract.svelte";
+    import How from "$comp/frames/how.svelte";
+    import Footer from "$comp/frames/footer.svelte";
+</script>
+
+<Header type="main"/>
+<Attract/>
+<How/>
+<Footer/>

@@ -1,4 +1,5 @@
 import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { number } from "valibot";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey().notNull(),
@@ -28,9 +29,9 @@ export const goods = pgTable("goods", {
   name: varchar("name").unique(),
   price: integer("price"),
   rating: integer("rating"),
-  img: varchar("img"),
   brand_id: integer("brand_id").references(() => brands.id),
   type_id: integer("type_id").references(() => types.id),
+  img_id: integer("img_id"),
 });
 
 export const infoGoods = pgTable("infoGoods", {
@@ -43,7 +44,7 @@ export const infoGoods = pgTable("infoGoods", {
 export const basketGoods = pgTable("basketGoods", {
   id: serial("id").primaryKey(),
   basket_id: integer("basket_id").references(() => basket.id),
-  goods_Id: integer("goods_id").references(() => goods.id),
+  goods_id: integer("goods_id").references(() => goods.id),
 });
 
 export const rating = pgTable("rating", {
@@ -57,4 +58,27 @@ export const typeBrand = pgTable("TypeBrand", {
   id: serial("id").primaryKey(),
   type_id: integer("type_id").references(() => types.id),
   brand_id: integer("brand_id").references(() => brands.id),
+});
+
+export const images = pgTable("images", {
+  id: serial("id").primaryKey(),
+  img: varchar("img"),
+});
+
+export const attributes = pgTable("attributes", {
+  id: serial("id").primaryKey(),
+  attribute: varchar("attribute"),
+});
+
+export const attribute_values = pgTable("attribute_values", {
+  id: serial("id").primaryKey(),
+  goods_id: integer("goods_id").references(() => goods.id),
+  attribute_id: integer("attribute_id").references(() => attributes.id),
+  value: varchar("value"),
+});
+
+export const tokens = pgTable("tokens", {
+  id: serial("id").primaryKey(),
+  user_id: integer("user_id").references(() => users.id),
+  token: varchar("token"),
 });

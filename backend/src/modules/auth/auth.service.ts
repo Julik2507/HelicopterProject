@@ -1,12 +1,12 @@
+import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
-import { users } from "../../db/schema.js";
-import { InsertUserDTO, LoginUserDTO, changeNameDTO } from "./dto/index.js";
-import { responseLoginDTO, responseRegisterDTO } from "./response/index.js";
-import { tokenJwt } from "./token/index.js";
-import bcrypt from "bcrypt";
+import { basket, users } from "../../db/schema.js";
+import { InsertUserDTO, LoginUserDTO } from "./dto/index.js";
+import { tokenJwt } from "./token/token.service.js";
+import { saveToken } from "./token/token.service.js";
 
-export async function registerUser(dto: InsertUserDTO): Promise<responseRegisterDTO | undefined> {
+export async function registerUser(dto: InsertUserDTO): Promise<any> {
   try {
     const existUser = await existUserByEmail(dto.email);
     if (existUser) throw new Error("Person with this email exist");
@@ -19,13 +19,20 @@ export async function registerUser(dto: InsertUserDTO): Promise<responseRegister
     };
     await db.insert(users).values(user);
     const result = await publicUser(user.email);
-    return result;
+    if (result == undefined) throw new Error("undefined");
+
+    const userBasket = await db.insert(basket).values({ user_id: result.id });
+
+    const token = await tokenJwt(result);
+    const saveMyToken = await saveToken(result.id, token.refreshToken);
+
+    return token;
   } catch (error) {
     throw error;
   }
 }
 
-export async function loginUser(dto: LoginUserDTO): Promise<responseLoginDTO | undefined> {
+export async function loginUser(dto: LoginUserDTO): Promise<any> {
   //issue
   try {
     const existEmail = await existUserByEmail(dto.email);
@@ -33,18 +40,15 @@ export async function loginUser(dto: LoginUserDTO): Promise<responseLoginDTO | u
     const correctPassword = await comparePassword(dto.password, existEmail.password);
     if (!correctPassword) throw new Error("User with this login or password doesnt exist");
     const token = await tokenJwt(existEmail);
-    const result = await publicUser(dto.email);
-    if (result === undefined) {
-      throw new Error("error");
-    }
-    return { result, token };
+    const saveMyToken = await saveToken(existEmail.id, token.refreshToken);
+    // const result = await publicUser(dto.email);
+    // if (result === undefined) {
+    //   throw new Error("error");
+    // }
+    return token;
   } catch (error) {
     throw error;
   }
-}
-
-export async function getAllUsers() {
-  return db.select().from(users);
 }
 
 export async function existUserByEmail(email: string) {
