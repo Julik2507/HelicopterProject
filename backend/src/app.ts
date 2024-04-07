@@ -21,7 +21,7 @@ const port = config.port;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: ["http://localhost:5173"] }));
+app.use(cors({ origin: ["http://176.109.107.106:5173"] }));
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(express.static(path.resolve(__dirname, "static")));
@@ -38,5 +38,5 @@ const swaggerDocument = YAML.parse(file);
 app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
+  console.log(`http://176.109.107.106:${port}`);
 });
