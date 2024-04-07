@@ -11,8 +11,7 @@ export function authMiddlewareUser(req: any, res: any, next: any) {
     // console.log(req.user);
 
     next();
-  } catch (e: any) {
-    console.log(e);
-    return res.status(401).json({ message: e.message });
+  } catch (error: any) {
+    res.status(401).json({ message: error.message });
   }
 }
