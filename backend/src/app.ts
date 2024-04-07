@@ -13,6 +13,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "path";
 import { fileURLToPath } from "url";
+import cookieparser from "cookie-parser";
 
 const app = express();
 const port = config.port;

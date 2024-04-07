@@ -1,10 +1,10 @@
+import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, users } from "../../db/schema.js";
-import { InsertUserDTO, LoginUserDTO, changeNameDTO } from "./dto/index.js";
-import { responseLoginDTO, responseRegisterDTO } from "./response/index.js";
-import { tokenJwt } from "./token/index.js";
-import bcrypt from "bcrypt";
+import { InsertUserDTO, LoginUserDTO } from "./dto/index.js";
+import { tokenJwt } from "./token/token.service.js";
+import { saveToken } from "./token/token.service.js";
 
 export async function registerUser(dto: InsertUserDTO): Promise<any> {
   try {
@@ -20,8 +20,12 @@ export async function registerUser(dto: InsertUserDTO): Promise<any> {
     await db.insert(users).values(user);
     const result = await publicUser(user.email);
     if (result == undefined) throw new Error("undefined");
-    const token = tokenJwt(result);
+
     const userBasket = await db.insert(basket).values({ user_id: result.id });
+
+    const token = await tokenJwt(result);
+    const saveMyToken = await saveToken(result.id, token.refreshToken);
+
     return token;
   } catch (error) {
     throw error;
@@ -36,6 +40,7 @@ export async function loginUser(dto: LoginUserDTO): Promise<any> {
     const correctPassword = await comparePassword(dto.password, existEmail.password);
     if (!correctPassword) throw new Error("User with this login or password doesnt exist");
     const token = await tokenJwt(existEmail);
+    const saveMyToken = await saveToken(existEmail.id, token.refreshToken);
     // const result = await publicUser(dto.email);
     // if (result === undefined) {
     //   throw new Error("error");

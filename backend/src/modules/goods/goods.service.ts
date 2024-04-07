@@ -57,8 +57,12 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
   }
 }
 
-export async function getOneGoods(dto: any): Promise<any> {
-  const good = await db.select().from(goods).innerJoin(images, eq(images.id, goods.img_id)).where(eq(goods.id, dto));
+export async function getOneGoods(dto: string): Promise<any> {
+  const good = await db
+    .select()
+    .from(goods)
+    .innerJoin(images, eq(images.id, goods.img_id))
+    .where(eq(goods.id, Number(dto)));
   const description = await db
     .select({
       value: attribute_values.value,
@@ -66,6 +70,6 @@ export async function getOneGoods(dto: any): Promise<any> {
     })
     .from(attribute_values)
     .innerJoin(attributes, eq(attribute_values.attribute_id, attributes.id))
-    .where(eq(attribute_values.goods_id, dto));
+    .where(eq(attribute_values.goods_id, Number(dto)));
   return { good, description };
 }
