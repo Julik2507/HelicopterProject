@@ -21,7 +21,7 @@ const port = config.port;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: ["http://localhost:5173", "http://localhost"] }));
+app.use(cors({ origin: ["http://localhost:5173", "http://localhost:80"] }));
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(express.static(path.resolve(__dirname, "static")));
