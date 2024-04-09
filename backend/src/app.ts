@@ -17,7 +17,6 @@ import cookieparser from "cookie-parser";
 
 const app = express();
 const port = config.port;
-const hostname = "176.109.107.106";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +37,6 @@ const file = fs.readFileSync("./src/swagger/swaggerDocument.yml", "utf8");
 const swaggerDocument = YAML.parse(file);
 app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.listen(port, hostname, () => {
-  console.log(`http://${hostname}:${port}`);
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
 });
