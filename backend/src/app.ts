@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(fileUpload({}));
 app.use(express.static(path.resolve(__dirname, "static")));
 
-app.use("/auth", authController);
-app.use("/user", usersController);
+app.use("/api", authController);
+app.use("/api", usersController);
 app.use("/api", typesController);
 app.use("/api", brandsController);
 app.use("/api", goodsController);
