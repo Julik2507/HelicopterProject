@@ -27,10 +27,27 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
     let offset = page * limit - limit;
 
     if (!dto.brand_id && !dto.type_id)
-      return await db.select().from(goods).innerJoin(images, eq(goods.img_id, images.id)).offset(offset).limit(limit);
+      return await db
+        .select({
+          id: goods.id,
+          name: goods.name,
+          brand_id: goods.brand_id,
+          type_id: goods.type_id,
+          img: images.img,
+        })
+        .from(goods)
+        .innerJoin(images, eq(goods.img_id, images.id))
+        .offset(offset)
+        .limit(limit);
     else if (dto.brand_id && !dto.type_id)
       return await db
-        .select()
+        .select({
+          id: goods.id,
+          name: goods.name,
+          brand_id: goods.brand_id,
+          type_id: goods.type_id,
+          img: images.img,
+        })
         .from(goods)
         .innerJoin(images, eq(goods.img_id, images.id))
         .where(eq(goods.brand_id, dto.brand_id))
@@ -38,7 +55,13 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
         .limit(limit);
     else if (!dto.brand_id && dto.type_id)
       return await db
-        .select()
+        .select({
+          id: goods.id,
+          name: goods.name,
+          brand_id: goods.brand_id,
+          type_id: goods.type_id,
+          img: images.img,
+        })
         .from(goods)
         .innerJoin(images, eq(goods.img_id, images.id))
         .where(eq(goods.type_id, dto.type_id))
@@ -46,7 +69,13 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
         .limit(limit);
     else if (dto.brand_id && dto.type_id)
       return await db
-        .select()
+        .select({
+          id: goods.id,
+          name: goods.name,
+          brand_id: goods.brand_id,
+          type_id: goods.type_id,
+          img: images.img,
+        })
         .from(goods)
         .innerJoin(images, eq(goods.img_id, images.id))
         .where(and(eq(goods.brand_id, dto.brand_id), eq(goods.type_id, dto.type_id)))
@@ -59,7 +88,13 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
 
 export async function getOneGoods(dto: string): Promise<any> {
   const good = await db
-    .select()
+    .select({
+      id: goods.id,
+      name: goods.name,
+      brand_id: goods.brand_id,
+      type_id: goods.type_id,
+      img: images.img,
+    })
     .from(goods)
     .innerJoin(images, eq(images.id, goods.img_id))
     .where(eq(goods.id, Number(dto)));

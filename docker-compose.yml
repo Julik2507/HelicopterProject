@@ -1,0 +1,19 @@
+version: "3.5"
+
+services:
+  frontend:
+    image: julian2507/frontend_dockerfile:latest
+    restart: unless-stopped
+    build:
+      context: "./Our-Project"
+    platform: "linux/amd64"
+
+  backend:
+    image: julian2507/backend_dockerfile:latest
+    restart: unless-stopped
+    build:
+      context: "./backend"
+    platform: "linux/amd64"
+
+  nginx:
+    image: nginx
