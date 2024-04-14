@@ -9,7 +9,7 @@ services:
     platform: "linux/amd64"
 
   backend:
-    image: julian2507/backend_dockerfile:latest
+    image: julian2507/image
     restart: unless-stopped
     build:
       context: "./backend"
