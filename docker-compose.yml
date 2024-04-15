@@ -9,7 +9,7 @@ services:
     platform: "linux/amd64"
 
   backend:
-    image: julian2507/helicopterproject:backend_v4
+    image: julian2507/helicopterproject:backend_v5
     restart: unless-stopped
     build:
       context: "./backend"
