@@ -9,7 +9,7 @@ services:
     platform: "linux/amd64"
 
   backend:
-    image: julian2507/helicopterproject:backend_v6
+    image: jjulian2507/backend_dockerfile:tagname
     restart: unless-stopped
     build:
       context: "./backend"
