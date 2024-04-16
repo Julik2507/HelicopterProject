@@ -3,6 +3,8 @@
     import { registerUser } from '$lib/Axios/authAxios';
     import PrimeBtn from '$comp/ui_kit/prime_btn.svelte';
 
+    import cancelImg from "$lib/img/Cancel.svg";
+
     export let isModalOpen = false;
 
     let displayError = false;
@@ -46,7 +48,7 @@
 
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
 <div id="modal" class="modal_body" style="--display: {isModalOpen ? 'flex' : 'none'};">
-    <button class="modal_close" on:click={closeModal}><img src="src/img/Cancel.svg" alt="Close" style="width: 50px"></button>
+    <button class="modal_close" on:click={closeModal}><img src={cancelImg} alt="Close" style="width: 50px"></button>
     <p class="modal_title">Регистрация</p>
     <p class="modal_subtitle">Имя пользователя</p>
     <input class="modal_input" type="text" name="name" placeholder="Введите имя пользователя" bind:value={input_name}/>
