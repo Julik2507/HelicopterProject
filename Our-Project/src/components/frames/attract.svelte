@@ -18,7 +18,7 @@
     .attract {
         width: 1916px;
         height: 588px;
-        background-image: url("src/img/background.png");
+        background-image: url("$lib/img/background.png");
     }
     .attract__content {
         display: flex;
