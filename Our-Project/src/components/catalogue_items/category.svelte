@@ -1,5 +1,5 @@
 <script>
-    export let img = "src/img/default_category.png";
+    import img from "$lib/img/default_category.png";
     export let name = "Хлеб и выпечка";
 </script>
 

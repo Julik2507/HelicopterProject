@@ -1,6 +1,7 @@
 <script>
+    import img from "$lib/img/default_item.png"
+
     export let type = "default";
-    export let img = "src/img/default_item.png";
     export let name = "Багет";
     export let amount = "180 г";
     export let price = 85;

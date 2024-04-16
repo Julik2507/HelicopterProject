@@ -5,6 +5,14 @@
     import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
     import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
 
+    import logo from "$lib/img/Logo.png";
+    import icon1 from "$lib/img/Icon1.png";
+    import icon2 from "$lib/img/Icon2.png";
+    import icon3 from "$lib/img/Icon3.png";
+    import icon4 from "$lib/img/Icon4.png";
+    import logoVK from "$lib/img/LinkVK.png";
+    import logoTG from "$lib/img/LinkTG.png";
+
     export let type = "main";
     export let money = 0;
 
@@ -23,16 +31,16 @@
 <LoginWindow isModalOpen={isLoginOpen} on:closeModal={LoginUpdate}/>
 <div class="header">
     <div class="header__left">
-        <img src="src/img/Logo.png" alt="Logo"/>
+        <img src={logo} alt="Logo"/>
         {#if type === "main"}
         <p class="header__text">Доставка еды на вертолете</p>
-        <LittleIcon source="src/img/Icon1.png"/>
+        <LittleIcon source={icon1}/>
         <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
-        <LittleIcon source="src/img/Icon2.png"/>
+        <LittleIcon source={icon2}/>
         <p class="header__text">8(982)190-81-58</p>
         <PrimeBtn text="Позвоните мне"/>
-        <SocialLink img="src/img/LinkVK.png"/>
-        <SocialLink img="src/img/LinkTG.png"/>
+        <SocialLink img={logoVK}/>
+        <SocialLink img={logoTG}/>
         {/if}
         {#if type === "catalogue"}
         <p class="header__text">Каталог</p>
@@ -40,9 +48,9 @@
         {/if}
     </div>
     <div class="header__right">
-        <LittleIcon source="src/img/Icon3.png"/>
+        <LittleIcon source={icon3}/>
         <p class="header__money">{money} ₽</p>
-        <LittleIcon source="src/img/Icon4.png"/>
+        <LittleIcon source={icon4}/>
         <PrimeBtn text="Войти" event={LoginUpdate}/>
         <PrimeBtn text="Зарегистрироваться" event={RegisterUpdate}/>
     </div>
