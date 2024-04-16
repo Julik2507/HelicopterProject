@@ -1,14 +1,19 @@
 <script>
     import Hint from "$comp/ui_kit/hint.svelte";
+
+    import hint1 from "$lib/img/Hint1.png";
+    import hint2 from "$lib/img/Hint2.png";
+    import hint3 from "$lib/img/Hint3.png";
+    import arrow from "$lib/img/Arrow.png";
 </script>
 
 <p class="how__title">Как это работает?</p>
 <div class="how__content">
-    <Hint source="src/img/Hint1.png" text="Выбрать"/>
-    <img class="how__arrow" src="src/img/Arrow.png" alt=""/>
-    <Hint source="src/img/Hint2.png" text="Оплатить"/>
-    <img class="how__arrow" src="src/img/Arrow.png" alt=""/>
-    <Hint source="src/img/Hint3.png" text="Наслаждаться"/>
+    <Hint source={hint1} text="Выбрать"/>
+    <img class="how__arrow" src={arrow} alt=""/>
+    <Hint source={hint2} text="Оплатить"/>
+    <img class="how__arrow" src={arrow} alt=""/>
+    <Hint source={hint3} text="Наслаждаться"/>
 </div>
 
 <style>
