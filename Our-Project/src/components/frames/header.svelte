@@ -23,7 +23,7 @@
 <LoginWindow isModalOpen={isLoginOpen} on:closeModal={LoginUpdate}/>
 <div class="header">
     <div class="header__left">
-        <img src="src/img/Logo.png" alt="Logo"/>
+        <enhanced:img src="$lib/img/Logo.png" alt="Logo"/>
         {#if type === "main"}
         <p class="header__text">Доставка еды на вертолете</p>
         <LittleIcon source="src/img/Icon1.png"/>
