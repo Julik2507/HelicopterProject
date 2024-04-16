@@ -4,5 +4,5 @@ COPY package.json package-lock.json ./
 RUN npm i
 COPY . /var/www/
 RUN npm run build
-EXPOSE 5173
-ENTRYPOINT npm run dev
+EXPOSE 4173
+ENTRYPOINT npm run preview
