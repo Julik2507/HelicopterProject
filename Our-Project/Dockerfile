@@ -1,4 +1,4 @@
-FROM node
+FROM node:20
 WORKDIR /var/www/
 COPY package.json package-lock.json ./
 RUN npm i
