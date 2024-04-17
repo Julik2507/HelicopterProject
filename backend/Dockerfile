@@ -2,7 +2,7 @@ FROM node
 WORKDIR /var/www/
 COPY package.json package-lock.json ./
 RUN npm i
-RUN npm i bcrypt
+RUN npm i bcryptjs
 COPY . /var/www/
 RUN npm run build
 EXPOSE 3000
