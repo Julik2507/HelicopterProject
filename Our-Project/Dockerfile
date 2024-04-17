@@ -1,5 +1,5 @@
-FROM node
-WORKDIR /var/www
+FROM node:20
+WORKDIR /var/www/
 COPY package.json package-lock.json ./
 RUN npm i
 COPY . /var/www/
