@@ -2,14 +2,14 @@ version: "3.5"
 
 services:
   frontend:
-    image: julian2507/helicopterproject:frontend_v4
+    image: julian2507/hp:frontend_v1
     restart: unless-stopped
     build:
       context: "./Our-Project"
     platform: "linux/amd64"
 
   backend:
-    image: julian2507/helicopterproject:backend_v6
+    image: julian2507/hp:backend_v1
     restart: unless-stopped
     build:
       context: "./backend"
