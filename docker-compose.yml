@@ -9,7 +9,7 @@ services:
     platform: "linux/amd64"
 
   backend:
-    image: julian2507/hp:backend_v1
+    image: julian2507/hp:backend_v2
     restart: unless-stopped
     build:
       context: "./backend"
