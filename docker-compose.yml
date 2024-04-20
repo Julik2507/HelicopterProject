@@ -6,7 +6,9 @@ services:
     restart: unless-stopped
     build:
       context: "./Our-Project"
-    # platform: "linux/amd64"
+    platform: "linux/amd64"
+    environment:
+      - PORT=4173
 
   backend:
     image: julian2507/hp:backend_v1

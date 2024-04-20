@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload({}));
-app.use(express.static(path.resolve(__dirname, "static")));
+app.use("/api", express.static(path.resolve(__dirname, "static"))); //rebuild
 
 app.use("/api", authController);
 app.use("/api", usersController);
