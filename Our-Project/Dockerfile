@@ -7,9 +7,13 @@
 # EXPOSE 4173
 # ENTRYPOINT npm run preview
 
+# copy package.json ./  - скопировать из текущей дериктории package и закинуть в текущую директорию хост-машины
+# по идее можно без /, просто .
+
+# copy . .  =скопируй все из текующей дериктории(файлы директории и тп) в . текущую деррикторию хост-машины
 FROM node as builder
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json ./ 
 RUN npm ci
 COPY . .
 RUN npm run build

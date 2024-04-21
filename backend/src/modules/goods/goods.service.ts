@@ -5,15 +5,9 @@ import { CreateGoodsDTO, GetAnyGoods } from "./dto/index.js";
 
 export async function createGoods(dto: CreateGoodsDTO, imgID: number): Promise<any> {
   try {
-    const oneGoods = {
-      name: dto.name,
-      price: dto.price,
-      rating: 0,
-      brand_id: dto.brand_id,
-      type_id: dto.type_id,
-      img_id: imgID,
-    };
-    return await db.insert(goods).values(oneGoods);
+    return await db
+      .insert(goods)
+      .values({ name: dto.name, price: dto.price, rating: 0, brand_id: dto.brand_id, type_id: dto.type_id, img_id: imgID });
     // реализовать добавление описания через фронт(аттрибут, значение)
   } catch (error: any) {
     throw error;
