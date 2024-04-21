@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     build:
       context: "./backend"
-    # platform: "linux/amd64"
+    platform: "linux/amd64"
 
   nginx:
     image: nginx
