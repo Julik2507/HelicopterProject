@@ -5,10 +5,57 @@ import { CreateGoodsDTO, GetAnyGoods } from "./dto/index.js";
 
 export async function createGoods(dto: CreateGoodsDTO, imgID: number): Promise<any> {
   try {
-    return await db
-      .insert(goods)
-      .values({ name: dto.name, price: dto.price, rating: 0, brand_id: dto.brand_id, type_id: dto.type_id, img_id: imgID });
-    // реализовать добавление описания через фронт(аттрибут, значение)
+    await db.insert(goods).values({ name: dto.name, price: dto.price, rating: 0, brand_id: dto.brand_id, type_id: dto.type_id, img_id: imgID });
+    const createdGoods = await db.query.goods.findFirst({ where: eq(goods.img_id, imgID) });
+    // const createdGoods = await db.select({ id: goods.id }).from(goods).where(eq(goods.img_id, imgID));
+    if (createdGoods == undefined) throw new Error("undefined");
+    await db.insert(attribute_values).values([
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 1,
+        value: dto.value_1,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 2,
+        value: dto.value_2,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 3,
+        value: dto.value_3,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 4,
+        value: dto.value_4,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 5,
+        value: dto.value_5,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 6,
+        value: dto.value_6,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 7,
+        value: dto.value_7,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 8,
+        value: dto.value_8,
+      },
+      {
+        goods_id: createdGoods.id,
+        attribute_id: 9,
+        value: dto.value_9,
+      },
+    ]);
   } catch (error: any) {
     throw error;
   }
