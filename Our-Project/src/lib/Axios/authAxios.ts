@@ -4,7 +4,8 @@ import { jwtDecode } from "jwt-decode";
 import type { loginDTO, registerDTO } from "../DTO/auth/authDTO";
 import type { ResLoginDTO, ResRegisterDTO } from "../DTO/auth/authResponse";
 
-export const baseURL = "http://localhost:80";
+// export const baseURL = "http://localhost:80";
+export const baseURL = "http://176.109.107.106:80";
 
 export async function registerUser(dto: registerDTO): Promise<any> {
   try {
