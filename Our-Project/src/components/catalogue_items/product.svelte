@@ -1,4 +1,5 @@
 <script>
+    import { getOneGoods } from "$lib/Axios/goodsAxios";
     import img from "$lib/img/default_item.png"
 
     export let type = "default";
@@ -6,6 +7,17 @@
     export let amount = "180 г";
     export let price = 85;
     export let sale_price = 70;
+
+    async function showInfo() {
+        let base_info;
+        let detailed_info;
+        await getOneGoods(1).then(result => {
+            base_info = result.good;
+            detailed_info = result.description;
+        });
+        console.log(base_info);
+        console.log(detailed_info);
+    }
 </script>
 
 <div class="item">
@@ -26,6 +38,7 @@
     {#if type === "sale"}
     <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
     {/if}
+    <button class="item__button" on:click={showInfo}>Подробнее</button>
 </div>
 
 <style>
