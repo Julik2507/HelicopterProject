@@ -27,10 +27,10 @@ export const brands = pgTable("brands", {
 export const goods = pgTable("goods", {
   id: serial("id").primaryKey(),
   name: varchar("name").unique(),
-  price: integer("price"),
+  price: varchar("price"),
   rating: integer("rating"),
   brand_id: integer("brand_id").references(() => brands.id),
-  type_id: integer("type_id").references(() => types.id),
+  subtype_id: integer("subtype_id").references(() => subtypes.id),
   img_id: integer("img_id"),
 });
 
@@ -81,4 +81,10 @@ export const tokens = pgTable("tokens", {
   id: serial("id").primaryKey(),
   user_id: integer("user_id").references(() => users.id),
   token: varchar("token"),
+});
+
+export const subtypes = pgTable("subtypes", {
+  id: serial("id").primaryKey(),
+  type_id: integer("type_id").references(() => types.id),
+  name: varchar("name").unique(),
 });

@@ -3,18 +3,17 @@ import { Input, any, number, object, partial, string } from "valibot";
 
 export const getGoodsSchema = partial(
   object({
-    page: number("Страница не найдена"),
-    type_id: number("Тип не найден"),
-    brand_id: number("Бренд не найден"),
+    page: string("Страница не найдена"),
+    subtype_id: string("Тип не найден"),
   })
 );
 export type GetAnyGoods = Input<typeof getGoodsSchema>;
 
 export const CreateGoodsSchema = object({
   name: string("Неправильный тип названия продукта"),
-  price: number("Неверный тип стоимости"),
+  price: string("Неверный тип стоимости"),
   brand_id: number("Неверный тип id"),
-  type_id: number("Неверный тип id "),
+  subtype_id: number("Неверный тип id "),
   image: any(),
   value_1: string("Неверная характеристика продукта"),
   value_2: string("Неверная характеристика продукта"),

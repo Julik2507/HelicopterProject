@@ -2,8 +2,7 @@ import { number, object, partial, string, type Input, any } from "valibot";
 
 const getGoodsSchema = partial(
   object({
-    type_id: number("Неправильный тип товара"),
-    brand_id: number("Неправильный тип бренда"),
+    subtype_id: number("Неправильный тип товара"),
     page: number("Неправильный тип страницы"),
   })
 );

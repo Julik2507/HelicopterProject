@@ -1,9 +1,9 @@
 import { db } from "../../db/migrate.js";
-import { attribute_values, attributes, goods, images } from "../../db/schema.js";
-import { and, eq } from "drizzle-orm";
+import { attribute_values, attributes, brands, goods, images, subtypes } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 export async function createGoods(dto, imgID) {
     try {
-        await db.insert(goods).values({ name: dto.name, price: dto.price, rating: 0, brand_id: dto.brand_id, type_id: dto.type_id, img_id: imgID });
+        await db.insert(goods).values({ name: dto.name, price: dto.price, rating: 0, brand_id: dto.brand_id, subtype_id: dto.subtype_id, img_id: imgID });
         const createdGoods = await db.query.goods.findFirst({ where: eq(goods.img_id, imgID) });
         if (createdGoods == undefined)
             throw new Error("undefined");
@@ -54,8 +54,10 @@ export async function createGoods(dto, imgID) {
                 value: dto.value_9,
             },
         ]);
+        return await db.select({ name: goods.name }).from(goods).where(eq(goods.name, dto.name));
     }
     catch (error) {
+        console.log(error);
         throw error;
     }
 }
@@ -64,59 +66,20 @@ export async function getGoods(dto) {
         let page = 1 || dto.page;
         let limit = 5;
         let offset = page * limit - limit;
-        if (!dto.brand_id && !dto.type_id)
+        if (dto.subtype_id)
             return await db
                 .select({
-                id: goods.id,
+                goods_id: goods.id,
                 name: goods.name,
-                brand_id: goods.brand_id,
-                type_id: goods.type_id,
+                brand: brands.name,
+                subtype: subtypes.name,
                 img: images.img,
             })
                 .from(goods)
                 .innerJoin(images, eq(goods.img_id, images.id))
-                .offset(offset)
-                .limit(limit);
-        else if (dto.brand_id && !dto.type_id)
-            return await db
-                .select({
-                id: goods.id,
-                name: goods.name,
-                brand_id: goods.brand_id,
-                type_id: goods.type_id,
-                img: images.img,
-            })
-                .from(goods)
-                .innerJoin(images, eq(goods.img_id, images.id))
-                .where(eq(goods.brand_id, dto.brand_id))
-                .offset(offset)
-                .limit(limit);
-        else if (!dto.brand_id && dto.type_id)
-            return await db
-                .select({
-                id: goods.id,
-                name: goods.name,
-                brand_id: goods.brand_id,
-                type_id: goods.type_id,
-                img: images.img,
-            })
-                .from(goods)
-                .innerJoin(images, eq(goods.img_id, images.id))
-                .where(eq(goods.type_id, dto.type_id))
-                .offset(offset)
-                .limit(limit);
-        else if (dto.brand_id && dto.type_id)
-            return await db
-                .select({
-                id: goods.id,
-                name: goods.name,
-                brand_id: goods.brand_id,
-                type_id: goods.type_id,
-                img: images.img,
-            })
-                .from(goods)
-                .innerJoin(images, eq(goods.img_id, images.id))
-                .where(and(eq(goods.brand_id, dto.brand_id), eq(goods.type_id, dto.type_id)))
+                .innerJoin(brands, eq(goods.brand_id, brands.id))
+                .innerJoin(subtypes, eq(goods.subtype_id, subtypes.id))
+                .where(eq(goods.subtype_id, Number(dto.subtype_id)))
                 .offset(offset)
                 .limit(limit);
     }
@@ -127,14 +90,16 @@ export async function getGoods(dto) {
 export async function getOneGoods(dto) {
     const good = await db
         .select({
-        id: goods.id,
+        goods_id: goods.id,
         name: goods.name,
-        brand_id: goods.brand_id,
-        type_id: goods.type_id,
+        brand: brands.name,
+        subtype: subtypes.name,
         img: images.img,
     })
         .from(goods)
         .innerJoin(images, eq(images.id, goods.img_id))
+        .innerJoin(brands, eq(goods.brand_id, brands.id))
+        .innerJoin(subtypes, eq(goods.subtype_id, subtypes.id))
         .where(eq(goods.id, Number(dto)));
     const description = await db
         .select({

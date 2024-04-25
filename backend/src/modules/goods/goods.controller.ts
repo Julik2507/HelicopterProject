@@ -23,6 +23,8 @@ router.get("/get-goods", async (req, res) => {
     const result = await getGoods(req.query);
     res.send(result);
   } catch (error: any) {
+    console.log("test2");
+
     res.status(400).json({ message: error.message });
   }
 });

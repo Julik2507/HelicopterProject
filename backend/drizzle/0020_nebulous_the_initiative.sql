@@ -1,0 +1,1 @@
+ALTER TABLE "goods" ALTER COLUMN "price" SET DATA TYPE varchar;
