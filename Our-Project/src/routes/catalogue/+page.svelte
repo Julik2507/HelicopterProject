@@ -5,9 +5,18 @@
     import Category from "$comp/catalogue_items/category.svelte";
     import TabBtn from "$comp/ui_kit/tab_btn.svelte";
 
+    import ProductInfo from "$comp/catalogue_items/product_info.svelte";
+
+    let isInfoOpen = false;
+
+    function UpdateInfo() {
+        isInfoOpen = !isInfoOpen;
+    }
+    
     let current_category = "Хлеб и выпечка";
 </script>
 
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={UpdateInfo}/>
 <Header type="catalogue"/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
@@ -24,10 +33,10 @@
         </div>
         <p class="items__subtitle">Батон и белый хлеб</p>
         <div class="items__products">
-            <Product/>
-            <Product type="new"/>
-            <Product type="missing"/>
-            <Product type="sale"/>
+            <Product on:openModal={UpdateInfo}/>
+            <Product type="new" on:openModal={UpdateInfo}/>
+            <Product type="missing" on:openModal={UpdateInfo}/>
+            <Product type="sale" on:openModal={UpdateInfo}/>
         </div>
         <p class="items__subtitle">Серый и ржаной хлеб</p>
     </div>
