@@ -7,6 +7,7 @@
 
     import ProductInfo from "$comp/catalogue_items/product_info.svelte";
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+    import { afterUpdate } from "svelte";
     let isInfoOpen = false;
 
     function UpdateInfo() {
@@ -17,7 +18,6 @@
 </script>
 
 <ProductInfo isModalOpen={isInfoOpen} on:closeModal={UpdateInfo}/>
-<PrimeBtn event={() => { isInfoOpen = true; }}/>
 <Header type="catalogue"/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
@@ -34,10 +34,10 @@
         </div>
         <p class="items__subtitle">Батон и белый хлеб</p>
         <div class="items__products">
-            <Product/>
-            <Product type="new"/>
-            <Product type="missing"/>
-            <Product type="sale"/>
+            <Product on:openModal={UpdateInfo}/>
+            <Product type="new" on:openModal={UpdateInfo}/>
+            <Product type="missing" on:openModal={UpdateInfo}/>
+            <Product type="sale" on:openModal={UpdateInfo}/>
         </div>
         <p class="items__subtitle">Серый и ржаной хлеб</p>
     </div>

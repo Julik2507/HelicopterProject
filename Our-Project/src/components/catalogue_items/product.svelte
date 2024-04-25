@@ -2,6 +2,13 @@
     import { getOneGoods } from "$lib/Axios/goodsAxios";
     import img from "$lib/img/default_item.png"
 
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
+    function openModal() {
+        dispatch('openModal');
+    }
+
     export let type = "default";
     export let name = "Багет";
     export let amount = "180 г";
@@ -38,7 +45,7 @@
     {#if type === "sale"}
     <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
     {/if}
-    <button class="item__button" on:click={showInfo}>Подробнее</button>
+    <button class="item__button" on:click={openModal}>Подробнее</button>
 </div>
 
 <style>
