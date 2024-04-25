@@ -2,6 +2,8 @@
     import { createEventDispatcher } from 'svelte';
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
 
+    import cancelImg from "$lib/img/Cancel.svg";
+
     export let isModalOpen = false;
     const dispatch = createEventDispatcher();
 
@@ -29,6 +31,7 @@
     <img src = "http://176.109.107.106/api/{img_src}" alt="" class="product_img"/>
     <div class = "right_block">
         <div class = "info_content">
+            <button class="modal_close" on:click={closeModal}><img src={cancelImg} alt="Close" style="width: 50px"></button>
             <p class = "info_name">{name}</p>
             <p class = "info_amount">{amount}</p>
             <div class = "info_in_100g">
@@ -171,5 +174,13 @@
         line-height: 21px;
         letter-spacing: 0.21px;
         text-align: left;
+    }
+    .modal_close {
+        width: 50px;
+        border: none;
+        padding: 0;
+        float: right;
+        margin-left: 460px;
+        background: #fff;
     }
 </style>

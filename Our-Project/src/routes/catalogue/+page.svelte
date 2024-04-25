@@ -6,8 +6,7 @@
     import TabBtn from "$comp/ui_kit/tab_btn.svelte";
 
     import ProductInfo from "$comp/catalogue_items/product_info.svelte";
-    import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
-    import { afterUpdate } from "svelte";
+
     let isInfoOpen = false;
 
     function UpdateInfo() {
