@@ -1,5 +1,14 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+
+    export let isModalOpen = false;
+    const dispatch = createEventDispatcher();
+
+    function closeModal() {
+        isModalOpen = false;
+        dispatch('closeModal', { isModalOpen });
+    }
 
     let img_src = "bcdcb812-1f01-46d6-9548-340d30fe2209.jpg"
     let name = "Багет"
@@ -15,7 +24,8 @@
     let manufacturer = "ИП Козловская П. Ю., Россия";
 </script>
 
-<div class="info_modal">
+<div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
+<div id="modal" class="info_modal" style="--display: {isModalOpen ? 'flex' : 'none'};">
     <img src = "http://176.109.107.106/api/{img_src}" alt="" class="product_img"/>
     <div class = "right_block">
         <div class = "info_content">
@@ -54,12 +64,36 @@
             <p class = "info_subtitle">Производитеть</p>
             <p class = "info_text">{manufacturer}</p>
         </div>
-        <PrimeBtn text="{price} ₽ +" --width="500px"/>
+        <PrimeBtn text="{price} ₽ +" --width="500px" event={closeModal}/>
     </div>
 </div>
 
 <style>
+    #background {
+        display: var(--display);
+        background-color: rgba(100, 100, 100, 0.7);
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #modal {
+        display: var(--display);
+        position: fixed;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        transform: translate(-10%, -50%);
+        background: #fff;
+        filter: drop-shadow(0 0 20px #333);
+        flex-direction: row;
+    }
+
     .info_modal {
+        display: flex;
         border-radius: 50px;
         padding: 30px;
         width: 920px;

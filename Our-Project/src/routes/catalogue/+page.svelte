@@ -5,9 +5,19 @@
     import Category from "$comp/catalogue_items/category.svelte";
     import TabBtn from "$comp/ui_kit/tab_btn.svelte";
 
+    import ProductInfo from "$comp/catalogue_items/product_info.svelte";
+    import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+    let isInfoOpen = false;
+
+    function UpdateInfo() {
+        isInfoOpen = !isInfoOpen;
+    }
+    
     let current_category = "Хлеб и выпечка";
 </script>
 
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={UpdateInfo}/>
+<PrimeBtn event={() => { isInfoOpen = true; }}/>
 <Header type="catalogue"/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
