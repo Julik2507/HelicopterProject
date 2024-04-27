@@ -70,7 +70,7 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
     let limit = 5;
     let offset = page * limit - limit;
 
-    if (dto.subtype_id)
+    if (dto.subtype_id) {
       return await db
         .select({
           goods_id: goods.id,
@@ -78,14 +78,17 @@ export async function getGoods(dto: GetAnyGoods): Promise<any> {
           brand: brands.name,
           subtype: subtypes.name,
           img: images.img,
+          weight: attribute_values.value,
         })
         .from(goods)
         .innerJoin(images, eq(goods.img_id, images.id))
         .innerJoin(brands, eq(goods.brand_id, brands.id))
         .innerJoin(subtypes, eq(goods.subtype_id, subtypes.id))
-        .where(eq(goods.subtype_id, Number(dto.subtype_id)))
+        .innerJoin(attribute_values, eq(goods.id, attribute_values.goods_id))
+        .where(and(eq(goods.subtype_id, Number(dto.subtype_id)), eq(attribute_values.attribute_id, 1)))
         .offset(offset)
         .limit(limit);
+    }
   } catch (error: any) {
     throw error;
   }

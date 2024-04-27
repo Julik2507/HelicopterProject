@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   frontend:
-    image: julian2507/helicopterproject:frontend_v2
+    image: julian2507/helicopterproject:frontend_v3
     restart: unless-stopped
     build:
       context: "./Our-Project"
@@ -11,7 +11,7 @@ services:
       - PORT=4173
 
   backend:
-    image: julian2507/helicopterproject:backend_v1
+    image: julian2507/helicopterproject:backend_v4
     restart: unless-stopped
     build:
       context: "./backend"
