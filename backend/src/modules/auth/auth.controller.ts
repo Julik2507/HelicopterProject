@@ -4,6 +4,7 @@ import { registerUser, loginUser, logoutUser } from "./auth.service.js";
 import { changeNameSchema, loginSchema, registerSchema } from "./dto/index.js";
 import { authMiddlewareAdmin } from "./middleware/admin.js";
 import { authMiddlewareUser } from "./middleware/user.js";
+import { updateTokens } from "./token/token.service.js";
 
 const router = express.Router();
 
@@ -36,6 +37,13 @@ router.post("/auth/logout", async (req, res) => {
   const deleteToken = await logoutUser(refreshToken);
   res.clearCookie("refreshToken");
   res.send("Токен успешно удален xD");
+});
+
+router.post("", async (req, res) => {
+  const refreshToken = req.cookies("refreshToken");
+  const result = await updateTokens(refreshToken);
+  res.cookie("refreshToken", result.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+  return result;
 });
 
 export default router;

@@ -56,6 +56,7 @@ export async function loginUser(dto: LoginUserDTO): Promise<any> {
   }
 }
 
+//не удаляет строку в tokens(DB)
 export async function logoutUser(refreshToken: string) {
   try {
     await db.delete(tokens).where(eq(tokens.token, refreshToken));
