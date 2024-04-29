@@ -22,7 +22,9 @@ export async function registerUser(dto: registerDTO): Promise<any> {
 export async function loginUser(dto: loginDTO) {
   try {
     const result = await axios.post(`${baseURL}/api/auth/login`, dto);
+
     localStorage.setItem("token", result.data.accessToken);
+
     return jwtDecode(result.data.accessToken);
   } catch (error: any) {
     console.log(error);

@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { config } from "../../../configuration/index.js";
 import { eq } from "drizzle-orm";
-import { tokens } from "../../../db/schema.js";
 import { db } from "../../../db/migrate.js";
+import { tokens } from "../../../db/schema.js";
 export async function tokenJwt(payload) {
     const accessToken = jwt.sign(payload, config.secret_access, {
         expiresIn: config.expireAccess,
@@ -17,10 +17,10 @@ export async function saveToken(userID, refreshToken) {
     if (tokenData) {
         await db.update(tokens).set({ token: refreshToken }).where(eq(tokens.user_id, userID));
     }
-    else if (!tokenData) {
-        const setFirstToken = await db.insert(tokens).values({
-            user_id: userID,
+    else {
+        await db.insert(tokens).values({
             token: refreshToken,
+            user_id: userID,
         });
     }
 }

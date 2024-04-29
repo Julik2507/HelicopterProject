@@ -1,6 +1,6 @@
 import express from "express";
 import * as v from "valibot";
-import { registerUser, loginUser } from "./auth.service.js";
+import { registerUser, loginUser, logoutUser } from "./auth.service.js";
 import { loginSchema, registerSchema } from "./dto/index.js";
 const router = express.Router();
 router.post("/auth/register", async (req, res) => {
@@ -26,6 +26,12 @@ router.post("/auth/login", async (req, res) => {
         console.log(error);
         res.status(400).send({ message: error.message });
     }
+});
+router.post("/auth/logout", async (req, res) => {
+    const refreshToken = req.cookies;
+    const deleteToken = await logoutUser(refreshToken);
+    res.clearCookie("refreshToken");
+    res.send("Токен успешно удален xD");
 });
 export default router;
 //# sourceMappingURL=auth.controller.js.map
