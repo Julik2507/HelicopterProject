@@ -4,8 +4,8 @@
     import SocialLink from "$comp/ui_kit/social_link.svelte";
     import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
     import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
+    import Logo from "$comp/ui_kit/logo.svelte";
 
-    import logo from "$lib/img/Logo.png";
     import icon1 from "$lib/img/Icon1.png";
     import icon2 from "$lib/img/Icon2.png";
     import icon3 from "$lib/img/Icon3.png";
@@ -31,7 +31,7 @@
 <LoginWindow isModalOpen={isLoginOpen} on:closeModal={LoginUpdate}/>
 <div class="header">
     <div class="header__left">
-        <img src={logo} alt="Logo"/>
+        <Logo/>
         {#if type === "main"}
         <p class="header__text">Доставка еды на вертолете</p>
         <LittleIcon source={icon1}/>
