@@ -4,8 +4,7 @@
     import Product from "$comp/catalogue_items/product.svelte";
     import Category from "$comp/catalogue_items/category.svelte";
     import TabBtn from "$comp/ui_kit/tab_btn.svelte";
-    
-    let categoryID = "22";
+
     let current_category = "Хлеб";
 </script>
 
@@ -25,8 +24,9 @@
         </div>
         <p class="items__subtitle">Батон и белый хлеб</p>
         <div class="items__products">
-            <Product prodID=7/>
-            <Product prodID=8/>
+            {#each {length: 60} as _, i}
+                <Product prodID={i+7}/>
+            {/each}
         </div>
         <p class="items__subtitle">Серый и ржаной хлеб</p>
     </div>
@@ -37,13 +37,14 @@
     .catalogue__container {
         display: flex;
         background-color: #F2F2F2;
+        height: fit-content;
         padding: 25px;
         gap: 10px;
     }
     .catalogue__categories {
         background-color: white;
         width: 490px;
-        height: 675px;
+        height: fit-content;
         border-radius: 50px;
         padding-top: 25px;
         gap: 15px;
@@ -53,12 +54,13 @@
         flex-direction: column;
         background-color: white;
         width: 1400px;
-        height: 650px;
+        height: fit-content;
         border-radius: 50px;
         padding: 25px;
     }
     .items__products {
         display: flex;
+        flex-wrap: wrap;
     }
     .items__title {
         font-family: Epilogue, sans-serif;
