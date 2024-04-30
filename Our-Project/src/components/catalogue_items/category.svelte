@@ -7,7 +7,7 @@
     let dispatch = createEventDispatcher();
 
     function selectCategory() {
-        dispatch("select_category", { catID });
+        dispatch("select_category", { catID, name });
     }
 </script>
 

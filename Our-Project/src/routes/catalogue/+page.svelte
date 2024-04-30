@@ -24,6 +24,7 @@
     }
 
     async function updateCategory(event) {
+        current_name = event.detail.name;
         await getProducts(event.detail.catID);
         products = products;
     }
@@ -50,11 +51,6 @@
     </div>
     <div class="catalogue__items">
         <p class="items__title">{current_name}</p>
-        <div class="items__tabs">
-            <TabBtn/>
-            <TabBtn/>
-            <TabBtn/>
-        </div>
         {#await products}
             Loading...
         {:then value}
