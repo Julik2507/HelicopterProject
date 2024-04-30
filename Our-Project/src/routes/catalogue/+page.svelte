@@ -4,31 +4,66 @@
     import Product from "$comp/catalogue_items/product.svelte";
     import Category from "$comp/catalogue_items/category.svelte";
     import TabBtn from "$comp/ui_kit/tab_btn.svelte";
+    import { onMount } from "svelte";
+    import { getGoods } from "$lib/Axios/goodsAxios";
 
-    let current_category = "Хлеб";
+    let current_category = 22;
+    let current_name = "Хлеб";
+
+    let products = [];
+
+    async function getProducts(catID) {
+        products = [];
+        await getGoods({type_id: catID}).then(result => {
+            for (let i = 0; i < result.length; ++i) {
+                products.push(result[i].goods_id);
+            }
+        })
+        console.log(products);
+        products = products;
+    }
+
+    async function updateCategory(event) {
+        await getProducts(event.detail.catID);
+        products = products;
+    }
+
+    onMount(async () => {
+        await getProducts(current_category);
+    })
 </script>
 
 <Header type="catalogue"/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
-        <Category/>
-        <Category/>
-        <Category/>
+        <Category catID=22 name="Хлеб" on:select_category={updateCategory}/>
+        <Category catID=23 name="Выпечка" on:select_category={updateCategory}/>
+        <Category catID=24 name="Овощи" on:select_category={updateCategory}/>
+        <Category catID=25 name="Фрукты" on:select_category={updateCategory}/>
+        <Category catID=26 name="Мясо" on:select_category={updateCategory}/>
+        <Category catID=27 name="Рыба" on:select_category={updateCategory}/>
+        <Category catID=28 name="Напитки" on:select_category={updateCategory}/>
+        <Category catID=29 name="Сладкое" on:select_category={updateCategory}/>
+        <Category catID=30 name="Снеки" on:select_category={updateCategory}/>
+        <Category catID=31 name="Молоко, яйца, сыр" on:select_category={updateCategory}/>
+        <Category catID=32 name="Для животных" on:select_category={updateCategory}/>
     </div>
     <div class="catalogue__items">
-        <p class="items__title">{current_category}</p>
+        <p class="items__title">{current_name}</p>
         <div class="items__tabs">
             <TabBtn/>
             <TabBtn/>
             <TabBtn/>
         </div>
-        <p class="items__subtitle">Батон и белый хлеб</p>
-        <div class="items__products">
-            {#each {length: 60} as _, i}
-                <Product prodID={i+7}/>
-            {/each}
-        </div>
-        <p class="items__subtitle">Серый и ржаной хлеб</p>
+        {#await products}
+            Loading...
+        {:then value}
+            <div class="items__products">
+                {#each value as item}
+                    <Product prodID={item}/>
+                {/each}
+            </div>
+        {/await}
     </div>
 </div>
 <Footer/>

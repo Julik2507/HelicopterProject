@@ -1,10 +1,17 @@
 <script>
-    import img from "$lib/img/default_category.png";
+    import { createEventDispatcher } from "svelte";
+
     export let name = "Хлеб и выпечка";
+    export let catID = "22";
+
+    let dispatch = createEventDispatcher();
+
+    function selectCategory() {
+        dispatch("select_category", { catID });
+    }
 </script>
 
-<button class="category">
-    <img class="category__img" src={img} alt=""/>
+<button class="category" on:click={selectCategory}>
     <p class="category__name">{name}</p>
 </button>
 
@@ -18,7 +25,7 @@
     }
     .category__name {
         font-family: Epilogue, sans-serif;
-        font-size: 14px;
+        font-size: 28px;
         font-weight: 700;
         line-height: 22.5px;
         letter-spacing: -0.27px;

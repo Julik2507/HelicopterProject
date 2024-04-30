@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import ProductInfo from "./product_info.svelte";
 
-    export let prodID = "7";
+    export let prodID = 7;
     export let type = "default";
     
     export let name = "Багет";
@@ -14,6 +14,7 @@
     let base_info = [];
     let detailed_info = [];
     let img = "";
+    
     onMount(async () => {
         await getOneGoods(parseInt(prodID, 10)).then(result => {
             base_info = result.good;
