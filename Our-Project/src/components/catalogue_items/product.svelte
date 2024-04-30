@@ -36,7 +36,7 @@
 
 <ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID}/>
 <div class="item">
-    <img src= "http://176.109.107.106/api/{img}" alt=""/>
+    <img src="http://176.109.107.106/api/{img}" alt="" class="item_img"/>
     <p class="item__name">{name}</p>
     <div class="item__msg">
         <p class="item__amount">{amount}</p>
@@ -128,5 +128,8 @@
         text-align: left;
         color: #A6A6A6;
         text-decoration: line-through;
+    }
+    .item_img {
+        border-radius: 25px;
     }
 </style>
