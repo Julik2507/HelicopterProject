@@ -3,7 +3,6 @@
     import Footer from "$comp/frames/footer.svelte";
     import Product from "$comp/catalogue_items/product.svelte";
     import Category from "$comp/catalogue_items/category.svelte";
-    import TabBtn from "$comp/ui_kit/tab_btn.svelte";
     import { onMount } from "svelte";
     import { getGoods } from "$lib/Axios/goodsAxios";
 
@@ -11,15 +10,17 @@
     let current_name = "Хлеб";
 
     let products = [];
+    let product_prices = [];
 
     async function getProducts(catID) {
         products = [];
+        product_prices = [];
         await getGoods({type_id: catID}).then(result => {
             for (let i = 0; i < result.length; ++i) {
                 products.push(result[i].goods_id);
+                product_prices.push(result[i].price);
             }
         })
-        console.log(products);
         products = products;
     }
 
@@ -51,15 +52,11 @@
     </div>
     <div class="catalogue__items">
         <p class="items__title">{current_name}</p>
-        {#await products}
-            Loading...
-        {:then value}
-            <div class="items__products">
-                {#each value as item}
-                    <Product prodID={item}/>
-                {/each}
-            </div>
-        {/await}
+        <div class="items__products">
+            {#each {length: products.length } as _, i}
+                <Product prodID={products[i]} price={product_prices[i]}/>
+            {/each}
+        </div>
     </div>
 </div>
 <Footer/>

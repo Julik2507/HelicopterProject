@@ -34,7 +34,7 @@
     }
 </script>
 
-<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID}/>
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID} {price}/>
 <div class="item">
     <img src="http://176.109.107.106/api/{img}" alt="" class="item_img"/>
     <p class="item__name">{name}</p>
@@ -45,7 +45,7 @@
         {/if}
     </div>
     {#if type === "default" || type === "new" }
-    <button class="item__button">{price} ₽ +</button>
+    <button class="item__button">{price} +</button>
     {/if}
     {#if type === "missing"}
     <button class="item__button" disabled>Нет в наличии</button>

@@ -7,6 +7,7 @@
 
     export let isModalOpen = false;
     export let prodID = "7";
+    export let price = "85 р"
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -17,7 +18,6 @@
     let img_src = "069b6801-eee6-4ca5-b8a7-b1f3ceca22b6.jpg"
     let name = "Багет"
     let amount = "180 г"
-    let price = 85;
     let kcal = 229;
     let proteins = "8,3 г"
     let fats = "0,2 г"
@@ -89,7 +89,7 @@
             <p class = "info_subtitle">Производитеть</p>
             <p class = "info_text">{manufacturer}</p>
         </div>
-        <PrimeBtn text="{price} ₽ +" --width="500px" event={closeModal}/>
+        <PrimeBtn text="{price} +" --width="500px" event={closeModal}/>
     </div>
 </div>
 
