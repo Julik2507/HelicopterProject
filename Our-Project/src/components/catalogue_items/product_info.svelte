@@ -1,10 +1,12 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+    import { getOneGoods } from '$lib/Axios/goodsAxios';
 
     import cancelImg from "$lib/img/Cancel.svg";
 
     export let isModalOpen = false;
+    export let prodID = "7";
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -12,7 +14,7 @@
         dispatch('closeModal', { isModalOpen });
     }
 
-    let img_src = "bcdcb812-1f01-46d6-9548-340d30fe2209.jpg"
+    let img_src = "069b6801-eee6-4ca5-b8a7-b1f3ceca22b6.jpg"
     let name = "Багет"
     let amount = "180 г"
     let price = 85;
@@ -24,6 +26,21 @@
     let shelf_life = "3 дня"
     let conditions = "При температуре от +18°C до +25°C";
     let manufacturer = "ИП Козловская П. Ю., Россия";
+
+    let base_info = [];
+    let detailed_info = [];
+    let img = "";
+    onMount(async () => {
+        await getOneGoods(parseInt(prodID, 10)).then(result => {
+            base_info = result.good;
+            detailed_info = result.description;
+        });
+        console.log(base_info);
+        console.log(detailed_info);
+        name = base_info[0].name;
+        amount = detailed_info[0].value;
+        
+    })
 </script>
 
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
