@@ -26,7 +26,6 @@
 
     let isInfoOpen = false;
     function OpenInfo() {
-        console.log("ping");
         isInfoOpen = true;
     }
     function CloseInfo() {

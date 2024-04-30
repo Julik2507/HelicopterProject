@@ -29,17 +29,22 @@
 
     let base_info = [];
     let detailed_info = [];
-    let img = "";
     onMount(async () => {
         await getOneGoods(parseInt(prodID, 10)).then(result => {
             base_info = result.good;
             detailed_info = result.description;
         });
-        console.log(base_info);
-        console.log(detailed_info);
         name = base_info[0].name;
         amount = detailed_info[0].value;
-        
+        img_src = base_info[0].img;
+        kcal = detailed_info[1].value;
+        proteins = detailed_info[2].value;
+        fats = detailed_info[3].value;
+        cabrohydrates = detailed_info[4].value;
+        composition = detailed_info[5].value;
+        shelf_life = detailed_info[6].value;
+        conditions = detailed_info[7].value;
+        manufacturer = detailed_info[8].value;
     })
 </script>
 
@@ -155,7 +160,7 @@
         font-family: Epilogue, sans-serif;
         font-size: 32px;
         font-weight: 300;
-        line-height: 21px;
+        line-height: 31px;
         letter-spacing: 0.21px;
         text-align: left;
     }
