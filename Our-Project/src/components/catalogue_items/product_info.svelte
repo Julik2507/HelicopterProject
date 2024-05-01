@@ -1,10 +1,13 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
+    import { getOneGoods } from '$lib/Axios/goodsAxios';
 
     import cancelImg from "$lib/img/Cancel.svg";
 
     export let isModalOpen = false;
+    export let prodID = "7";
+    export let price = "85 р"
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -12,10 +15,9 @@
         dispatch('closeModal', { isModalOpen });
     }
 
-    let img_src = "bcdcb812-1f01-46d6-9548-340d30fe2209.jpg"
+    let img_src = "069b6801-eee6-4ca5-b8a7-b1f3ceca22b6.jpg"
     let name = "Багет"
     let amount = "180 г"
-    let price = 85;
     let kcal = 229;
     let proteins = "8,3 г"
     let fats = "0,2 г"
@@ -24,6 +26,26 @@
     let shelf_life = "3 дня"
     let conditions = "При температуре от +18°C до +25°C";
     let manufacturer = "ИП Козловская П. Ю., Россия";
+
+    let base_info = [];
+    let detailed_info = [];
+    onMount(async () => {
+        await getOneGoods(parseInt(prodID, 10)).then(result => {
+            base_info = result.good;
+            detailed_info = result.description;
+        });
+        name = base_info[0].name;
+        amount = detailed_info[0].value;
+        img_src = base_info[0].img;
+        kcal = detailed_info[1].value;
+        proteins = detailed_info[2].value;
+        fats = detailed_info[3].value;
+        cabrohydrates = detailed_info[4].value;
+        composition = detailed_info[5].value;
+        shelf_life = detailed_info[6].value;
+        conditions = detailed_info[7].value;
+        manufacturer = detailed_info[8].value;
+    })
 </script>
 
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
@@ -67,7 +89,7 @@
             <p class = "info_subtitle">Производитеть</p>
             <p class = "info_text">{manufacturer}</p>
         </div>
-        <PrimeBtn text="{price} ₽ +" --width="500px" event={closeModal}/>
+        <PrimeBtn text="{price} +" --width="500px" event={closeModal}/>
     </div>
 </div>
 
@@ -138,7 +160,7 @@
         font-family: Epilogue, sans-serif;
         font-size: 32px;
         font-weight: 300;
-        line-height: 21px;
+        line-height: 31px;
         letter-spacing: 0.21px;
         text-align: left;
     }

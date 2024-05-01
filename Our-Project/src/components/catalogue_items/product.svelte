@@ -1,34 +1,42 @@
 <script>
     import { getOneGoods } from "$lib/Axios/goodsAxios";
-    import img from "$lib/img/default_item.png"
+    import { onMount } from 'svelte';
+    import ProductInfo from "./product_info.svelte";
 
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
-
-    function openModal() {
-        dispatch('openModal');
-    }
-
+    export let prodID = 7;
     export let type = "default";
+    
     export let name = "Багет";
     export let amount = "180 г";
     export let price = 85;
     export let sale_price = 70;
 
-    async function showInfo() {
-        let base_info;
-        let detailed_info;
-        await getOneGoods(1).then(result => {
+    let base_info = [];
+    let detailed_info = [];
+    let img = "";
+    
+    onMount(async () => {
+        await getOneGoods(parseInt(prodID, 10)).then(result => {
             base_info = result.good;
             detailed_info = result.description;
         });
-        console.log(base_info);
-        console.log(detailed_info);
+        name = base_info[0].name;
+        amount = detailed_info[0].value;
+        img = base_info[0].img;
+    })
+
+    let isInfoOpen = false;
+    function OpenInfo() {
+        isInfoOpen = true;
+    }
+    function CloseInfo() {
+        isInfoOpen = false;
     }
 </script>
 
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID} {price}/>
 <div class="item">
-    <img src={img} alt={name}/>
+    <img src="http://176.109.107.106/api/{img}" alt="" class="item_img"/>
     <p class="item__name">{name}</p>
     <div class="item__msg">
         <p class="item__amount">{amount}</p>
@@ -37,7 +45,7 @@
         {/if}
     </div>
     {#if type === "default" || type === "new" }
-    <button class="item__button">{price} ₽ +</button>
+    <button class="item__button">{price} +</button>
     {/if}
     {#if type === "missing"}
     <button class="item__button" disabled>Нет в наличии</button>
@@ -45,7 +53,7 @@
     {#if type === "sale"}
     <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
     {/if}
-    <button class="item__button" on:click={openModal}>Подробнее</button>
+    <button class="item__button" on:click={OpenInfo}>Подробнее</button>
 </div>
 
 <style>
@@ -53,7 +61,7 @@
         background-color: white;
         display: flex;
         flex-direction: column;
-        width: fit-content;
+        width: 200px;
         height: fit-content;
         gap: 0;
         padding: 10px;
@@ -66,6 +74,10 @@
         letter-spacing: 0.21px;
         text-align: left;
         margin: 0;
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     .item__amount {
         font-family: Epilogue, sans-serif;
@@ -116,5 +128,8 @@
         text-align: left;
         color: #A6A6A6;
         text-decoration: line-through;
+    }
+    .item_img {
+        border-radius: 25px;
     }
 </style>

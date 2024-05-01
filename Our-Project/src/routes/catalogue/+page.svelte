@@ -3,42 +3,60 @@
     import Footer from "$comp/frames/footer.svelte";
     import Product from "$comp/catalogue_items/product.svelte";
     import Category from "$comp/catalogue_items/category.svelte";
-    import TabBtn from "$comp/ui_kit/tab_btn.svelte";
+    import { onMount } from "svelte";
+    import { getGoods } from "$lib/Axios/goodsAxios";
 
-    import ProductInfo from "$comp/catalogue_items/product_info.svelte";
+    let current_category = 22;
+    let current_name = "Хлеб";
 
-    let isInfoOpen = false;
+    let products = [];
+    let product_prices = [];
 
-    function UpdateInfo() {
-        isInfoOpen = !isInfoOpen;
+    async function getProducts(catID) {
+        products = [];
+        product_prices = [];
+        await getGoods({type_id: catID}).then(result => {
+            for (let i = 0; i < result.length; ++i) {
+                products.push(result[i].goods_id);
+                product_prices.push(result[i].price);
+            }
+        })
+        products = products;
     }
-    
-    let current_category = "Хлеб и выпечка";
+
+    async function updateCategory(event) {
+        current_name = event.detail.name;
+        await getProducts(event.detail.catID);
+        products = products;
+    }
+
+    onMount(async () => {
+        await getProducts(current_category);
+    })
 </script>
 
-<ProductInfo isModalOpen={isInfoOpen} on:closeModal={UpdateInfo}/>
 <Header type="catalogue"/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
-        <Category/>
-        <Category/>
-        <Category/>
+        <Category catID=22 name="Хлеб" on:select_category={updateCategory}/>
+        <Category catID=23 name="Выпечка" on:select_category={updateCategory}/>
+        <Category catID=24 name="Овощи" on:select_category={updateCategory}/>
+        <Category catID=25 name="Фрукты" on:select_category={updateCategory}/>
+        <Category catID=26 name="Мясо" on:select_category={updateCategory}/>
+        <Category catID=27 name="Рыба" on:select_category={updateCategory}/>
+        <Category catID=28 name="Напитки" on:select_category={updateCategory}/>
+        <Category catID=29 name="Сладкое" on:select_category={updateCategory}/>
+        <Category catID=30 name="Снеки" on:select_category={updateCategory}/>
+        <Category catID=31 name="Молоко, яйца, сыр" on:select_category={updateCategory}/>
+        <Category catID=32 name="Для животных" on:select_category={updateCategory}/>
     </div>
     <div class="catalogue__items">
-        <p class="items__title">{current_category}</p>
-        <div class="items__tabs">
-            <TabBtn/>
-            <TabBtn/>
-            <TabBtn/>
-        </div>
-        <p class="items__subtitle">Батон и белый хлеб</p>
+        <p class="items__title">{current_name}</p>
         <div class="items__products">
-            <Product on:openModal={UpdateInfo}/>
-            <Product type="new" on:openModal={UpdateInfo}/>
-            <Product type="missing" on:openModal={UpdateInfo}/>
-            <Product type="sale" on:openModal={UpdateInfo}/>
+            {#each {length: products.length } as _, i}
+                <Product prodID={products[i]} price={product_prices[i]}/>
+            {/each}
         </div>
-        <p class="items__subtitle">Серый и ржаной хлеб</p>
     </div>
 </div>
 <Footer/>
@@ -47,13 +65,14 @@
     .catalogue__container {
         display: flex;
         background-color: #F2F2F2;
+        height: fit-content;
         padding: 25px;
         gap: 10px;
     }
     .catalogue__categories {
         background-color: white;
         width: 490px;
-        height: 675px;
+        height: fit-content;
         border-radius: 50px;
         padding-top: 25px;
         gap: 15px;
@@ -63,12 +82,13 @@
         flex-direction: column;
         background-color: white;
         width: 1400px;
-        height: 650px;
+        height: fit-content;
         border-radius: 50px;
         padding: 25px;
     }
     .items__products {
         display: flex;
+        flex-wrap: wrap;
     }
     .items__title {
         font-family: Epilogue, sans-serif;
