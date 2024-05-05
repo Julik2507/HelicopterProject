@@ -15,11 +15,12 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     .footer {
-        width: 1920px;
-        height: 137px;
+        width: 100%;
+        height: 100px;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: center;
+        gap: 25px;
         align-items: center;
     }
     .footer__link {
