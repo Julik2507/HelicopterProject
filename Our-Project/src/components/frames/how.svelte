@@ -28,10 +28,16 @@
     }
     .how__content {
         display: flex;
+        align-items: center;
         justify-content: space-between;
     }
     .how__arrow {
         height: 190px;
         margin-top: 40px;
+    }
+    @media (max-width: 1600px) {
+        .how__arrow {
+            height: 100px;
+        }
     }
 </style>
