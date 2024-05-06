@@ -5,7 +5,8 @@ export const globalSchema = object({
   name: string(),
   id: number(),
   role: string(),
-  token: string(),
+  accessToken: string(),
+  refreshToken: string(),
 });
 
 export const resRegisterSchema = pick(globalSchema, [
@@ -20,10 +21,8 @@ export type ResRegisterDTO = Output<typeof resRegisterSchema>;
 ////
 
 export const resLoginSchema = pick(globalSchema, [
-  "name",
-  "email",
-  "role",
-  "token",
+  "refreshToken",
+  "accessToken",
 ]);
 
 export type ResLoginDTO = Output<typeof resLoginSchema>;

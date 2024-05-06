@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
-import { basket, users } from "../../db/schema.js";
+import { basket, tokens, users } from "../../db/schema.js";
 import { InsertUserDTO, LoginUserDTO } from "./dto/index.js";
 import { tokenJwt } from "./token/token.service.js";
 import { saveToken } from "./token/token.service.js";
+import cookieParser from "cookie-parser";
 
 export async function registerUser(dto: InsertUserDTO): Promise<any> {
   try {
@@ -17,34 +18,48 @@ export async function registerUser(dto: InsertUserDTO): Promise<any> {
       password: dto.password,
       role: "USER",
     });
-    const result = await publicUser(dto.email);
-    if (result == undefined) throw new Error("undefined");
+    const user = await publicUser(dto.email);
+    if (user == undefined) throw new Error("undefined");
 
-    const userBasket = await db.insert(basket).values({ user_id: result.id });
+    const userBasket = await db.insert(basket).values({ user_id: user.id });
 
-    const token = await tokenJwt(result);
-    const saveMyToken = await saveToken(result.id, token.refreshToken);
+    const twoTokens = await tokenJwt(user);
 
-    return token;
+    // const saveOrUpdMyToken = await saveToken(user.id, twoTokens.refreshToken); не работает
+
+    const saveToken = await db.insert(tokens).values({
+      token: twoTokens.refreshToken,
+      user_id: user.id,
+    });
+
+    return twoTokens;
   } catch (error) {
     throw error;
   }
 }
 
 export async function loginUser(dto: LoginUserDTO): Promise<any> {
-  //issue
   try {
     const existEmail = await existUserByEmail(dto.email);
     if (!existEmail) throw new Error("Пользователя с такой электронной почтой или паролем не существует!");
     const correctPassword = await comparePassword(dto.password, existEmail.password);
     if (!correctPassword) throw new Error("Пользователя с такой электронной почтой или паролем не существует!");
-    const token = await tokenJwt(existEmail);
-    const saveMyToken = await saveToken(existEmail.id, token.refreshToken);
-    // const result = await publicUser(dto.email);
-    // if (result === undefined) {
-    //   throw new Error("error");
-    // }
-    return token;
+
+    const twoTokens = await tokenJwt(existEmail);
+    const saveToken = await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, existEmail.id));
+
+    // const saveMyToken = await saveToken(existEmail.id, twoTokens.refreshToken);
+
+    return twoTokens;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//не удаляет строку в tokens(DB)
+export async function logoutUser(refreshToken: string) {
+  try {
+    await db.delete(tokens).where(eq(tokens.token, refreshToken));
   } catch (error) {
     throw error;
   }

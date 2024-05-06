@@ -13,7 +13,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "path";
 import { fileURLToPath } from "url";
-import cookieparser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = config.port;
@@ -21,7 +21,13 @@ const port = config.port;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:4173", "http://localhost:5173", "http://176.109.107.106:80"],
+  })
+);
 app.use(express.json());
 app.use(fileUpload({}));
 app.use("/api", express.static(path.resolve(__dirname, "static"))); //rebuild
@@ -32,6 +38,7 @@ app.use("/api", typesController);
 app.use("/api", brandsController);
 app.use("/api", goodsController);
 app.use("/api", basketController);
+// app.use("/api");
 
 const file = fs.readFileSync("./src/swagger/swaggerDocument.yml", "utf8");
 const swaggerDocument = YAML.parse(file);

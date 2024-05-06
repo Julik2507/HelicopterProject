@@ -2,7 +2,7 @@ import { number, object, partial, string, type Input, any } from "valibot";
 
 const getGoodsSchema = partial(
   object({
-    subtype_id: number("Неправильный тип товара"),
+    type_id: number("Неправильный тип товара"),
     page: number("Неправильный тип страницы"),
   })
 );
@@ -12,7 +12,7 @@ export type GetGoodsDTO = Input<typeof getGoodsSchema>;
 const createGoodsSchema = object({
   name: string(),
   price: number(),
-  type_id: number(),
+  subtype_id: number(),
   brand_id: number(),
   image: any(),
   value_1: string(),

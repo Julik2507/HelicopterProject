@@ -1,9 +1,10 @@
 import express from "express";
 import * as v from "valibot";
-import { registerUser, loginUser } from "./auth.service.js";
+import { registerUser, loginUser, logoutUser } from "./auth.service.js";
 import { changeNameSchema, loginSchema, registerSchema } from "./dto/index.js";
 import { authMiddlewareAdmin } from "./middleware/admin.js";
 import { authMiddlewareUser } from "./middleware/user.js";
+import { updateTokens } from "./token/token.service.js";
 
 const router = express.Router();
 
@@ -29,6 +30,20 @@ router.post("/auth/login", async (req, res) => {
     console.log(error);
     res.status(400).send({ message: error.message });
   }
+});
+
+router.post("/auth/logout", async (req, res) => {
+  const refreshToken = req.cookies; //получаем сохраненный в куки рефреш токен
+  const deleteToken = await logoutUser(refreshToken);
+  res.clearCookie("refreshToken");
+  res.send("Токен успешно удален xD");
+});
+
+router.post("/auth/update", async (req, res) => {
+  const refreshToken = req.cookies("refreshToken");
+  const result = await updateTokens(refreshToken);
+  res.cookie("refreshToken", result.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+  return result;
 });
 
 export default router;

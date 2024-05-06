@@ -1,9 +1,8 @@
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
-import { basket, users } from "../../db/schema.js";
+import { basket, tokens, users } from "../../db/schema.js";
 import { tokenJwt } from "./token/token.service.js";
-import { saveToken } from "./token/token.service.js";
 export async function registerUser(dto) {
     try {
         const existUser = await existUserByEmail(dto.email);
@@ -16,13 +15,16 @@ export async function registerUser(dto) {
             password: dto.password,
             role: "USER",
         });
-        const result = await publicUser(dto.email);
-        if (result == undefined)
+        const user = await publicUser(dto.email);
+        if (user == undefined)
             throw new Error("undefined");
-        const userBasket = await db.insert(basket).values({ user_id: result.id });
-        const token = await tokenJwt(result);
-        const saveMyToken = await saveToken(result.id, token.refreshToken);
-        return token;
+        const userBasket = await db.insert(basket).values({ user_id: user.id });
+        const twoTokens = await tokenJwt(user);
+        const saveToken = await db.insert(tokens).values({
+            token: twoTokens.refreshToken,
+            user_id: user.id,
+        });
+        return twoTokens;
     }
     catch (error) {
         throw error;
@@ -36,9 +38,17 @@ export async function loginUser(dto) {
         const correctPassword = await comparePassword(dto.password, existEmail.password);
         if (!correctPassword)
             throw new Error("Пользователя с такой электронной почтой или паролем не существует!");
-        const token = await tokenJwt(existEmail);
-        const saveMyToken = await saveToken(existEmail.id, token.refreshToken);
-        return token;
+        const twoTokens = await tokenJwt(existEmail);
+        const saveToken = await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, existEmail.id));
+        return twoTokens;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+export async function logoutUser(refreshToken) {
+    try {
+        await db.delete(tokens).where(eq(tokens.token, refreshToken));
     }
     catch (error) {
         throw error;

@@ -4,7 +4,7 @@ import { Input, any, number, object, partial, string } from "valibot";
 export const getGoodsSchema = partial(
   object({
     page: string("Страница не найдена"),
-    subtype_id: string("Тип не найден"),
+    type_id: string("Тип не найден"),
   })
 );
 export type GetAnyGoods = Input<typeof getGoodsSchema>;
