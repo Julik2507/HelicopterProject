@@ -1,10 +1,10 @@
 import type { CreateGoodsDTO, GetGoodsDTO } from "$lib/DTO/goods/goodsDTO";
 import axios from "axios";
-import { baseURL } from "./authAxios";
+import { baseURL, $instance } from "./authAxios";
 
 export async function getGoods(dto: GetGoodsDTO): Promise<any> {
   try {
-    const result = await axios.get(`${baseURL}/api/get-goods`, {
+    const result = await $instance.get("/get-goods", {
       params: dto,
     });
     return result.data;
@@ -15,7 +15,7 @@ export async function getGoods(dto: GetGoodsDTO): Promise<any> {
 
 export async function getOneGoods(id: number): Promise<any> {
   try {
-    const result = await axios.get(`${baseURL}/api/get-one-goods/${id}`);
+    const result = await $instance.get(`/get-one-goods/${id}`);
 
     return result.data;
   } catch (error: any) {

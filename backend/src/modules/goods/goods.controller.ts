@@ -3,6 +3,7 @@ import { createGoods, getGoods, getOneGoods } from "./goods.service.js";
 import { uploadImg } from "../images/images.service.js";
 import { parse } from "valibot";
 import { getGoodsSchema } from "./dto/index.js";
+import { authMiddlewareUser } from "../auth/middleware/user.js";
 
 const router = express.Router();
 

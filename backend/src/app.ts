@@ -22,7 +22,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:4173", "http://localhost:5173", "http://176.109.107.106:80"],
+  })
+);
 app.use(express.json());
 app.use(fileUpload({}));
 app.use("/api", express.static(path.resolve(__dirname, "static"))); //rebuild
