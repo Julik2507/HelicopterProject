@@ -10,30 +10,30 @@ export const $instance = axios.create({
   baseURL: baseURL,
 });
 
-$instance.interceptors.request.use((config) => {
-  config.headers.Authorization = localStorage.getItem("accessToken");
+// $instance.interceptors.request.use((config) => {
+//   config.headers.Authorization = localStorage.getItem("accessToken");
 
-  return config;
-});
+//   return config;
+// });
 
-$instance.interceptors.response.use(
-  (config) => {
-    return config;
-  },
-  async (error: any) => {
-    console.log(error);
+// $instance.interceptors.response.use(
+//   (config) => {
+//     return config;
+//   },
+//   async (error: any) => {
+//     console.log(error);
 
-    if (error.response.data.status === 401) {
-      const result = await $instance.post<ResLoginDTO>("/auth/update");
-      localStorage.setItem("accessToken", result.data.accessToken);
-      const thisRequest = error.config;
-      console.log(thisRequest);
+//     if (error.response.data.status === 401) {
+//       const result = await $instance.post<ResLoginDTO>("/auth/update");
+//       localStorage.setItem("accessToken", result.data.accessToken);
+//       const thisRequest = error.config;
+//       console.log(thisRequest);
 
-      $instance.request(thisRequest);
-    }
-    throw error;
-  }
-);
+//       $instance.request(thisRequest);
+//     }
+//     throw error;
+//   }
+// );
 
 export async function registerUser(dto: registerDTO): Promise<any> {
   try {
