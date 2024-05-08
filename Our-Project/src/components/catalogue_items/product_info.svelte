@@ -89,7 +89,9 @@
             <p class = "info_subtitle">Производитеть</p>
             <p class = "info_text">{manufacturer}</p>
         </div>
-        <PrimeBtn text="{price} +" --width="500px" event={closeModal}/>
+        <div class = "modal_button">
+            <PrimeBtn text="{price} +" --width="500px" event={closeModal}/>
+        </div>
     </div>
 </div>
 
@@ -116,27 +118,29 @@
         filter: drop-shadow(0 0 20px #333);
         flex-direction: row;
     }
-
     .info_modal {
         display: flex;
         border-radius: 50px;
         padding: 30px;
-        width: 920px;
-        height: 830px;
+        width: 50vw;
+        height: 90vh;
         background-color: #dddddd;
         display: flex;
         gap: 20px;
     }
-    .product_img {
-        width: 400px;
-        height: 400px;
-        border-radius: 25px;
-    }
     .right_block {
         display: flex;
         flex-direction: column;
+        gap: 20px;
+        width: 100%;
         justify-content: space-between;
     }
+    .product_img {
+        width: 30vw;
+        height: 30vh;
+        border-radius: 25px;
+    }
+    
     .info_in_100g {
         border-top: solid 1px;
         border-bottom: solid 1px;
@@ -166,8 +170,8 @@
     }
     .info_amount {
         margin: 0;
-        margin-top: 15px;
-        margin-bottom: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         font-family: Epilogue, sans-serif;
         font-size: 24px;
         font-weight: 700;
@@ -204,5 +208,26 @@
         float: right;
         margin-left: 460px;
         background: #fff;
+    }
+    .modal_button {
+        display: flex;
+        justify-content: center;
+    }
+    @media (max-width: 1600px) {
+        .info_modal {
+            gap: 10px;
+        }
+        .info_name {
+            font-size: 24px;
+        }
+        .info_amount {
+            font-size: 18px;
+        }
+        .info_subtitle {
+            font-size: 16px;
+        }
+        .info_text {
+            font-size: 16px;
+        }
     }
 </style>
