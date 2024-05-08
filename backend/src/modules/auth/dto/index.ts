@@ -1,4 +1,4 @@
-import { string, email, object, minLength, Input, partial, number } from "valibot";
+import { string, email, object, minLength, Input, partial, number, Output } from "valibot";
 
 export const loginSchema = object({
   email: string("uncorrect email or password", [email("Invalid type of email!")]),
@@ -18,6 +18,14 @@ export const changeParamsSchema = object({
   surname: string(),
 });
 
+export const publicUserChema = object({
+  user_id: number(),
+  name: string(),
+  email: string(),
+  role: string(),
+});
+
+export type publicUserDTO = Output<typeof publicUserChema>;
 export const changeNameSchema = partial(changeParamsSchema);
 export const updateUserSchema = partial(registerSchema);
 

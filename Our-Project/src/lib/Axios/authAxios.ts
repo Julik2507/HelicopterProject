@@ -10,38 +10,38 @@ export const $instance = axios.create({
   baseURL: baseURL,
 });
 
-// $instance.interceptors.request.use((config) => {
-//   config.headers.Authorization = localStorage.getItem("accessToken");
+$instance.interceptors.request.use((config) => {
+  config.headers.Authorization = localStorage.getItem("accessToken");
 
-//   return config;
-// });
+  return config;
+});
 
-// $instance.interceptors.response.use(
-//   (config) => {
-//     return config;
-//   },
-//   async (error: any) => {
-//     console.log(error);
+$instance.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error: any) => {
+    if (error.response.data.status === 401) {
+      const result = await $instance.post<ResLoginDTO>("/auth/update");
 
-//     if (error.response.data.status === 401) {
-//       const result = await $instance.post<ResLoginDTO>("/auth/update");
-//       localStorage.setItem("accessToken", result.data.accessToken);
-//       const thisRequest = error.config;
-//       console.log(thisRequest);
+      localStorage.setItem("accessToken", result.data.accessToken);
 
-//       $instance.request(thisRequest);
-//     }
-//     throw error;
-//   }
-// );
+      const thisRequest = error.config;
+
+      console.log(thisRequest);
+
+      $instance.request(thisRequest);
+    }
+
+    throw error;
+  }
+);
 
 export async function registerUser(dto: registerDTO): Promise<any> {
   try {
     const result = await $instance.post("/auth/register", dto);
 
     localStorage.setItem("accessToken", result.data.accessToken);
-
-    // return jwtDecode(result.data.accessToken);
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }

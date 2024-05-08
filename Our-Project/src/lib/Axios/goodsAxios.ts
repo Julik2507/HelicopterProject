@@ -9,6 +9,8 @@ export async function getGoods(dto: GetGoodsDTO): Promise<any> {
     });
     return result.data;
   } catch (error: any) {
+    console.log(error);
+
     throw new Error(error.response.data.message);
   }
 }

@@ -14,6 +14,12 @@ export const changeParamsSchema = object({
     name: string(),
     surname: string(),
 });
+export const publicUserChema = object({
+    user_id: number(),
+    name: string(),
+    email: string(),
+    role: string(),
+});
 export const changeNameSchema = partial(changeParamsSchema);
 export const updateUserSchema = partial(registerSchema);
 //# sourceMappingURL=index.js.map

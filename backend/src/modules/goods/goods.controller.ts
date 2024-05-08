@@ -18,7 +18,7 @@ router.post("/create-goods", async (req, res) => {
   }
 });
 
-router.get("/get-goods", async (req, res) => {
+router.get("/get-goods", authMiddlewareUser, async (req, res) => {
   try {
     const validate = parse(getGoodsSchema, req.query);
     const result = await getGoods(req.query);

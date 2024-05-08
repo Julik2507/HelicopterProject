@@ -4,6 +4,7 @@ import typesController from "./modules/types/types.controller.js";
 import brandsController from "./modules/brands/brands.controller.js";
 import goodsController from "./modules/goods/goods.controller.js";
 import basketController from "./modules/basket/basket.controller.js";
+import searchController from "./modules/search/search.controller.js";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yaml";
@@ -38,6 +39,7 @@ app.use("/api", typesController);
 app.use("/api", brandsController);
 app.use("/api", goodsController);
 app.use("/api", basketController);
+app.use("/api", searchController);
 // app.use("/api");
 
 const file = fs.readFileSync("./src/swagger/swaggerDocument.yml", "utf8");

@@ -3,6 +3,7 @@ import { createGoods, getGoods, getOneGoods } from "./goods.service.js";
 import { uploadImg } from "../images/images.service.js";
 import { parse } from "valibot";
 import { getGoodsSchema } from "./dto/index.js";
+import { authMiddlewareUser } from "../auth/middleware/user.js";
 const router = express.Router();
 router.post("/create-goods", async (req, res) => {
     try {
@@ -14,7 +15,7 @@ router.post("/create-goods", async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-router.get("/get-goods", async (req, res) => {
+router.get("/get-goods", authMiddlewareUser, async (req, res) => {
     try {
         const validate = parse(getGoodsSchema, req.query);
         const result = await getGoods(req.query);

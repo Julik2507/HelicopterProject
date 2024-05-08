@@ -4,6 +4,7 @@ import typesController from "./modules/types/types.controller.js";
 import brandsController from "./modules/brands/brands.controller.js";
 import goodsController from "./modules/goods/goods.controller.js";
 import basketController from "./modules/basket/basket.controller.js";
+import searchController from "./modules/search/search.controller.js";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yaml";
@@ -21,7 +22,7 @@ const __dirname = path.dirname(__filename);
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:4173", "http://176.109.107.106:80"],
+    origin: ["http://localhost:4173", "http://localhost:5173", "http://176.109.107.106:80"],
 }));
 app.use(express.json());
 app.use(fileUpload({}));
@@ -32,6 +33,7 @@ app.use("/api", typesController);
 app.use("/api", brandsController);
 app.use("/api", goodsController);
 app.use("/api", basketController);
+app.use("/api", searchController);
 const file = fs.readFileSync("./src/swagger/swaggerDocument.yml", "utf8");
 const swaggerDocument = YAML.parse(file);
 app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
