@@ -8,7 +8,8 @@
 
 <div class="attract">
     <div class="attract__content">
-        <p class="attract__text">Ваш любимый вертолет, быстрая доставка</p>
+        <p class="attract__text">Ваш любимый вертолет,</p>
+        <p class="attract__text">быстрая доставка</p>
         <PrimeBtn text="Посмотреть каталог" event={cataloguelink}/>
     </div>
 </div>
@@ -16,17 +17,20 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     .attract {
-        width: 1916px;
-        height: 588px;
+        width: 100%;
+        height: 500px;
         background-image: url("$lib/img/background.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
     }
     .attract__content {
         display: flex;
         flex-direction: column;
         width: 40%;
-        padding-left: 100px;
-        padding-top: 250px;
-        gap: 30px;
+        gap: 10px;
+        padding-left: 50px;
     }
     .attract__text {
         font-family: Epilogue, sans-serif;

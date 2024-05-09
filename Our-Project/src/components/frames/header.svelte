@@ -33,11 +33,16 @@
     <div class="header__left">
         <Logo/>
         {#if type === "main"}
-        <p class="header__text">Доставка еды на вертолете</p>
-        <LittleIcon source={icon1}/>
-        <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
-        <LittleIcon source={icon2}/>
-        <p class="header__text">8(982)190-81-58</p>
+        <div class="header__info">
+            <div class="info__block">
+                <LittleIcon source={icon1}/>
+                <p class="header__text">Пн-Вс: c 10:00 до 23:45 ч.</p>
+            </div>
+            <div class="info__block">
+                <LittleIcon source={icon2}/>
+                <p class="header__text">8(982)190-81-58</p>
+            </div>
+        </div>
         <PrimeBtn text="Позвоните мне"/>
         <SocialLink img={logoVK}/>
         <SocialLink img={logoTG}/>
@@ -59,7 +64,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     .header {
-        width: 1920px;
+        width: 100%;
         height: 137px;
         display: flex;
         flex-direction: row;
@@ -69,7 +74,8 @@
     }
     .header__text {
         font-family: Epilogue, sans-serif;
-        font-size: 18px;
+        margin: 0;
+        font-size: 24px;
         font-weight: 750;
         line-height: 23px;
         letter-spacing: -0.27000001072883606px;
@@ -84,12 +90,23 @@
     }
     .header__left {
         display: flex;
+        width: 100%;
         gap: 25px;
         align-items: center;
         justify-content: start;
     }
+    .header__info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .info__block {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
     .header__searchbar {
-        width: 1100px;
+        width: 100%;
         height: 63px;
         top: 202px;
         left: 36px;
@@ -108,6 +125,13 @@
         line-height: 21px;
         letter-spacing: 0.21px;
         text-align: left;
-        width: fit-content
+        width: fit-content;
+        text-wrap: nowrap;
+    }
+    @media (min-width: 1700px) {
+        .header__info {
+            flex-direction: row;
+            gap: 20px;
+        }
     }
 </style>

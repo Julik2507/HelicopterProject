@@ -65,7 +65,9 @@
     <p class="modal_error">{message}</p>
     {/if}
     <p class="modal_agreement">Создавая аккаунт, вы соглашаетесь с условиями использования и политикой конфиденциальности Вертолет.</p>
-    <PrimeBtn text="Зарегистрироваться" event={register} --width=630px/>
+    <div class="modal_button">
+        <PrimeBtn text="Зарегистрироваться" event={register} --width=400px/>
+    </div>
 </div>
 
 <style>
@@ -165,5 +167,32 @@
         text-align: left;
         margin: 0;
         color: #E35959;
+    }
+    .modal_button {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+    @media (max-width: 1600px) {
+        .modal_body {
+            width: 500px;
+            gap: 10px;
+        }
+        .modal_close {
+            margin-left: 440px;
+        }
+        .modal_input {
+            width: 480px;
+            font-size: 16px;
+        }
+        .modal_title {
+            font-size: 32px;
+        }
+        .modal_subtitle {
+            font-size: 20px;
+        }
+        .modal_error, .modal_agreement {
+            font-size: 16px;
+        }
     }
 </style>
