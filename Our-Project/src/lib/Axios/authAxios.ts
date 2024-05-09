@@ -10,11 +10,11 @@ export const $instance = axios.create({
   baseURL: baseURL,
 });
 
-$instance.interceptors.request.use((config) => {
-  config.headers.Authorization = localStorage.getItem("accessToken");
+// $instance.interceptors.request.use((config) => {
+//   config.headers.Authorization = localStorage.getItem("accessToken");
 
-  return config;
-});
+//   return config;
+// });
 
 // $instance.interceptors.response.use(
 //   (config) => {
