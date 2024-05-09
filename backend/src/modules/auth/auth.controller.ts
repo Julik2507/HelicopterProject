@@ -40,10 +40,12 @@ router.post("/auth/logout", async (req, res) => {
 });
 
 router.post("/auth/update", async (req, res) => {
-  const refreshToken = req.cookies("refreshToken");
+  const refreshToken = req.cookies.refreshToken;
+  console.log(refreshToken);
+
   const result = await updateTokens(refreshToken);
   res.cookie("refreshToken", result.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-  return result;
+  res.status(200).send(result);
 });
 
 export default router;

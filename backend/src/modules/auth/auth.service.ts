@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, tokens, users } from "../../db/schema.js";
-import { InsertUserDTO, LoginUserDTO } from "./dto/index.js";
+import { InsertUserDTO, LoginUserDTO, publicUserDTO } from "./dto/index.js";
 import { tokenJwt } from "./token/token.service.js";
 import { saveToken } from "./token/token.service.js";
 import cookieParser from "cookie-parser";
@@ -18,18 +18,21 @@ export async function registerUser(dto: InsertUserDTO): Promise<any> {
       password: dto.password,
       role: "USER",
     });
+
     const user = await publicUser(dto.email);
     if (user == undefined) throw new Error("undefined");
+    console.log(user[0].user_id);
 
-    const userBasket = await db.insert(basket).values({ user_id: user.id });
+    const userBasket = await db.insert(basket).values({ user_id: user[0].user_id });
+    console.log(user);
 
-    const twoTokens = await tokenJwt(user);
+    const twoTokens = await tokenJwt(user[0]);
 
     // const saveOrUpdMyToken = await saveToken(user.id, twoTokens.refreshToken); не работает
 
     const saveToken = await db.insert(tokens).values({
       token: twoTokens.refreshToken,
-      user_id: user.id,
+      user_id: user[0].user_id,
     });
 
     return twoTokens;
@@ -69,17 +72,31 @@ export async function existUserByEmail(email: string) {
   return await db.query.users.findFirst({ where: eq(users.email, email) });
 }
 
-export async function publicUser(email: string) {
-  return await db.query.users.findFirst({
-    where: eq(users.email, email),
-    columns: {
-      id: true,
-      name: true,
-      password: false,
-      email: true,
-      role: true,
-    },
-  });
+// export async function publicUser(email: string) {
+//   return await db.query.users.findFirst({
+//     where: eq(users.email, email),
+//     columns: {
+//       id: true,
+//       name: true,
+//       password: false,
+//       email: true,
+//       role: true,
+//     },
+//   });
+// }
+
+export async function publicUser(email: string): Promise<Array<publicUserDTO>> {
+  const result = await db
+    .select({
+      user_id: users.id,
+      name: users.name,
+      email: users.email,
+      role: users.role,
+    })
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+  return result;
 }
 
 export async function hashPassword(password: string) {
@@ -88,4 +105,13 @@ export async function hashPassword(password: string) {
 
 export async function comparePassword(password: string, hashpassword: string) {
   return bcrypt.compare(password, hashpassword);
+}
+
+export async function getBasketId(id: number) {
+  return await db
+    .select({
+      id: basket.id,
+    })
+    .from(basket)
+    .where(eq(basket.user_id, id));
 }

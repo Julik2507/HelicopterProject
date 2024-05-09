@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db/migrate.js";
 import { tokens, users } from "../../../db/schema.js";
 import { publicUser } from "../auth.service.js";
+import { log } from "console";
 
 //create jwt
 export async function tokenJwt(payload: any): Promise<ResTokenDTO> {
@@ -33,16 +34,18 @@ export async function saveToken(userID: number, refreshToken: string) {
 
 //update access&refresh, when access expired
 export async function updateTokens(refreshToken: string) {
-  const compareRefreshToken: any = await db.select().from(tokens).where(eq(tokens.token, refreshToken));
+  const compareRefreshToken = await db.select().from(tokens).where(eq(tokens.token, refreshToken));
+
   const verifyToken = jwt.verify(refreshToken, config.secret_refresh);
 
-  if (!compareRefreshToken || !verifyToken) throw new Error("Пользователь неавторизован!");
+  if (!compareRefreshToken && !verifyToken) throw new Error("Пользователь неавторизован!");
 
-  const findUser: any = await db.select().from(users).where(eq(users.id, compareRefreshToken.user_id));
+  const findUser = await db.select().from(users).where(eq(users.id, compareRefreshToken[0].user_id!));
 
-  const twoTokens = await tokenJwt(findUser);
+  const twoTokens = await tokenJwt(findUser[0]);
 
-  await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser.id));
+  await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser[0].id));
+  console.log("tokens updated");
 
   return twoTokens;
 }
