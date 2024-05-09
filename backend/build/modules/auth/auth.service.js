@@ -18,11 +18,13 @@ export async function registerUser(dto) {
         const user = await publicUser(dto.email);
         if (user == undefined)
             throw new Error("undefined");
-        const userBasket = await db.insert(basket).values({ user_id: user.id });
-        const twoTokens = await tokenJwt(user);
+        console.log(user[0].user_id);
+        const userBasket = await db.insert(basket).values({ user_id: user[0].user_id });
+        console.log(user);
+        const twoTokens = await tokenJwt(user[0]);
         const saveToken = await db.insert(tokens).values({
             token: twoTokens.refreshToken,
-            user_id: user.id,
+            user_id: user[0].user_id,
         });
         return twoTokens;
     }
@@ -58,21 +60,30 @@ export async function existUserByEmail(email) {
     return await db.query.users.findFirst({ where: eq(users.email, email) });
 }
 export async function publicUser(email) {
-    return await db.query.users.findFirst({
-        where: eq(users.email, email),
-        columns: {
-            id: true,
-            name: true,
-            password: false,
-            email: true,
-            role: true,
-        },
-    });
+    const result = await db
+        .select({
+        user_id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+    })
+        .from(users)
+        .where(eq(users.email, email))
+        .limit(1);
+    return result;
 }
 export async function hashPassword(password) {
     return bcrypt.hash(password, 10);
 }
 export async function comparePassword(password, hashpassword) {
     return bcrypt.compare(password, hashpassword);
+}
+export async function getBasketId(id) {
+    return await db
+        .select({
+        id: basket.id,
+    })
+        .from(basket)
+        .where(eq(basket.user_id, id));
 }
 //# sourceMappingURL=auth.service.js.map

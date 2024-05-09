@@ -10,27 +10,34 @@ export const $instance = axios.create({
   baseURL: baseURL,
 });
 
-// $instance.interceptors.request.use((config) => {
-//   config.headers.Authorization = localStorage.getItem("accessToken");
+$instance.interceptors.request.use((config) => {
+  config.headers.Authorization = localStorage.getItem("accessToken");
 
-//   return config;
-// });
+  return config;
+});
 
 // $instance.interceptors.response.use(
 //   (config) => {
+//     console.log(11);
+
 //     return config;
 //   },
 //   async (error: any) => {
 //     console.log(error);
 
-//     if (error.response.data.status === 401) {
+//     if (error.response.status === 401) {
 //       const result = await $instance.post<ResLoginDTO>("/auth/update");
+//       console.log(1);
+
 //       localStorage.setItem("accessToken", result.data.accessToken);
+
 //       const thisRequest = error.config;
-//       console.log(thisRequest);
 
 //       $instance.request(thisRequest);
 //     }
+//     console.log("test");
+
+//     // return Promise.reject(error);
 //     throw error;
 //   }
 // );
@@ -40,8 +47,6 @@ export async function registerUser(dto: registerDTO): Promise<any> {
     const result = await $instance.post("/auth/register", dto);
 
     localStorage.setItem("accessToken", result.data.accessToken);
-
-    // return jwtDecode(result.data.accessToken);
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }

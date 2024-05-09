@@ -27,11 +27,12 @@ export async function saveToken(userID, refreshToken) {
 export async function updateTokens(refreshToken) {
     const compareRefreshToken = await db.select().from(tokens).where(eq(tokens.token, refreshToken));
     const verifyToken = jwt.verify(refreshToken, config.secret_refresh);
-    if (!compareRefreshToken || !verifyToken)
+    if (!compareRefreshToken && !verifyToken)
         throw new Error("Пользователь неавторизован!");
-    const findUser = await db.select().from(users).where(eq(users.id, compareRefreshToken.user_id));
-    const twoTokens = await tokenJwt(findUser);
-    await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser.id));
+    const findUser = await db.select().from(users).where(eq(users.id, compareRefreshToken[0].user_id));
+    const twoTokens = await tokenJwt(findUser[0]);
+    await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser[0].id));
+    console.log("tokens updated");
     return twoTokens;
 }
 //# sourceMappingURL=token.service.js.map
