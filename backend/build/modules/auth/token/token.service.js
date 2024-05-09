@@ -32,6 +32,7 @@ export async function updateTokens(refreshToken) {
     const findUser = await db.select().from(users).where(eq(users.id, compareRefreshToken[0].user_id));
     const twoTokens = await tokenJwt(findUser[0]);
     await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser[0].id));
+    console.log("tokens updated");
     return twoTokens;
 }
 //# sourceMappingURL=token.service.js.map

@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db/migrate.js";
 import { tokens, users } from "../../../db/schema.js";
 import { publicUser } from "../auth.service.js";
+import { log } from "console";
 
 //create jwt
 export async function tokenJwt(payload: any): Promise<ResTokenDTO> {
@@ -44,6 +45,7 @@ export async function updateTokens(refreshToken: string) {
   const twoTokens = await tokenJwt(findUser[0]);
 
   await db.update(tokens).set({ token: twoTokens.refreshToken }).where(eq(tokens.user_id, findUser[0].id));
+  console.log("tokens updated");
 
   return twoTokens;
 }

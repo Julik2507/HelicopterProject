@@ -16,26 +16,31 @@ $instance.interceptors.request.use((config) => {
   return config;
 });
 
-$instance.interceptors.response.use(
-  (config) => {
-    return config;
-  },
-  async (error: any) => {
-    if (error.response.data.status === 401) {
-      const result = await $instance.post<ResLoginDTO>("/auth/update");
+// $instance.interceptors.response.use(
+//   (config) => {
+//     console.log(11);
 
-      localStorage.setItem("accessToken", result.data.accessToken);
+//     return config;
+//   },
+//   async (error: any) => {
+//     console.log(error);
 
-      const thisRequest = error.config;
+//     if (error.response.status === 401) {
+//       const result = await $instance.post<ResLoginDTO>("/auth/update");
+//       console.log(1);
 
-      console.log(thisRequest);
+//       localStorage.setItem("accessToken", result.data.accessToken);
 
-      $instance.request(thisRequest);
-    }
+//       const thisRequest = error.config;
 
-    throw error;
-  }
-);
+//       $instance.request(thisRequest);
+//     }
+//     console.log("test");
+
+//     // return Promise.reject(error);
+//     throw error;
+//   }
+// );
 
 export async function registerUser(dto: registerDTO): Promise<any> {
   try {
