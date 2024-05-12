@@ -5,6 +5,7 @@
     import RegisterWindow from "$comp/auth_pop_ups/register_window.svelte";
     import LoginWindow from "$comp/auth_pop_ups/login_window.svelte";
     import Logo from "$comp/ui_kit/logo.svelte";
+    import Search from "$comp/ui_kit/search.svelte";
 
     import icon1 from "$lib/img/Icon1.png";
     import icon2 from "$lib/img/Icon2.png";
@@ -12,6 +13,15 @@
     import icon4 from "$lib/img/Icon4.png";
     import logoVK from "$lib/img/LinkVK.png";
     import logoTG from "$lib/img/LinkTG.png";
+
+    import { createEventDispatcher } from "svelte";
+
+    let dispatch = createEventDispatcher();
+
+    async function onSearch(event) {
+        let value = event.detail.value;
+        dispatch("search", value);
+    }
 
     export let type = "main";
     export let money = 0;
@@ -49,7 +59,7 @@
         {/if}
         {#if type === "catalogue"}
         <p class="header__text">Каталог</p>
-        <input class="header__searchbar" type="text" name="email" placeholder="Искать в каталоге"/>
+        <Search on:search={onSearch}/>
         {/if}
     </div>
     <div class="header__right">
@@ -104,19 +114,6 @@
         display: flex;
         gap: 5px;
         align-items: center;
-    }
-    .header__searchbar {
-        width: 100%;
-        height: 63px;
-        top: 202px;
-        left: 36px;
-        border-radius: 21px;
-        border: 0;
-        padding-left: 20px;
-        background-color: #F5E8E8;
-        color: #967878;
-        font-size: 20px;
-        font-weight: bold;
     }
     .header__money {
         font-family: Epilogue, sans-serif;

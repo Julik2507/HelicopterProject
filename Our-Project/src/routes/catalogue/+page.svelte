@@ -6,6 +6,14 @@
     import { onMount } from "svelte";
     import { getGoods } from "$lib/Axios/goodsAxios";
 
+    import { findGoodsInSearch } from "$lib/Axios/searchAxios";
+
+    let search_value;
+    async function onSearch(event) {
+        search_value = event.detail;
+        await findGoodsInSearch(search_value).then(result => { console.log(result) });
+    }
+
     let current_category = 22;
     let current_name = "Хлеб";
 
@@ -35,7 +43,7 @@
     })
 </script>
 
-<Header type="catalogue"/>
+<Header type="catalogue" on:search={onSearch}/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
         <Category catID=22 name="Хлеб" on:select_category={updateCategory}/>
