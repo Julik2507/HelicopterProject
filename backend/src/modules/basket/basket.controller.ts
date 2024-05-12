@@ -1,8 +1,8 @@
 import express from "express";
 import { putGoodsInBasket } from "./basket.service.js";
 import { authMiddlewareUser } from "../auth/middleware/user.js";
-import { UserSchemaDTO } from "../auth/middleware/dto.js";
 import { getMyGoods } from "./basket.service.js";
+
 const router = express.Router();
 
 router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req: any, res) => {
