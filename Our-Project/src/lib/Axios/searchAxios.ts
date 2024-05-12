@@ -1,4 +1,4 @@
-import { $instance } from "./authAxios";
+import { $instance } from "./configAxios";
 
 export async function findGoodsInSearch(letters: string) {
   try {
