@@ -8,17 +8,26 @@
 
     import { findGoodsInSearch } from "$lib/Axios/searchAxios";
 
-    let search_value;
-    async function onSearch(event) {
-        search_value = event.detail;
-        await findGoodsInSearch(search_value).then(result => { console.log(result) });
-    }
-
     let current_category = 22;
     let current_name = "Хлеб";
 
     let products = [];
     let product_prices = [];
+
+    let search_value = "";
+    async function onSearch(event) {
+        search_value = event.detail;
+        if (search_value != "") {
+            current_name = "Поиск по запросу " + search_value;
+            products = [];
+            await findGoodsInSearch({letters: search_value}).then(result => {
+                for (let i = 0; i < result.length; ++i) {
+                    products.push(result[i].goods_id);
+                }
+            })
+        }
+        products = products;
+    }
 
     async function getProducts(catID) {
         products = [];
