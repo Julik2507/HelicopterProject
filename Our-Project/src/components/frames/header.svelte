@@ -54,8 +54,8 @@
             </div>
         </div>
         <PrimeBtn text="Позвоните мне"/>
-        <SocialLink img={logoVK}/>
-        <SocialLink img={logoTG}/>
+        <SocialLink img={logoVK} link="https://vk.com"/>
+        <SocialLink img={logoTG} link="https://telegram.org"/>
         {/if}
         {#if type === "catalogue"}
         <p class="header__text">Каталог</p>
