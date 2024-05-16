@@ -21,7 +21,7 @@ export const brands = pgTable("brands", {
 export const goods = pgTable("goods", {
     id: serial("id").primaryKey(),
     name: varchar("name").unique(),
-    price: varchar("price"),
+    price: integer("price"),
     rating: integer("rating"),
     brand_id: integer("brand_id").references(() => brands.id),
     subtype_id: integer("subtype_id").references(() => subtypes.id),

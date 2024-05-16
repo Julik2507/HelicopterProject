@@ -1,10 +1,11 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, basketGoods, brands, goods, images, subtypes } from "../../db/schema.js";
-import { brand } from "valibot";
-import { GetBasketDTO } from "./dto/basketDTO.js";
 
 export async function putGoodsInBasket(goodsId: string, userId: number): Promise<void> {
+  console.log(goodsId);
+  console.log(userId);
+
   const myBasket = await findBasket(userId);
 
   const usersBasket = await db.insert(basketGoods).values({
@@ -13,9 +14,11 @@ export async function putGoodsInBasket(goodsId: string, userId: number): Promise
   });
 }
 
-export async function getMyGoods(userId: number): Promise<Array<any>> {
+export async function getMyGoods(userId: number): Promise<any> {
+  let totalCounter = 0;
+
   const myBasket = await findBasket(userId);
-  return await db
+  const result = await db
     .select({
       goods_id: goods.id,
       goodsName: goods.name,
@@ -30,6 +33,23 @@ export async function getMyGoods(userId: number): Promise<Array<any>> {
     .innerJoin(images, eq(goods.img_id, images.id))
     .innerJoin(subtypes, eq(subtypes.id, goods.subtype_id))
     .where(eq(basketGoods.basket_id, myBasket[0].id));
+
+  result.forEach((element) => {
+    totalCounter += element.goodsPrice!;
+  });
+
+  const countGoods = result.reduce((acc: any, current) => {
+    let id = `goodsid_${current.goods_id}`;
+    if (acc[id]) {
+      acc[id] += 1;
+    } else {
+      acc[id] = 1;
+    }
+    console.log(acc);
+    return acc;
+  }, {});
+
+  return { result, totalCounter, countGoods };
 }
 
 export async function findBasket(id: number) {

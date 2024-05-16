@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req: any, res) => {
   try {
-    const result = await putGoodsInBasket(req.params.id, req.user.user_id);
+    const result = await putGoodsInBasket(req.params.id, req.user.id);
     res.status(200).send("Здарова");
   } catch (error: any) {
     console.log(error);
@@ -15,7 +15,7 @@ router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req: any, res
 });
 
 router.get("/catalogue/get-goods", authMiddlewareUser, async (req: any, res) => {
-  const result = await getMyGoods(req.user.user_id);
+  const result = await getMyGoods(req.user.id);
   res.status(200).send(result);
 });
 
