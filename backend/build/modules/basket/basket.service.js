@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, basketGoods, brands, goods, images, subtypes } from "../../db/schema.js";
 export async function putGoodsInBasket(goodsId, userId) {
@@ -31,8 +31,7 @@ export async function getMyGoods(userId) {
     result.forEach((element) => {
         totalCounter += element.goodsPrice;
     });
-    let acc;
-    result.reduce((acc, current) => {
+    const countGoods = result.reduce((acc, current) => {
         let id = `goodsid_${current.goods_id}`;
         if (acc[id]) {
             acc[id] += 1;
@@ -43,7 +42,13 @@ export async function getMyGoods(userId) {
         console.log(acc);
         return acc;
     }, {});
-    return { result, totalCounter, acc };
+    return { result, totalCounter, countGoods };
+}
+export async function deleteGoods(goodsId, userId) {
+    console.log(goodsId);
+    const userBasket = await findBasket(userId);
+    const result = await db.delete(basketGoods).where(and(eq(basketGoods.basket_id, userBasket[0].id), eq(basketGoods.goods_id, Number(goodsId))));
+    return getMyGoods(userId);
 }
 export async function findBasket(id) {
     return await db
