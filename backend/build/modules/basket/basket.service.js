@@ -1,17 +1,34 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, basketGoods, brands, goods, images, subtypes } from "../../db/schema.js";
 export async function putGoodsInBasket(goodsId, userId) {
-    console.log(goodsId);
-    console.log(userId);
-    const myBasket = await findBasket(userId);
-    const usersBasket = await db.insert(basketGoods).values({
-        goods_id: Number(goodsId),
-        basket_id: myBasket[0].id,
-    });
+    try {
+        const myBasket = await findBasket(userId);
+        const findQuantity = await findGoodsInUserBasket(goodsId, myBasket[0].id);
+        if (findQuantity.length > 0) {
+            return await db
+                .update(basketGoods)
+                .set({ quantity: findQuantity[0].quantity + 1 })
+                .where(and(eq(basketGoods.basket_id, myBasket[0].id), eq(basketGoods.goods_id, Number(goodsId))))
+                .returning({ quantity: basketGoods.quantity });
+        }
+        else {
+            return await db
+                .insert(basketGoods)
+                .values({
+                goods_id: Number(goodsId),
+                basket_id: myBasket[0].id,
+                quantity: 1,
+            })
+                .returning({ quantity: basketGoods.quantity });
+        }
+    }
+    catch (error) {
+        throw error;
+    }
 }
 export async function getMyGoods(userId) {
-    let totalCounter = 0;
+    let totalPriceCounter = 0;
     const myBasket = await findBasket(userId);
     const result = await db
         .select({
@@ -21,6 +38,7 @@ export async function getMyGoods(userId) {
         brand: brands.name,
         subtype: subtypes.name,
         img: images.img,
+        singlePrice: sql `${goods.price} * ${basketGoods.quantity}`,
     })
         .from(basketGoods)
         .innerJoin(goods, eq(basketGoods.goods_id, goods.id))
@@ -29,26 +47,44 @@ export async function getMyGoods(userId) {
         .innerJoin(subtypes, eq(subtypes.id, goods.subtype_id))
         .where(eq(basketGoods.basket_id, myBasket[0].id));
     result.forEach((element) => {
-        totalCounter += element.goodsPrice;
+        totalPriceCounter += element.goodsPrice;
     });
-    const countGoods = result.reduce((acc, current) => {
-        let id = `goodsid_${current.goods_id}`;
-        if (acc[id]) {
-            acc[id] += 1;
-        }
-        else {
-            acc[id] = 1;
-        }
-        console.log(acc);
-        return acc;
-    }, {});
-    return { result, totalCounter, countGoods };
+    return { result, totalPriceCounter };
+}
+export async function minusQuantityGoodsInBasket(goodsId, userId) {
+    const MyBasket = await findBasket(userId);
+    const findQuantity = await findGoodsInUserBasket(goodsId, MyBasket[0].id);
+    if (findQuantity[0].quantity === 1) {
+        return await deleteGoods(goodsId, userId);
+    }
+    else {
+        return await db
+            .update(basketGoods)
+            .set({ quantity: findQuantity[0].quantity - 1 })
+            .where(and(eq(basketGoods.basket_id, MyBasket[0].id), eq(basketGoods.goods_id, Number(goodsId))))
+            .returning({ quantity: basketGoods.quantity });
+    }
 }
 export async function deleteGoods(goodsId, userId) {
-    console.log(goodsId);
     const userBasket = await findBasket(userId);
     const result = await db.delete(basketGoods).where(and(eq(basketGoods.basket_id, userBasket[0].id), eq(basketGoods.goods_id, Number(goodsId))));
     return getMyGoods(userId);
+}
+export async function sendInfoToDelivery(dto, userId) {
+    const myBasket = await findBasket(userId);
+    const result = await db
+        .select({
+        goodsName: goods.name,
+        goodsPrice: goods.price,
+        brand: brands.name,
+        subtype: subtypes.name,
+    })
+        .from(basketGoods)
+        .innerJoin(goods, eq(basketGoods.goods_id, goods.id))
+        .innerJoin(brands, eq(goods.brand_id, brands.id))
+        .innerJoin(subtypes, eq(goods.subtype_id, subtypes.id))
+        .where(eq(basketGoods.basket_id, myBasket[0].id));
+    return { result, dto };
 }
 export async function findBasket(id) {
     return await db
@@ -57,5 +93,11 @@ export async function findBasket(id) {
     })
         .from(basket)
         .where(eq(basket.user_id, id));
+}
+export async function findGoodsInUserBasket(goodsId, basketId) {
+    return await db
+        .select()
+        .from(basketGoods)
+        .where(and(eq(basketGoods.goods_id, Number(goodsId)), eq(basketGoods.basket_id, basketId)));
 }
 //# sourceMappingURL=basket.service.js.map

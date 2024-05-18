@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { integer, numeric, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey().notNull(),
@@ -44,6 +44,7 @@ export const basketGoods = pgTable("basketGoods", {
   id: serial("id").primaryKey(),
   basket_id: integer("basket_id").references(() => basket.id),
   goods_id: integer("goods_id").references(() => goods.id),
+  quantity: integer("quantity"),
 });
 
 export const rating = pgTable("rating", {
