@@ -1,9 +1,9 @@
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "../../db/migrate.js";
 import { basket, basketGoods, brands, goods, images, subtypes } from "../../db/schema.js";
-import { ResSendDataToDeliveryDTO } from "./dto/basketDTO.js";
+import { ReqGetMyGoodsDTO, ReqPutGoodsDTO, ResSendDataToDeliveryDTO } from "./dto/basketDTO.js";
 
-export async function putGoodsInBasket(goodsId: string, userId: number) {
+export async function putGoodsInBasket(goodsId: string, userId: number): Promise<ReqPutGoodsDTO> {
   try {
     const myBasket = await findBasket(userId);
     const findQuantity = await findGoodsInUserBasket(goodsId, myBasket[0].id);
@@ -29,7 +29,7 @@ export async function putGoodsInBasket(goodsId: string, userId: number) {
   }
 }
 
-export async function getMyGoods(userId: number): Promise<any> {
+export async function getMyGoods(userId: number): Promise<ReqGetMyGoodsDTO> {
   try {
     const myBasket = await findBasket(userId);
 
@@ -57,15 +57,13 @@ export async function getMyGoods(userId: number): Promise<any> {
   }
 }
 
-export async function minusQuantityGoodsInBasket(goodsId: string, userId: number) {
+export async function minusQuantityGoodsInBasket(goodsId: string, userId: number): Promise<any> {
   try {
     const MyBasket = await findBasket(userId);
     const findQuantity = await findGoodsInUserBasket(goodsId, MyBasket[0].id);
 
     if (findQuantity[0].quantity === 1) {
-      const deleteOneGoods = await deleteGoods(goodsId, userId);
-
-      return deleteOneGoods;
+      return await deleteGoods(goodsId, userId);
     } else {
       const updateQuantity = await db
         .update(basketGoods)

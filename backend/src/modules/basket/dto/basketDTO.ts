@@ -1,4 +1,4 @@
-import { object, number, string, Output, nullable, optional, Input } from "valibot";
+import { object, number, string, Output, nullable, optional, Input, array } from "valibot";
 
 const ResGetBasketSchema = object({
   goods_id: number(),
@@ -26,3 +26,40 @@ export const ResSendDataToDeliverySchema = object({
 });
 
 export type ResSendDataToDeliveryDTO = Input<typeof ResSendDataToDeliverySchema>;
+
+const ReqPutGoodsSchema = object({
+  result: array(
+    object({
+      quantity: nullable(number()),
+      singlePrice: number(),
+    })
+  ),
+  totalPriceCounter: number(),
+});
+
+export type ReqPutGoodsDTO = Output<typeof ReqPutGoodsSchema>;
+
+const ReqGetMyGoodsSchema = object({
+  result: array(
+    object({
+      goods_id: number(),
+      goodsName: nullable(string()),
+      goodsPrice: nullable(number()),
+      brand: nullable(string()),
+      subtype: nullable(string()),
+      img: nullable(string()),
+    })
+  ),
+  info: object({
+    result: array(
+      object({
+        price: nullable(number()),
+        quantity: nullable(number()),
+        singlePrice: number(),
+      })
+    ),
+    totalPriceCounter: number(),
+  }),
+});
+
+export type ReqGetMyGoodsDTO = Output<typeof ReqGetMyGoodsSchema>;
