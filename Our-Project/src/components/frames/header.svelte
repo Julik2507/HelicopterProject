@@ -63,7 +63,7 @@
         {/if}
     </div>
     <div class="header__right">
-        <LittleIcon source={icon3}/>
+        <LittleIcon source={icon3} event={() => { window.location.href = "/busket"}}/>
         <p class="header__money">{money} ₽</p>
         <LittleIcon source={icon4}/>
         <PrimeBtn text="Войти" event={LoginUpdate}/>
