@@ -7,7 +7,6 @@ export function authMiddlewareUser(req, res, next) {
             throw new Error("You didnt authorize");
         const decodedData = jwt.verify(token, config.secret_access);
         req.user = decodedData;
-        console.log(req.user);
         next();
     }
     catch (error) {

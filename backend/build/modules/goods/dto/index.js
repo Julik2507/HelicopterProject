@@ -5,7 +5,7 @@ export const getGoodsSchema = partial(object({
 }));
 export const CreateGoodsSchema = object({
     name: string("Неправильный тип названия продукта"),
-    price: string("Неверный тип стоимости"),
+    price: number("Неверный тип стоимости"),
     brand_id: number("Неверный тип id"),
     subtype_id: number("Неверный тип id "),
     image: any(),

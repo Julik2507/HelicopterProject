@@ -8,7 +8,7 @@ export function authMiddlewareUser(req: any, res: any, next: any) {
 
     const decodedData = jwt.verify(token, config.secret_access);
     req.user = decodedData;
-    console.log(req.user);
+    // console.log(req.user);
 
     next();
   } catch (error: any) {
