@@ -56,3 +56,13 @@ export async function sendUserDataToDelivery(
     throw new Error(error.response.data.message);
   }
 }
+
+export async function getTotalPrice() {
+  //на каждой странице вызывать, чтобы отображалась цена возле корзины. будет работать если пользователь зарегин или залогинен
+  try {
+    const result = await $instance.get("/catalogue/get-total-price");
+    return result;
+  } catch (error: any) {
+    return 0;
+  }
+}

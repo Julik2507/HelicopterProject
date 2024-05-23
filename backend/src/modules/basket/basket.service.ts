@@ -113,6 +113,29 @@ export async function sendInfoToDelivery(dto: ResSendDataToDeliveryDTO, userId: 
   }
 }
 
+export async function getTotalPrice(userId: number): Promise<any> {
+  try {
+    let totalPrice = 0;
+    const myBasket = await findBasket(userId);
+
+    const result = await db
+      .select({
+        price: goods.price,
+        quantity: basketGoods.quantity,
+      })
+      .from(basketGoods)
+      .innerJoin(goods, eq(basketGoods.goods_id, goods.id))
+      .where(eq(basketGoods.basket_id, myBasket[0].id));
+
+    result.forEach((element) => {
+      totalPrice += element.price! * element.quantity!;
+    });
+
+    return { totalPrice };
+  } catch (error: any) {
+    throw error;
+  }
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export async function findBasket(id: number) {
