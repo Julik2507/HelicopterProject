@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export function authMiddlewareUser(req: any, res: any, next: any) {
   try {
     const token = req.headers.authorization;
-    if (!token) throw new Error("You didnt authorize");
+    if (!token) throw new Error("Вы не авторизованы!");
 
     const decodedData = jwt.verify(token, config.secret_access);
     req.user = decodedData;

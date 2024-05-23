@@ -1,10 +1,11 @@
 import express from "express";
 import { minusQuantityGoodsInBasket, putGoodsInBasket, sendInfoToDelivery } from "./basket.service.js";
 import { authMiddlewareUser } from "../auth/middleware/user.js";
-import { getMyGoods } from "./basket.service.js";
+import { getMyGoods, getTotalPrice } from "./basket.service.js";
 import { deleteGoods } from "./basket.service.js";
 import { parse } from "valibot";
 import { ResSendDataToDeliverySchema } from "./dto/basketDTO.js";
+import { get } from "http";
 
 const router = express.Router();
 
@@ -48,7 +49,16 @@ router.post("/basket/send-data-to-delivery", authMiddlewareUser, async (req: any
   try {
     const validate = parse(ResSendDataToDeliverySchema, req.body);
     const result = await sendInfoToDelivery(req.body, req.user.id);
-    res.status(200).send(result);
+    res.send(result);
+  } catch (error: any) {
+    res.send({ message: error.message });
+  }
+});
+
+router.get("/catalogue/get-total-price", authMiddlewareUser, async (req: any, res) => {
+  try {
+    const result = await getTotalPrice(req.user.id);
+    res.send(result);
   } catch (error: any) {
     res.send({ message: error.message });
   }
