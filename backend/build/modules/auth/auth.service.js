@@ -18,13 +18,12 @@ export async function registerUser(dto) {
         const user = await publicUser(dto.email);
         if (user == undefined)
             throw new Error("undefined");
-        console.log(user[0].user_id);
-        const userBasket = await db.insert(basket).values({ user_id: user[0].user_id });
+        const userBasket = await db.insert(basket).values({ user_id: user[0].id });
         console.log(user);
         const twoTokens = await tokenJwt(user[0]);
         const saveToken = await db.insert(tokens).values({
             token: twoTokens.refreshToken,
-            user_id: user[0].user_id,
+            user_id: user[0].id,
         });
         return twoTokens;
     }
@@ -62,7 +61,7 @@ export async function existUserByEmail(email) {
 export async function publicUser(email) {
     const result = await db
         .select({
-        user_id: users.id,
+        id: users.id,
         name: users.name,
         email: users.email,
         role: users.role,

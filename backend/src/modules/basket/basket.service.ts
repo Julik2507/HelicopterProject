@@ -30,8 +30,11 @@ export async function putGoodsInBasket(goodsId: string, userId: number): Promise
 }
 
 export async function getMyGoods(userId: number): Promise<ReqGetMyGoodsDTO> {
+  console.log(userId);
+
   try {
     const myBasket = await findBasket(userId);
+    console.log(myBasket[0].id);
 
     const result = await db
       .select({

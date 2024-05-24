@@ -5,7 +5,6 @@ import { getMyGoods, getTotalPrice } from "./basket.service.js";
 import { deleteGoods } from "./basket.service.js";
 import { parse } from "valibot";
 import { ResSendDataToDeliverySchema } from "./dto/basketDTO.js";
-import { get } from "http";
 
 const router = express.Router();
 
@@ -21,6 +20,7 @@ router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req: any, res
 router.get("/catalogue/get-goods", authMiddlewareUser, async (req: any, res) => {
   try {
     const result = await getMyGoods(req.user.id);
+
     res.status(200).send(result);
   } catch (error: any) {
     res.send({ message: error.message });
