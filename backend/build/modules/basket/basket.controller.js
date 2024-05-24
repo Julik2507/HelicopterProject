@@ -58,7 +58,7 @@ router.get("/catalogue/get-total-price", authMiddlewareUser, async (req, res) =>
         res.send(result);
     }
     catch (error) {
-        res.send(0);
+        res.send({ message: error.message });
     }
 });
 export default router;

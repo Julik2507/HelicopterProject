@@ -52,6 +52,9 @@ export async function sendUserDataToDelivery(
   //пользователь заполняет поля, отправляет данные дальше боту по идее.
   try {
     const result = await $instance.post("/basket/send-data-to-delivery", dto);
+    // await $instance.post(
+    //   `https://api.telegram.org/bot6100257122:AAE2pG2KUcYxq5ISYoBUCVEQ0LEXCpUVjc0/sendMessage?chat_id=-4115181766&parse_mode=html&text=ПРИВЕТ`
+    // );
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }

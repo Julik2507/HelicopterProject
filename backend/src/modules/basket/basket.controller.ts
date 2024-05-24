@@ -49,6 +49,13 @@ router.post("/basket/send-data-to-delivery", authMiddlewareUser, async (req: any
   try {
     const validate = parse(ResSendDataToDeliverySchema, req.body);
     const result = await sendInfoToDelivery(req.body, req.user.id);
+
+    // let msg = `Здравствуйте, уважаемый покупатель! Спасибо за покупку! В ближайшее время к вам приедет курьер по адресу ${result.dto.city}, улица ${result.dto.street}, дом ${result.dto.house}.
+    // Ваш заказ: `;
+
+    // router.post(
+    //   `https://api.telegram.org/bot6100257122:AAE2pG2KUcYxq5ISYoBUCVEQ0LEXCpUVjc0/sendMessage?chat_id=-4115181766&parse_mode=html&text=ПРИВЕТ`
+    // );
     res.send(result);
   } catch (error: any) {
     res.send({ message: error.message });
