@@ -52,6 +52,7 @@ export async function sendUserDataToDelivery(
   //пользователь заполняет поля, отправляет данные дальше боту по идее.
   try {
     const result = await $instance.post("/basket/send-data-to-delivery", dto);
+    return result;
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }
