@@ -4,6 +4,7 @@
     import cancelImg from "$lib/img/Cancel.svg";
 
     export let isModalOpen = false;
+    export let msg = "";
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -15,7 +16,7 @@
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
 <div id="modal" class="info_modal" style="--display: {isModalOpen ? 'flex' : 'none'};">
     <button class="modal_close" on:click={closeModal}><img src={cancelImg} alt="Close" style="width: 50px"></button>
-    <p class="error_message">Вы не авторизованы</p>
+    <p class="error_message">{msg}</p>
 </div>
 
 <style>

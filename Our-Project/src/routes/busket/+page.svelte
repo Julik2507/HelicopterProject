@@ -13,7 +13,9 @@
     let busketIDs = [];
     let busketInfo = [];
     let totalPrice = 0;
+
     let displayError = false;
+    let errorMessage = "";
 
     async function updateBusket() {
         busketIDs = [];
@@ -30,6 +32,7 @@
             });
             displayError = false;
         } catch (err) {
+            errorMessage = err.message;
             displayError = true;
         }
         totalPrice = totalPrice;
@@ -70,6 +73,7 @@
             })
         } catch (err) {
             displayError = true;
+            errorMessage = err.message;
         }
     }
 
@@ -78,7 +82,7 @@
     }
 </script>
 
-<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate}/>
+<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage}/>
 <Header money={totalPrice}/>
 <p class="subtitle">Корзина</p>
 <div class="busket">
