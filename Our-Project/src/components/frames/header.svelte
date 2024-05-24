@@ -14,7 +14,16 @@
     import logoVK from "$lib/img/LinkVK.png";
     import logoTG from "$lib/img/LinkTG.png";
 
+    import { onMount } from "svelte";
     import { createEventDispatcher } from "svelte";
+    import { getTotalPrice } from "$lib/Axios/basketAxios";
+    import { sendUserDataToDelivery } from "$lib/Axios/basketAxios";
+
+    onMount(async () => {
+        await getTotalPrice().then(result => {
+            money = result.data.totalPrice;
+        })
+    });
 
     let dispatch = createEventDispatcher();
 
@@ -63,7 +72,7 @@
         {/if}
     </div>
     <div class="header__right">
-        <LittleIcon source={icon3}/>
+        <LittleIcon source={icon3} event={() => { window.location.href = "/busket"}}/>
         <p class="header__money">{money} ₽</p>
         <LittleIcon source={icon4}/>
         <PrimeBtn text="Войти" event={LoginUpdate}/>

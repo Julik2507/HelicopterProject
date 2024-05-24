@@ -26,7 +26,7 @@
             await loginUser({
                 password: input_password,
                 email: input_email
-            });
+            }).then(result => {console.log(result)});
             input_email = "";
             input_password = "";
             displayError = false;

@@ -7,7 +7,7 @@
 
     export let isModalOpen = false;
     export let prodID = "7";
-    export let price = "85 р"
+    export let price = 85;
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -90,7 +90,7 @@
             <p class = "info_text">{manufacturer}</p>
         </div>
         <div class = "modal_button">
-            <PrimeBtn text="{price} +" --width="500px" event={closeModal}/>
+            <PrimeBtn text="{price} ₽ +" --width="500px" event={closeModal}/>
         </div>
     </div>
 </div>
