@@ -1,19 +1,40 @@
 <script>
-    import img from "$lib/img/default_item.png"
+    export let prodID = 0;
     export let name = "Батон";
     export let price = 65;
-    export let amount = "1 шт.";
+    export let count = 1;
+    let img = "";
 
-    let count = 1;
-    
-    function uptick() { count += 1; }
-    function downtick() { count -= 1; count = Math.max(count, 0); }
+    import { onMount } from "svelte";
+    import { putGoodsInBasket } from "$lib/Axios/basketAxios";
+    import { minusQuantityForGoods } from "$lib/Axios/basketAxios";
+    import { createEventDispatcher } from "svelte";
+    import { getOneGoods } from "$lib/Axios/goodsAxios";
+
+    onMount(async () => {
+        await getOneGoods(prodID).then(result => {
+            img = result.good[0].img;
+        })
+    })
+
+    let dispatch = createEventDispatcher();
+
+    function uptick() {
+        count += 1; 
+        putGoodsInBasket(prodID);
+        dispatch("uptick");
+    }
+    function downtick() {
+        count -= 1; 
+        minusQuantityForGoods(prodID);
+        dispatch("downtick");
+    }
 </script>
 
 <div class="busket_product">
     <div class="name_block">
-        <img src={img} alt = "">
-        <p class="name">{name} ({amount})</p>
+        <img src="http://176.109.107.106/api/{img}" alt = "" class="img">
+        <p class="name">{name}</p>
     </div>
     <div class="common_block">
         <p class="price">{price} ₽</p>
@@ -41,6 +62,10 @@
         align-items: center;
         justify-content: space-around;
     }
+    .img {
+        width: 200px;
+        height: 200px;
+    }
     .name {
         font-family: Epilogue, sans-serif;
         font-size: 22px;
@@ -49,6 +74,10 @@
         letter-spacing: 0.20999999344348907px;
         text-align: left;
         color: #FF335F;
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     .common_block {
         display: flex;
