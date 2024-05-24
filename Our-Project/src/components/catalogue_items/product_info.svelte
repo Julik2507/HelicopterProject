@@ -2,6 +2,7 @@
     import { createEventDispatcher, onMount } from 'svelte';
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte";
     import { getOneGoods } from '$lib/Axios/goodsAxios';
+    import { putGoodsInBasket } from "$lib/Axios/basketAxios";
 
     import cancelImg from "$lib/img/Cancel.svg";
 
@@ -46,6 +47,10 @@
         conditions = detailed_info[7].value;
         manufacturer = detailed_info[8].value;
     })
+
+    function addToBusket() {
+        putGoodsInBasket(prodID);
+    }
 </script>
 
 <div id="background" style="--display: {isModalOpen ? 'flex' : 'none'};"></div>
@@ -90,7 +95,7 @@
             <p class = "info_text">{manufacturer}</p>
         </div>
         <div class = "modal_button">
-            <PrimeBtn text="{price} ₽ +" --width="500px" event={closeModal}/>
+            <PrimeBtn text="{price} ₽ +" --width="500px" event={addToBusket}/>
         </div>
     </div>
 </div>
