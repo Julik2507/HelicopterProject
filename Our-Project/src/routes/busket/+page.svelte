@@ -8,6 +8,7 @@
     import { onMount } from "svelte";
     import { getMyBasketGoods } from "$lib/Axios/basketAxios";
     import { sendUserDataToDelivery } from "$lib/Axios/basketAxios";
+    import { getTotalPrice } from "$lib/Axios/basketAxios";
 
     let busketNames = [];
     let busketIDs = [];
@@ -17,7 +18,7 @@
     let displayError = false;
     let errorMessage = "";
 
-    async function updateBusket() {
+    async function getBusket() {
         busketIDs = [];
         busketNames = [];
         busketInfo = [];
@@ -40,7 +41,13 @@
         busketNames = busketNames;
         busketInfo = busketInfo;
     }
-    onMount(async () => { updateBusket() });
+    onMount(async () => { getBusket() });
+
+    async function updatePrice() {
+        await getTotalPrice().then(result => {
+            totalPrice = result.data.totalPrice;
+        })
+    }
 
     let name = "";
     let surname = "";
@@ -98,7 +105,7 @@
         {:else}
             {#await busketInfo then data }
                 {#each {length: busketInfo.length } as _, i}
-                    <BusketProduct prodID={busketIDs[i]} name={busketNames[i]} price={busketInfo[i].price} count={busketInfo[i].quantity} on:uptick={updateBusket} on:downtick={updateBusket}/>
+                    <BusketProduct prodID={busketIDs[i]} name={busketNames[i]} price={busketInfo[i].price} count={busketInfo[i].quantity} on:uptick={updatePrice} on:downtick={updatePrice}/>
                 {/each}
             {/await}
         {/if}
