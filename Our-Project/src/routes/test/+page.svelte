@@ -1,5 +1,22 @@
 <script>
-    import BusketProduct from "$comp/ui_kit/busket_product.svelte";
+	import { fly } from 'svelte/transition';
+
+	let number = 0;
 </script>
 
-<BusketProduct/>
+<div>
+	The number is:
+	{#key number}
+		<span style="display: inline-block" in:fly={{ y: -20 }}>
+			{number}
+		</span>
+	{/key}
+</div>
+<br />
+<button
+	on:click={() => {
+		number += 1;
+	}}
+>
+	Increment
+</button>

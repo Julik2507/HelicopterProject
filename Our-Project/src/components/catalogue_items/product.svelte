@@ -2,6 +2,7 @@
     import { getOneGoods } from "$lib/Axios/goodsAxios";
     import { onMount } from 'svelte';
     import ProductInfo from "./product_info.svelte";
+    import { putGoodsInBasket } from "$lib/Axios/basketAxios";
 
     export let prodID = 7;
     export let type = "default";
@@ -32,6 +33,10 @@
     function CloseInfo() {
         isInfoOpen = false;
     }
+
+    function addToBusket() {
+        putGoodsInBasket(prodID);
+    }
 </script>
 
 <ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID} {price}/>
@@ -45,7 +50,7 @@
         {/if}
     </div>
     {#if type === "default" || type === "new" }
-    <button class="item__button">{price} +</button>
+    <button class="item__button" on:click={addToBusket}>{price} ₽ +</button>
     {/if}
     {#if type === "missing"}
     <button class="item__button" disabled>Нет в наличии</button>
