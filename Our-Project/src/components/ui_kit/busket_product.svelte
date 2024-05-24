@@ -63,6 +63,7 @@
         justify-content: space-around;
     }
     .img {
+        border-radius: 20px;
         width: 200px;
         height: 200px;
     }
