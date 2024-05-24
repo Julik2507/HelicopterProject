@@ -19,7 +19,7 @@ export const changeParamsSchema = object({
 });
 
 export const publicUserChema = object({
-  user_id: number(),
+  id: number(),
   name: string(),
   email: string(),
   role: string(),

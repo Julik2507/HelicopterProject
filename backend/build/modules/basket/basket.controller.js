@@ -18,6 +18,7 @@ router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req, res) => 
 router.get("/catalogue/get-goods", authMiddlewareUser, async (req, res) => {
     try {
         const result = await getMyGoods(req.user.id);
+        console.log("success");
         res.status(200).send(result);
     }
     catch (error) {
@@ -58,7 +59,7 @@ router.get("/catalogue/get-total-price", authMiddlewareUser, async (req, res) =>
         res.send(result);
     }
     catch (error) {
-        res.send(0);
+        res.send({ message: error.message });
     }
 });
 export default router;

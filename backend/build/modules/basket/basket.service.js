@@ -26,8 +26,10 @@ export async function putGoodsInBasket(goodsId, userId) {
     }
 }
 export async function getMyGoods(userId) {
+    console.log(userId);
     try {
         const myBasket = await findBasket(userId);
+        console.log(myBasket[0].id);
         const result = await db
             .select({
             goods_id: goods.id,
