@@ -15,6 +15,7 @@
         border-radius: 10px;
         width: var(--width, fit-content);
         padding: 0px 16px;
+        transition: background-color .3s, border-color .3s;
     }
     .btn_text {
         font-family: Epilogue, sans-serif;
@@ -24,5 +25,9 @@
         letter-spacing: 0.20999999344348907px;
         text-align: center;
         color: #FFFFFF;
+    }
+    .prime_btn:active {
+        background-color: #c3300c;
+        border-color: #c3300c;
     }
 </style>

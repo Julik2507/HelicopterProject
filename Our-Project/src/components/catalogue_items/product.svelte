@@ -96,7 +96,8 @@
     }
     .item__button {
         width: fit-content;
-        background: #F1F1F1;
+        background-color: #F1F1F1;
+        transition: bsckground-color .3s;
         border-radius: 50px;
         border: none;
         font-family: Epilogue, sans-serif;
@@ -108,6 +109,9 @@
         color: #FF335F;
         display: flex;
         gap: 10px;
+    }
+    .item__button:active {
+        background-color: #d8d8d8;
     }
     .item__msg {
         display: flex;

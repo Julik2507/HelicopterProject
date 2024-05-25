@@ -3,34 +3,51 @@
     import PrimeBtn from "$comp/ui_kit/prime_btn.svelte"
     import Footer from "$comp/frames/footer.svelte"
     import BusketProduct from "$comp/ui_kit/busket_product.svelte";
+    import ErrorWindow from "$comp/auth_pop_ups/error_window.svelte";
 
     import { onMount } from "svelte";
     import { getMyBasketGoods } from "$lib/Axios/basketAxios";
     import { sendUserDataToDelivery } from "$lib/Axios/basketAxios";
+    import { getTotalPrice } from "$lib/Axios/basketAxios";
 
     let busketNames = [];
     let busketIDs = [];
     let busketInfo = [];
     let totalPrice = 0;
 
-    async function updateBusket() {
-        await getMyBasketGoods().then(result => {
-            busketIDs = [];
-            busketNames = [];
-            busketInfo = [];
-            for (let i = 0; i < result.info.result.length; ++i) {
-                busketNames.push(result.result[i].goodsName);
-                busketInfo.push(result.info.result[i]);
-                busketIDs.push(result.result[i].goods_id);
-            }
-            totalPrice = result.info.totalPriceCounter;
-        });
+    let displayError = false;
+    let errorMessage = "";
+
+    async function getBusket() {
+        busketIDs = [];
+        busketNames = [];
+        busketInfo = [];
+        try {
+            await getMyBasketGoods().then(result => {
+                for (let i = 0; i < result.info.result.length; ++i) {
+                    busketNames.push(result.result[i].goodsName);
+                    busketInfo.push(result.info.result[i]);
+                    busketIDs.push(result.result[i].goods_id);
+                }
+                totalPrice = result.info.totalPriceCounter;
+            });
+            displayError = false;
+        } catch (err) {
+            errorMessage = err.message;
+            displayError = true;
+        }
         totalPrice = totalPrice;
         busketIDs = busketIDs;
         busketNames = busketNames;
         busketInfo = busketInfo;
     }
-    onMount(async () => {updateBusket()});
+    onMount(async () => { getBusket() });
+
+    async function updatePrice() {
+        await getTotalPrice().then(result => {
+            totalPrice = result.data.totalPrice;
+        })
+    }
 
     let name = "";
     let surname = "";
@@ -62,29 +79,39 @@
                 console.log(result)
             })
         } catch (err) {
-            alert(err)
+            displayError = true;
+            errorMessage = err.message;
         }
+    }
+
+    function ErrorDisplayUpdate() {
+        displayError = !displayError;
     }
 </script>
 
-<Header/>
-{#await busketInfo then data }
+<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage}/>
+<Header money={totalPrice}/>
 <p class="subtitle">Корзина</p>
 <div class="busket">
     <div class="busket_titles">
-        <p>Продукт</p>
-        <p>Цена</p>
-        <p>Количество</p>
-        <p>Сумма</p>
+        <p class="field_title">Продукт</p>
+        <p class="field_title">Цена</p>
+        <p class="field_title">Количество</p>
+        <p class="field_title">Сумма</p>
     </div>
     <div class="busket_content">
-            {#each {length: busketInfo.length } as _, i}
-                <BusketProduct prodID={busketIDs[i]} name={busketNames[i]} price={busketInfo[i].price} count={busketInfo[i].quantity} on:uptick={updateBusket} on:downtick={updateBusket}/>
-            {/each}
+        {#if displayError}
+            <p>Вы не авторизованы</p>
+        {:else}
+            {#await busketInfo then data }
+                {#each {length: busketInfo.length } as _, i}
+                    <BusketProduct prodID={busketIDs[i]} name={busketNames[i]} price={busketInfo[i].price} count={busketInfo[i].quantity} on:uptick={updatePrice} on:downtick={updatePrice}/>
+                {/each}
+            {/await}
+        {/if}
     </div>
 </div>
 <p class="field_title">Общая стоимость: {totalPrice}</p>
-{/await}
 <div class="receiver_info">
     <p class="subtitle">Получатель</p>
     <div class="receiver_credits">

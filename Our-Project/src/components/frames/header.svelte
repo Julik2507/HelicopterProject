@@ -17,7 +17,8 @@
     import { onMount } from "svelte";
     import { createEventDispatcher } from "svelte";
     import { getTotalPrice } from "$lib/Axios/basketAxios";
-    import { sendUserDataToDelivery } from "$lib/Axios/basketAxios";
+
+    export let money = 0;
 
     onMount(async () => {
         await getTotalPrice().then(result => {
@@ -33,7 +34,6 @@
     }
 
     export let type = "main";
-    export let money = 0;
 
     let isLoginOpen = false;
     let isRegisterOpen = false;
