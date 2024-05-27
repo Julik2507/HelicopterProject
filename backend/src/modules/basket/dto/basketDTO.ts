@@ -23,6 +23,7 @@ export const ResSendDataToDeliverySchema = object({
   podiezd: optional(number()),
   etaz: optional(number()),
   kodOtDomofona: optional(number()),
+  comment: optional(string()),
 });
 
 export type ResSendDataToDeliveryDTO = Input<typeof ResSendDataToDeliverySchema>;
