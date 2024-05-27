@@ -18,7 +18,6 @@ router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req, res) => 
 router.get("/catalogue/get-goods", authMiddlewareUser, async (req, res) => {
     try {
         const result = await getMyGoods(req.user.id);
-        console.log("success");
         res.status(200).send(result);
     }
     catch (error) {

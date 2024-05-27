@@ -13,7 +13,6 @@ export async function getCommonThings(letters: string) {
       })
       .from(goods)
       .innerJoin(images, eq(goods.img_id, images.id))
-      .innerJoin(attribute_values, eq(goods.id, attribute_values.goods_id))
       .where(ilike(goods.name, `%${letters}%`));
   } catch (error: any) {
     throw error;
