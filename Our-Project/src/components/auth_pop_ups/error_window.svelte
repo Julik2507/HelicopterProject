@@ -4,12 +4,16 @@
     import cancelImg from "$lib/img/Cancel.svg";
 
     export let isModalOpen = false;
+    export let authError = false;
     export let msg = "";
     const dispatch = createEventDispatcher();
 
     function closeModal() {
         isModalOpen = false;
         dispatch('closeModal', { isModalOpen });
+        if (authError) {
+            window.location.href = "/";
+        }
     }
 </script>
 

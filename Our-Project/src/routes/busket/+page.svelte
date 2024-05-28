@@ -17,6 +17,7 @@
 
     let displayError = false;
     let errorMessage = "";
+    let authError = false;
 
     async function getBusket() {
         busketIDs = [];
@@ -32,9 +33,11 @@
                 totalPrice = result.info.totalPriceCounter;
             });
             displayError = false;
+            authError = false;
         } catch (err) {
             errorMessage = err.message;
             displayError = true;
+            authError = true;
         }
         totalPrice = totalPrice;
         busketIDs = busketIDs;
@@ -61,6 +64,20 @@
     let floor = "";
     let code = "";
 
+    function clearFields() {
+        name = "";
+        surname = "";
+        numberPhone = "";
+        city = "";
+        street = "";
+        house = "";
+        apartment = "";
+        corporate = "";
+        entrance = "";
+        floor = "";
+        code = "";
+    }
+
     async function sendData() {
         try {
             await sendUserDataToDelivery({
@@ -78,6 +95,7 @@
             }).then(result => {
                 displayError = true;
                 errorMessage = result.message;
+                clearFields();
             })
         } catch (err) {
             displayError = true;
@@ -90,7 +108,7 @@
     }
 </script>
 
-<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage}/>
+<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage} {authError}/>
 <Header money={totalPrice}/>
 <p class="subtitle">Корзина</p>
 <div class="busket">
