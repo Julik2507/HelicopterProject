@@ -49,7 +49,8 @@
     })
 
     function addToBusket() {
-        putGoodsInBasket(prodID);
+        dispatch("addProduct");
+        closeModal();
     }
 </script>
 
