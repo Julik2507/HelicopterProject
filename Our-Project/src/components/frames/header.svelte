@@ -17,13 +17,28 @@
     import { onMount } from "svelte";
     import { createEventDispatcher } from "svelte";
     import { getTotalPrice } from "$lib/Axios/basketAxios";
+    import { getUserName } from "$lib/Axios/authAxios";
 
     export let money = 0;
+    let name = "";
+    let displayName = false;
+
+    async function updateHeader() {
+        try {
+            await getUserName().then(result => {
+                name = result.name;
+                displayName = true;
+            })
+            await getTotalPrice().then(result => {
+                money = result.data.totalPrice;
+            })
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
 
     onMount(async () => {
-        await getTotalPrice().then(result => {
-            money = result.data.totalPrice;
-        })
+        updateHeader();
     });
 
     let dispatch = createEventDispatcher();
@@ -40,9 +55,11 @@
 
     function LoginUpdate() {
         isLoginOpen = !isLoginOpen;
+        updateHeader();
     }
     function RegisterUpdate() {
         isRegisterOpen = !isRegisterOpen;
+        updateHeader();
     }
 </script>
 
@@ -70,12 +87,18 @@
         <Search on:search={onSearch}/>
         {/if}
     </div>
-    <div class="header__right">
+    <div class="header__middle">
         <LittleIcon source={icon3} event={() => { window.location.href = "/busket"}}/>
         <p class="header__money">{money} ₽</p>
-        <LittleIcon source={icon4}/>
-        <PrimeBtn text="Войти" event={LoginUpdate}/>
-        <PrimeBtn text="Зарегистрироваться" event={RegisterUpdate}/>
+    </div>
+    <div class="header__right">
+        {#if displayName}
+            <LittleIcon source={icon4}/>
+            <p class="header__text">{name}</p>
+        {:else}
+            <PrimeBtn text="Войти" event={LoginUpdate}/>
+            <PrimeBtn text="Зарегистрироваться" event={RegisterUpdate}/>
+        {/if}
     </div>
 </div>
 
@@ -99,19 +122,25 @@
         letter-spacing: -0.27000001072883606px;
         text-align: left;
         color: #1C0F0D;
+        margin-right: 20px;
+    }
+    .header__left {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        justify-content: start;
+    }
+    .header__middle {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        justify-content: end;
     }
     .header__right {
         display: flex;
         gap: 25px;
         align-items: center;
         justify-content: end;
-    }
-    .header__left {
-        display: flex;
-        width: 100%;
-        gap: 25px;
-        align-items: center;
-        justify-content: start;
     }
     .header__info {
         display: flex;
