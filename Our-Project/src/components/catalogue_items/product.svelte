@@ -4,11 +4,14 @@
     import ProductInfo from "./product_info.svelte";
     import { putGoodsInBasket } from "$lib/Axios/basketAxios";
 
+    import { createEventDispatcher } from "svelte";
+    let dispatch = createEventDispatcher();
+
     export let prodID = 7;
     export let type = "default";
     
-    export let name = "Багет";
-    export let amount = "180 г";
+    export let name = "";
+    export let amount = "";
     export let price = 85;
     export let sale_price = 70;
 
@@ -35,6 +38,7 @@
     }
 
     function addToBusket() {
+        dispatch("addProduct", {price});
         putGoodsInBasket(prodID);
     }
 </script>
