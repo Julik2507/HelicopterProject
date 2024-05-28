@@ -19,6 +19,7 @@ export const ResSendDataToDeliverySchema = object({
     podiezd: optional(number()),
     etaz: optional(number()),
     kodOtDomofona: optional(number()),
+    comment: optional(string()),
 });
 const ReqPutGoodsSchema = object({
     result: array(object({
