@@ -49,7 +49,7 @@ router.post("/basket/send-data-to-delivery", authMiddlewareUser, async (req: any
   try {
     const validate = parse(ResSendDataToDeliverySchema, req.body);
     const result = await sendInfoToDelivery(req.body, req.user.id);
-    res.send(result);
+    res.send("Спасибо за покупку!");
   } catch (error: any) {
     res.send({ message: error.message });
   }

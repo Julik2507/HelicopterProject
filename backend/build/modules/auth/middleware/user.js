@@ -7,8 +7,6 @@ export function authMiddlewareUser(req, res, next) {
             throw new Error("Вы не авторизованы!");
         const decodedData = jwt.verify(token, config.secret_access);
         req.user = decodedData;
-        console.log(1);
-        console.log(req.user.id);
         next();
     }
     catch (error) {

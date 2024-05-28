@@ -22,6 +22,7 @@
             products = [];
             product_prices = [];
             await findGoodsInSearch({letters: search_value}).then(result => {
+                console.log(result);
                 for (let i = 0; i < result.length; ++i) {
                     products.push(result[i].goods_id);
                     product_prices.push(result[i].price);
