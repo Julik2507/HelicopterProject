@@ -43,7 +43,7 @@
     }
 </script>
 
-<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID} {price}/>
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} {prodID} {price} on:addProduct={addToBusket}/>
 <div class="item">
     <img src="http://176.109.107.106/api/{img}" alt="" class="item_img"/>
     <p class="item__name">{name}</p>
@@ -53,16 +53,18 @@
         <p class="item__new">Новинка</p>
         {/if}
     </div>
-    {#if type === "default" || type === "new" }
-    <button class="item__button" on:click={addToBusket}>{price} ₽ +</button>
-    {/if}
-    {#if type === "missing"}
-    <button class="item__button" disabled>Нет в наличии</button>
-    {/if}
-    {#if type === "sale"}
-    <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
-    {/if}
-    <button class="item__button" on:click={OpenInfo}>Подробнее</button>
+    <div class="item__buttons">
+        {#if type === "default" || type === "new" }
+        <button class="item__button" on:click={addToBusket}>{price} ₽ +</button>
+        {/if}
+        {#if type === "missing"}
+        <button class="item__button" disabled>Нет в наличии</button>
+        {/if}
+        {#if type === "sale"}
+        <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
+        {/if}
+        <button class="item__button" on:click={OpenInfo}>Подробнее</button>
+    </div>
 </div>
 
 <style>
@@ -105,7 +107,7 @@
         border-radius: 50px;
         border: none;
         font-family: Epilogue, sans-serif;
-        font-size: 13px;
+        font-size: 16px;
         font-weight: 400;
         line-height: 21px;
         letter-spacing: 0.21px;
@@ -144,5 +146,10 @@
     }
     .item_img {
         border-radius: 25px;
+    }
+    .item__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 </style>
