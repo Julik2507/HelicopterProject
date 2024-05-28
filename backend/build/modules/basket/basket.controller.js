@@ -18,7 +18,6 @@ router.post("/catalogue/add-goods/:id", authMiddlewareUser, async (req, res) => 
 router.get("/catalogue/get-goods", authMiddlewareUser, async (req, res) => {
     try {
         const result = await getMyGoods(req.user.id);
-        console.log("success");
         res.status(200).send(result);
     }
     catch (error) {
@@ -47,9 +46,10 @@ router.post("/basket/send-data-to-delivery", authMiddlewareUser, async (req, res
     try {
         const validate = parse(ResSendDataToDeliverySchema, req.body);
         const result = await sendInfoToDelivery(req.body, req.user.id);
-        res.send(result);
+        res.send({ message: "Спасибо за покупку!" });
     }
     catch (error) {
+        console.log(error);
         res.send({ message: error.message });
     }
 });

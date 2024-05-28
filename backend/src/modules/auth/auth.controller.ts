@@ -48,4 +48,12 @@ router.post("/auth/update", async (req, res) => {
   res.status(200).send(result);
 });
 
+router.get("/auth/user-name", authMiddlewareUser, async (req: any, res) => {
+  try {
+    res.status(200).send({ name: req.user.name });
+  } catch (error: any) {
+    res.status(400);
+  }
+});
+
 export default router;

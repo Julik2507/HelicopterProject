@@ -4,11 +4,14 @@
     import ProductInfo from "./product_info.svelte";
     import { putGoodsInBasket } from "$lib/Axios/basketAxios";
 
+    import { createEventDispatcher } from "svelte";
+    let dispatch = createEventDispatcher();
+
     export let prodID = 7;
     export let type = "default";
     
-    export let name = "Багет";
-    export let amount = "180 г";
+    export let name = "";
+    export let amount = "";
     export let price = 85;
     export let sale_price = 70;
 
@@ -35,11 +38,12 @@
     }
 
     function addToBusket() {
+        dispatch("addProduct", {price});
         putGoodsInBasket(prodID);
     }
 </script>
 
-<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} prodID={prodID} {price}/>
+<ProductInfo isModalOpen={isInfoOpen} on:closeModal={CloseInfo} {prodID} {price} on:addProduct={addToBusket}/>
 <div class="item">
     <img src="http://176.109.107.106/api/{img}" alt="" class="item_img"/>
     <p class="item__name">{name}</p>
@@ -49,16 +53,18 @@
         <p class="item__new">Новинка</p>
         {/if}
     </div>
-    {#if type === "default" || type === "new" }
-    <button class="item__button" on:click={addToBusket}>{price} ₽ +</button>
-    {/if}
-    {#if type === "missing"}
-    <button class="item__button" disabled>Нет в наличии</button>
-    {/if}
-    {#if type === "sale"}
-    <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
-    {/if}
-    <button class="item__button" on:click={OpenInfo}>Подробнее</button>
+    <div class="item__buttons">
+        {#if type === "default" || type === "new" }
+        <button class="item__button" on:click={addToBusket}>{price} ₽ +</button>
+        {/if}
+        {#if type === "missing"}
+        <button class="item__button" disabled>Нет в наличии</button>
+        {/if}
+        {#if type === "sale"}
+        <button class="item__button" disabled><p class="item__old__price">{price}</p> {sale_price} ₽ +</button>
+        {/if}
+        <button class="item__button" on:click={OpenInfo}>Подробнее</button>
+    </div>
 </div>
 
 <style>
@@ -96,11 +102,12 @@
     }
     .item__button {
         width: fit-content;
-        background: #F1F1F1;
+        background-color: #F1F1F1;
+        transition: bsckground-color .3s;
         border-radius: 50px;
         border: none;
         font-family: Epilogue, sans-serif;
-        font-size: 13px;
+        font-size: 16px;
         font-weight: 400;
         line-height: 21px;
         letter-spacing: 0.21px;
@@ -108,6 +115,9 @@
         color: #FF335F;
         display: flex;
         gap: 10px;
+    }
+    .item__button:active {
+        background-color: #d8d8d8;
     }
     .item__msg {
         display: flex;
@@ -136,5 +146,10 @@
     }
     .item_img {
         border-radius: 25px;
+    }
+    .item__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 </style>

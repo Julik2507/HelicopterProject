@@ -3,6 +3,7 @@
     export let name = "Батон";
     export let price = 65;
     export let count = 1;
+    let isVisible = true;
     let img = "";
 
     import { onMount } from "svelte";
@@ -19,19 +20,20 @@
 
     let dispatch = createEventDispatcher();
 
-    function uptick() {
+    async function uptick() {
         count += 1; 
-        putGoodsInBasket(prodID);
+        await putGoodsInBasket(prodID);
         dispatch("uptick");
     }
-    function downtick() {
-        count -= 1; 
-        minusQuantityForGoods(prodID);
+    async function downtick() {
+        count -= 1;
+        await minusQuantityForGoods(prodID);
         dispatch("downtick");
+        if (count == 0) {isVisible = false;}
     }
 </script>
 
-<div class="busket_product">
+<div class="busket_product" style="--display: {isVisible ? 'grid' : 'none'};">
     <div class="name_block">
         <img src="http://176.109.107.106/api/{img}" alt = "" class="img">
         <p class="name">{name}</p>
@@ -53,8 +55,8 @@
 
 <style>
     .busket_product {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        display: var(--display);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         width: 100%;
     }
     .name_block {
@@ -63,6 +65,7 @@
         justify-content: space-around;
     }
     .img {
+        border-radius: 20px;
         width: 200px;
         height: 200px;
     }
@@ -122,5 +125,6 @@
         text-align: center;
         border-top: 1px solid #B1B1B1;
         border-bottom: 1px solid #B1B1B1;
+        background-color: white;
     }
 </style>

@@ -68,7 +68,7 @@
 <style>
     #background {
         display: var(--display);
-        background-color: rgba(100, 100, 100, 0.7);
+        background-color: rgba(70, 70, 70, 0.7);
         position: fixed;
         z-index: 1;
         top: 0;

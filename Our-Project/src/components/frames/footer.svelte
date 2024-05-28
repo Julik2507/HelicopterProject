@@ -22,6 +22,7 @@
         justify-content: center;
         gap: 25px;
         align-items: center;
+        background-color: #eaeaea;
     }
     .footer__link {
         display: flex;

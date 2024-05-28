@@ -2,6 +2,7 @@ import express from "express";
 import * as v from "valibot";
 import { registerUser, loginUser, logoutUser } from "./auth.service.js";
 import { loginSchema, registerSchema } from "./dto/index.js";
+import { authMiddlewareUser } from "./middleware/user.js";
 import { updateTokens } from "./token/token.service.js";
 const router = express.Router();
 router.post("/auth/register", async (req, res) => {
@@ -40,6 +41,14 @@ router.post("/auth/update", async (req, res) => {
     const result = await updateTokens(refreshToken);
     res.cookie("refreshToken", result.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
     res.status(200).send(result);
+});
+router.get("/auth/user-name", authMiddlewareUser, async (req, res) => {
+    try {
+        res.status(200).send({ name: req.user.name });
+    }
+    catch (error) {
+        res.status(400);
+    }
 });
 export default router;
 //# sourceMappingURL=auth.controller.js.map

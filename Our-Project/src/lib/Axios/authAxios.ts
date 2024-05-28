@@ -20,8 +20,19 @@ export async function loginUser(dto: loginDTO): Promise<ResLoginDTO> {
 
     return result.data;
   } catch (error: any) {
-    console.log(error.response?.data?.message);
+    console.log(error);
+
+    // console.log(error.response?.data?.message);
 
     throw new Error(error.response?.data?.message);
+  }
+}
+
+export async function getUserName() {
+  try {
+    const result = await $instance.get("/auth/user-name");
+    return result.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
   }
 }
