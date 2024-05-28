@@ -25,3 +25,12 @@ export async function loginUser(dto: loginDTO): Promise<ResLoginDTO> {
     throw new Error(error.response?.data?.message);
   }
 }
+
+export async function getUserName() {
+  try {
+    const result = await $instance.get("/auth/user-name");
+    return result.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+}

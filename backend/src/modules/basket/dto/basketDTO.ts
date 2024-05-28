@@ -1,4 +1,4 @@
-import { object, number, string, Output, nullable, optional, Input, array } from "valibot";
+import { object, number, string, Output, nullable, optional, Input, array, minLength, minSize, minValue } from "valibot";
 
 const ResGetBasketSchema = object({
   goods_id: number(),
@@ -12,12 +12,12 @@ const ResGetBasketSchema = object({
 export type GetBasketDTO = Output<typeof ResGetBasketSchema>;
 
 export const ResSendDataToDeliverySchema = object({
-  name: string("Не указано имя"),
-  surname: string("Не указана фамилия"),
-  numberPhone: number("Не указан номер телефона"),
-  city: string("Не указан город проживания"),
-  street: string("Некорректно указан адрес доставки"),
-  house: number("Некорректно указан адрес доставки"),
+  name: string([minLength(3, "Пожалуйста, укажите ваше имя!")]),
+  surname: string([minLength(3, "Пожалуйста, укажите вашу фамилию!")]),
+  numberPhone: number([minValue(3, "Пожалуйста, укажите ваш номер телефона!")]),
+  city: string([minLength(3, "Пожалуйста, укажите город проживания")]),
+  street: string([minLength(3, "Пожалуйста, укажите ваш адрес доставки")]),
+  house: number([minValue(3, "Пожалуйста, укажите адрес доставки")]),
   Kvartira: optional(number()),
   Korporativ: optional(number()),
   podiezd: optional(number()),
