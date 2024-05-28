@@ -17,6 +17,7 @@
 
     let displayError = false;
     let errorMessage = "";
+    let authError = false;
 
     async function getBusket() {
         busketIDs = [];
@@ -32,9 +33,11 @@
                 totalPrice = result.info.totalPriceCounter;
             });
             displayError = false;
+            authError = false;
         } catch (err) {
             errorMessage = err.message;
             displayError = true;
+            authError = true;
         }
         totalPrice = totalPrice;
         busketIDs = busketIDs;
@@ -61,6 +64,20 @@
     let floor = "";
     let code = "";
 
+    function clearFields() {
+        name = "";
+        surname = "";
+        numberPhone = "";
+        city = "";
+        street = "";
+        house = "";
+        apartment = "";
+        corporate = "";
+        entrance = "";
+        floor = "";
+        code = "";
+    }
+
     async function sendData() {
         try {
             await sendUserDataToDelivery({
@@ -78,6 +95,7 @@
             }).then(result => {
                 displayError = true;
                 errorMessage = result.message;
+                clearFields();
             })
         } catch (err) {
             displayError = true;
@@ -90,7 +108,7 @@
     }
 </script>
 
-<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage}/>
+<ErrorWindow isModalOpen={displayError} on:closeModal={ErrorDisplayUpdate} msg={errorMessage} {authError}/>
 <Header money={totalPrice}/>
 <p class="subtitle">Корзина</p>
 <div class="busket">
@@ -117,31 +135,31 @@
     <p class="subtitle left_tab">Получатель</p>
     <div class="receiver_credits">
         <div class="field">
-            <p class="field_title">Имя</p>
+            <p class="field_title">Имя*</p>
             <input class="field_input" bind:value={name}/>
         </div>
         <div class="field">
-            <p class="field_title">Фамилия</p>
+            <p class="field_title">Фамилия*</p>
             <input class="field_input" bind:value={surname}/>
         </div>
         <div class="field">
-            <p class="field_title">Телефон</p>
+            <p class="field_title">Телефон*</p>
             <input class="field_input" bind:value={numberPhone}/>
         </div>
     </div>
     <p class="subtitle left_tab">Адрес доставки</p>
     <div class="receiver_credits">
         <div class="field">
-            <p class="field_title">Улица</p>
+            <p class="field_title">Улица*</p>
             <input class="field_input" bind:value={street}/>
+        </div>
+        <div class="field">
+            <p class="field_title">Дом*</p>
+            <input class="field_input_short" bind:value={house}/>
         </div>
         <div class="field">
             <p class="field_title">Корп.</p>
             <input class="field_input_short" bind:value={corporate}/>
-        </div>
-        <div class="field">
-            <p class="field_title">Дом</p>
-            <input class="field_input_short" bind:value={house}/>
         </div>
         <div class="field">
             <p class="field_title">Код</p>
@@ -161,7 +179,7 @@
         </div>
     </div>
     <div class="field">
-        <p class="field_title">Город</p>
+        <p class="field_title">Город*</p>
         <input class="field_input" bind:value={city}/>
     </div>
 </div>
