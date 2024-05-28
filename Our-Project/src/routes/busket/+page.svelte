@@ -9,6 +9,7 @@
     import { getMyBasketGoods } from "$lib/Axios/basketAxios";
     import { sendUserDataToDelivery } from "$lib/Axios/basketAxios";
     import { getTotalPrice } from "$lib/Axios/basketAxios";
+    import { error } from "@sveltejs/kit";
 
     let busketNames = [];
     let busketIDs = [];
@@ -76,7 +77,8 @@
                 etaz: Number(floor),
                 kodOtDomofona: Number(code)
             }).then(result => {
-                console.log(result)
+                displayError = true;
+                errorMessage = result;
             })
         } catch (err) {
             displayError = true;
