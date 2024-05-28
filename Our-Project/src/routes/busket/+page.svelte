@@ -76,9 +76,8 @@
                 etaz: Number(floor),
                 kodOtDomofona: Number(code)
             }).then(result => {
-                console.log(result);
                 displayError = true;
-                errorMessage = result;
+                errorMessage = result.message;
             })
         } catch (err) {
             displayError = true;
