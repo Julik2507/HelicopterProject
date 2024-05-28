@@ -125,5 +125,6 @@
         text-align: center;
         border-top: 1px solid #B1B1B1;
         border-bottom: 1px solid #B1B1B1;
+        background-color: white;
     }
 </style>

@@ -62,7 +62,6 @@
                 <p class="header__text">8(982)190-81-58</p>
             </div>
         </div>
-        <PrimeBtn text="Позвоните мне"/>
         <SocialLink img={logoVK} link="https://vk.com"/>
         <SocialLink img={logoTG} link="https://telegram.org"/>
         {/if}

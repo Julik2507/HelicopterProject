@@ -8,6 +8,9 @@
 
     import { findGoodsInSearch } from "$lib/Axios/searchAxios";
 
+    import { getTotalPrice } from "$lib/Axios/basketAxios";
+    let totalPrice = 0;
+
     let current_category = 22;
     let current_name = "Хлеб";
 
@@ -52,10 +55,17 @@
 
     onMount(async () => {
         await getProducts(current_category);
+        await getTotalPrice().then(result => {
+            totalPrice = result.data.totalPrice;
+        })
     })
+
+    async function updatePrice(event) {
+        totalPrice += event.detail.price;
+    }
 </script>
 
-<Header type="catalogue" on:search={onSearch}/>
+<Header type="catalogue" on:search={onSearch} money={totalPrice}/>
 <div class="catalogue__container">
     <div class="catalogue__categories">
         <Category catID=22 name="Хлеб" on:select_category={updateCategory}/>
@@ -74,7 +84,7 @@
         <p class="items__title">{current_name}</p>
         <div class="items__products">
             {#each {length: products.length } as _, i}
-                <Product prodID={products[i]} price={product_prices[i]}/>
+                <Product prodID={products[i]} price={product_prices[i]} on:addProduct={updatePrice}/>
             {/each}
         </div>
     </div>
