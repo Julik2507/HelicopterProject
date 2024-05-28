@@ -66,9 +66,9 @@
 <RegisterWindow isModalOpen={isRegisterOpen} on:closeModal={RegisterUpdate}/>
 <LoginWindow isModalOpen={isLoginOpen} on:closeModal={LoginUpdate}/>
 <div class="header">
+    {#if type === "main"}
     <div class="header__left">
         <Logo/>
-        {#if type === "main"}
         <div class="header__info">
             <div class="info__block">
                 <LittleIcon source={icon1}/>
@@ -81,12 +81,14 @@
         </div>
         <SocialLink img={logoVK} link="https://vk.com"/>
         <SocialLink img={logoTG} link="https://telegram.org"/>
-        {/if}
-        {#if type === "catalogue"}
+    </div>
+    {/if}
+    {#if type === "catalogue"}
+    <Logo/>
         <p class="header__text">Каталог</p>
         <Search on:search={onSearch}/>
-        {/if}
-    </div>
+    {/if}
+    
     <div class="header__middle">
         <LittleIcon source={icon3} event={() => { window.location.href = "/busket"}}/>
         <p class="header__money">{money} ₽</p>
