@@ -91,7 +91,11 @@
     
     <div class="header__middle">
         <LittleIcon source={icon3} event={() => { window.location.href = "/busket"}}/>
-        <p class="header__money">{money} ₽</p>
+        {#if displayName}
+            <p class="header__money">{money} ₽</p>
+        {:else}
+            <p class="header__money">0 ₽</p>
+        {/if}   
     </div>
     <div class="header__right">
         {#if displayName}
